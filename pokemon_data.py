@@ -6,7 +6,7 @@ colors = list()
 class Tile():
     def __init__(self, canvas, x, y):
         self.canvas = canvas
-        id1 = self.canvas.create_rectangle(x, y, x+kastengröße, y+kastengröße, fill = 'black')
+        id1 = self.canvas.create_rectangle(x, y, x+kastengröße, y+kastengröße, fill = 'grey')
         self.design = [id1]
         self.coordinates = [x, y]
         self.x = x
@@ -106,13 +106,13 @@ class Player():
             self.canvas.itemconfig(id1[x[i]-1], fill = 'black', outline = 'black')
             colors.append(x[i]-1)
     
-    def __init__(self, canvas, current_tile):
+    def __init__(self, canvas, x, y,current_tile):
         global id1
         colors = list()
         self.canvas = canvas
         for i in range (0,25):
             for q in range (0,25):
-                id2 = self.canvas.create_rectangle(0+i*1,0+q*1,0+i*1+1,0+q*1+1,fill="red",outline="red")
+                id2 = self.canvas.create_rectangle(x+i*1,y+q*1,x+i*1+1,y+q*1+1,fill="red",outline="red")
                 id1.append(id2)
         self.schwarz(trainerblack)
         self.design = id1
@@ -131,8 +131,8 @@ class Player():
                 self.beweg(-kastengröße, 0)
             elif direction == 'Right':
                 self.beweg(kastengröße, 0)
-        if self.current_tile.persons() == True:
-            self.current_tile.return_persons().speak()
+            if self.current_tile.persons() == True:
+                self.current_tile.return_persons().speak()
     def return_current_tile(self):
         return self.current_tile
 class Person():
@@ -149,7 +149,9 @@ class Person():
         print(self.speech)
 
 class Setting():
-    def __init__(self, tiles, persons, speech, links):
-        self.all = [tiles, persons, speech, links]
+    def __init__(self, tiles, persons, speech):
+        self.all = [tiles, persons, speech]
     def return_all(self):
         return self.all
+    def link(self, link):
+        self.all.append(link)
