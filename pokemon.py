@@ -19,20 +19,34 @@ c = Canvas(width = 500, height = 500, background = 'black')
 c.pack()
 q1 = [3,1,1,1,1,1,1,1,1,1,1,2]
 q2 = [0,1,0,1,0,0,0,0,0,0,0,0]
-q3 = [0,1,2,1,0,0,0,0,0,0,0,0]
+q3 = [0,1,1,1,0,0,0,0,0,0,0,0]
 q = [q1,q2,q3]
 p1 = [0,0,0,0,0,0,1,0,0,0,0,0]
 p2 = [0,0,0,0,0,0,0,0,0,0,0,0]
 p3 = [0,0,0,0,0,0,0,0,0,0,0,0]
 p = [p1,p2,p3]
-speech = ["Hallo! Ich bin Tom", "Hallo!"]
-links = [setting2, setting3]
-setting1 = Setting(q, p, speech, links)
+speech = ["Hallo! Ich bin Tom"]
+setting1 = Setting(q, p, speech)
+q1 = [0,1,3,1,0,1,1,1]
+q2 = [0,1,0,1,1,1,0,1]
+q3 = [0,1,1,1,0,1,1,2]
+q = [q1,q2,q3]
+p1 = [0,0,0,0,0,0,1,0]
+p2 = [0,0,0,0,0,0,0,0]
+p3 = [0,0,0,0,0,0,0,0]
+p = [p1,p2,p3]
+speech = ["Hallo! Ich heiße Bob!"]
+setting2 = Setting(q,p,speech)
+setting1.link([setting2])
+setting2.link([setting1])
 
 def setting(liste):
     global player
+    global setting2
     del tiles[:]
+    del coordinates[:]
     y = 0
+    playdata = []
     for i in range(len(liste[0])):
         x = 0
         for f in range(len(liste[0][i])):
@@ -46,18 +60,25 @@ def setting(liste):
                 id1 = Hindernis(c,x,y)
             #Personen erzeugen
             if liste[1][i][f] == 1:
-                id1.add_person(liste[2].pop(0))
+                person = liste[2].pop(0)
+                id1.add_person(person)
+                liste[2].append(person)
             if liste[0][i][f] == 2:
-                id1 = Tür(c, x, y, liste[3].pop(0))
+                print("Tür")
+                print(liste[3][0])
+                link = liste[3].pop(0)
+                id1 = Tür(c, x, y, link)
+                liste[3].append(link)
                 tiles.append(id1)
                 coordinates.append([x,y])
-            if list[0][i][f] == 3:
+            if liste[0][i][f] == 3:
                 id1 = Wildnis(c, x, y)
                 tiles.append(id1)
                 coordinates.append([x,y])
-                player = Player[c, id1]
+                playdata = [x, y, id1]
             x += 25
         y += 25
+    player = Player(c, playdata[0], playdata[1], playdata[2])
     for tile in tiles:
         tile.get_function(coordinates, tiles)
         y += 25
