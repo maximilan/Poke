@@ -125,6 +125,7 @@ class Player():
             colors.append(x[i]-1)
     def __init__(self, canvas, x, y,current_tile):
         global id1
+        del id1[:]
         colors = list()
         self.canvas = canvas
         for q in range (0,25):

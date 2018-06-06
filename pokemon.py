@@ -17,7 +17,7 @@ player = None
 window = tk.Tk()
 c = Canvas(width = 500, height = 500, background = 'black')
 c.pack()
-q1 = [3,1,1,1,1,1,1,1,1,1,1,2]
+q1 = [3,1,1,1,1,1,1,1,1,1,2,0]
 q2 = [0,1,0,1,0,0,0,0,0,0,0,0]
 q3 = [0,1,1,1,0,0,0,0,0,0,0,0]
 q = [q1,q2,q3]
@@ -63,6 +63,7 @@ def setting(liste):
                 person = liste[2].pop(0)
                 id1.add_person(person)
                 liste[2].append(person)
+            #Portale erzeugen    
             if liste[0][i][f] == 2:
                 print("Tür")
                 print(liste[3][0])
@@ -71,6 +72,7 @@ def setting(liste):
                 liste[3].append(link)
                 tiles.append(id1)
                 coordinates.append([x,y])
+            #Daten für Spieler speichern
             if liste[0][i][f] == 3:
                 id1 = Wildnis(c, x, y)
                 tiles.append(id1)
@@ -78,6 +80,7 @@ def setting(liste):
                 playdata = [x, y, id1]
             x += 25
         y += 25
+    #Spieler erstellen
     player = Player(c, playdata[0], playdata[1], playdata[2])
     for tile in tiles:
         tile.get_function(coordinates, tiles)
