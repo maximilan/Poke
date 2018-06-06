@@ -1,5 +1,5 @@
 #column 1[index 0] = name
-#column 2[index 1] = Attacks
+#column 2[index 1] = attacks
 #column 3[index 2] = Hitpoints
 
 dateihandler = open('pokedex.csv')
