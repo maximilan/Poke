@@ -9,9 +9,10 @@ inhalt = dateihandler.read()
 tabelle  = []
 
 zeilen = inhalt.split('\n')
-for i in range(len(zeilen)):
+for i in range(len(zeilen)-1):
     spalten = zeilen[i].split(',')
     tabelle.append(spalten)
+
 
 
 
