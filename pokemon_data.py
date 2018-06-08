@@ -8,6 +8,7 @@ trainergreen2 = [451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463
 trainerrot = [210,211,212,213,214,215,234,235,236,237,238,239,240,241,259,260,261,262,263,264,265,266,285,290,412,413,485,486,489,490,509,512,513,516,534,535,536,539,540,541]
 id1 = list()
 colors = list()
+from random import randint
 class Tile():
     def __init__(self, canvas, x, y):
         self.canvas = canvas
@@ -65,11 +66,22 @@ class Tile():
             return False
     def return_function(self):
         return self.function
+    def check_pokemon(self, pokedex,posibpoke):
+        pokemon = None
+        for i in range(len(pokedex)):
+            if pokedex[i][0] in posibpoke:
+               if randint(1, int(pokedex[i][3])) == 1:
+                   pokemon = pokedex[i]
+                   break
+        return pokemon
+                   
+        
 
 class Wildnis(Tile):
-    def __init__(self, canvas, x, y):
+    def __init__(self, canvas, x, y, pokemon):
         super().__init__(canvas, x, y)
         self.function = "Wildnis"
+        self.pokemon = pokemon
         for i in range(len(self.design)):
             self.canvas.itemconfig(self.design, fill = 'green')
         self.canvas.create_rectangle(x,y,x+25,y+6,fill="green4",outline="green4")
@@ -123,7 +135,7 @@ class Player():
         for i in range(len(x)):
             self.canvas.itemconfig(id1[x[i]-1], fill = 'green4', outline = 'green4')
             colors.append(x[i]-1)
-    def __init__(self, canvas, x, y,current_tile):
+    def __init__(self, canvas, x, y,current_tile, pokemon):
         global id1
         del id1[:]
         colors = list()
@@ -140,6 +152,21 @@ class Player():
         self.rot(trainerrot)
         self.design = id1
         self.current_tile = current_tile
+        self.pokemon = pokemon
+        #Pokedex wird eingelesen
+        dateihandler = open('pokedex.csv')
+
+        inhalt = dateihandler.read()
+
+        tabelle  = []
+        pokemon = []
+        zeilen = inhalt.split('\n')
+        for i in range(len(zeilen)-1):
+            del pokemon[:]
+            spalten = zeilen[i].split(';')
+            tabelle.append(spalten)
+        #Pokedex wrd gespeichert
+        self.pokedex = tabelle
     def beweg(self, x, y):
         for design in self.design:
             self.canvas.move(design, x, y)
@@ -154,10 +181,17 @@ class Player():
                 self.beweg(-kastengröße, 0)
             elif direction == 'Right':
                 self.beweg(kastengröße, 0)
+            pokemon = self.current_tile.check_pokemon(self.return_pokedex(),self.return_pokemon())
+            if pokemon != None:
+                print("Ein wildes "+pokemon[0]+" mit der Stärke "+pokemon[2]+" erscheint.")
             if self.current_tile.persons() == True:
                 self.current_tile.return_persons().speak()
     def return_current_tile(self):
         return self.current_tile
+    def return_pokemon(self):
+        return self.pokemon
+    def return_pokedex(self):
+        return self.pokedex
 class Person():
     def __init__(self, canvas, x, y):
         self.canvas = canvas
@@ -172,8 +206,8 @@ class Person():
         print(self.speech)
 
 class Setting():
-    def __init__(self, tiles, persons, speech):
-        self.all = [tiles, persons, speech]
+    def __init__(self, tiles, persons, speech, pokemon):
+        self.all = [tiles, persons, speech,pokemon]
     def return_all(self):
         return self.all
     def link(self, link):
