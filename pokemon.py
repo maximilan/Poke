@@ -97,6 +97,7 @@ def movement(event):
     key = event.keysym
     current_key = key
 c.bind_all('<Key>', movement)
+player.add_pokemon("Bisasam", 5)
 while True:
     if player.return_current_tile().return_function() == "Tür":
         c.delete("all")
