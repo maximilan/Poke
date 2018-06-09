@@ -9,6 +9,7 @@ trainerrot = [210,211,212,213,214,215,234,235,236,237,238,239,240,241,259,260,26
 id1 = list()
 colors = list()
 from random import randint
+from time import sleep
 
 #Pokedex wird eingelesen
 dateihandler = open('pokedex.csv')
@@ -82,25 +83,25 @@ class Tile():
             return False
     def return_function(self):
         return self.function
+    def return_pokemon_level(self):
+        return int(self.pokemon_level)
     def check_pokemon(self,posibpoke):
         pokemon = None
-        print(pokedex)
-        print(posibpoke)
         for i in range(len(pokedex)):
             if pokedex[i][0] in posibpoke:
-               print(pokedex[i][2])
                if randint(1, int(pokedex[i][2])) == 1:
-                   pokemon = pokedex[i]
+                   pokemon = pokedex[i][0]
                    break
         return pokemon
                    
         
 
 class Wildnis(Tile):
-    def __init__(self, canvas, x, y, pokemon):
+    def __init__(self, canvas, x, y, pokemon, pokemon_level):
         super().__init__(canvas, x, y)
         self.function = "Wildnis"
         self.pokemon = pokemon
+        self.pokemon_level = pokemon_level
         for i in range(len(self.design)):
             self.canvas.itemconfig(self.design, fill = 'green')
         self.canvas.create_rectangle(x,y,x+25,y+6,fill="green4",outline="green4")
@@ -154,7 +155,7 @@ class Player():
         for i in range(len(x)):
             self.canvas.itemconfig(id1[x[i]-1], fill = 'green4', outline = 'green4')
             colors.append(x[i]-1)
-    def __init__(self, canvas, x, y,current_tile, pokemon):
+    def __init__(self, canvas, x, y,current_tile, pokemon, window):
         global id1
         del id1[:]
         colors = list()
@@ -172,7 +173,8 @@ class Player():
         self.design = id1
         self.current_tile = current_tile
         self.posibpoke = pokemon
-        self.pokemon = Pokemon("Bisasam", 5)
+        self.pokemon = [Pokemon("Bisasam", 5)]
+        self.window = window
     def beweg(self, x, y):
         for design in self.design:
             self.canvas.move(design, x, y)
@@ -187,7 +189,13 @@ class Player():
                 self.beweg(-kastengröße, 0)
             elif direction == 'Right':
                 self.beweg(kastengröße, 0)
+            self.window.update()
+            #Pokemon suchen und bekämpfen
             pokemon = self.current_tile.check_pokemon(self.return_posibpoke())
+            if pokemon != None:
+                print("Ein wildes "+pokemon+" (Level "+str(self.current_tile.return_pokemon_level())+") erscheint.")
+                self.pokemon[0].fight(pokemon, self.current_tile.return_pokemon_level())
+            #Mit Personen reden
             if self.current_tile.persons() == True:
                 self.current_tile.return_persons().speak()
     def return_current_tile(self):
@@ -195,10 +203,11 @@ class Player():
     def return_posibpoke(self):
         return self.posibpoke
     def add_pokemon(self, name, level):
-        dateihandler = open('PlayerPoke', 'a')
-        dateihandler.write("\n")
-        dateihandler.write(name+";"+str(level))
-        dateihandler.close()
+        self.pookemon.append(Pokemon(name, level))
+        #dateihandler = open('PlayerPoke', 'a')
+        #dateihandler.write("\n")
+        #dateihandler.write(name+";"+str(level))
+        #dateihandler.close()
 
 class Person():
     def __init__(self, canvas, x, y):
@@ -214,8 +223,8 @@ class Person():
         print(self.speech)
 
 class Setting():
-    def __init__(self, tiles, persons, speech, pokemon):
-        self.all = [tiles, persons, speech,pokemon]
+    def __init__(self, tiles, persons, speech, pokemon, level):
+        self.all = [tiles, persons, speech,pokemon, level]
     def return_all(self):
         return self.all
     def link(self, link):
@@ -229,9 +238,53 @@ class Pokemon():
         self.attacken = {}
         for i in range(len(pokedex)):
             if self.name in pokedex[i]:
-                self.hp = pokedex[i][1]
+                self.hp = int(pokedex[i][1])
                 for q in range(3, len(pokedex[i]), +2):
                     self.attackennamen.append(pokedex[i][q])
                     self.attacken[pokedex[i][q]] = pokedex[i][q+1]
-                    print(q)
+    def return_attackennamen(self):
+        return self.attackennamen
+    def return_attackenstärke(self, name):
+        return self.attacken[name]
+    def change_hp(self, change):
+        self.hp += int(change)
+    def return_name(self):
+        return self.name
+    def return_hp(self):
+        return self.hp
+    def return_level(self):
+        return int(self.level)
+    def angriff(self, attacke, pokemon):
+        if attacke in self.attackennamen:
+            stärke = int(self.return_attackenstärke(attacke)) + int(self.return_attackenstärke(attacke))/10 *self.level
+            print(self.name+" wendet "+str(attacke)+ " an.")
+            sleep(0.5)
+            pokemon.change_hp(-stärke)
+            print(pokemon.return_name()+" besitzt noch "+str(pokemon.return_hp())+ " HP.")
+            sleep(0.5)
+            if pokemon.return_hp() <= 0:
+                print(pokemon.return_name()+" wurde ohnmächtig.")
+                return True
+            else:
+                return False
+    def randattack(self, pokemon):
+        attack = randint(0, len(self.attackennamen)-1)
+        attack = self.attackennamen[attack]
+        return self.angriff(attack, pokemon)
+                  
+    def fight(self, pokemon, level):
+        pokemon = Pokemon(pokemon, level)
+        print("Folgende Attacken stehen dir zur Verfügung:")
+        for i in range(len(self.attackennamen)):
+            print(self.attackennamen[i])
+        kill = False
+        while kill != True:
+            attacke = input("Welche Attacke soll "+str(self.name)+" anwenden: ")
+            kill = self.angriff(attacke, pokemon)
+            sleep(1)
+            if kill != True:
+                  kill = pokemon.randattack(self)
+        if self.return_hp() <= 0:
+              print("Du hast verloren!")    
+                  
             
