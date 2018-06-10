@@ -38,7 +38,7 @@ p2 = [0,0,0,0,0,0,0,0]
 p3 = [0,0,0,0,0,0,0,0]
 p = [p1,p2,p3]
 speech = ["Hallo! Ich heiße Bob!"]
-pokemon = ["Schiggy"]
+pokemon = ["Schiggy", "Glurak"]
 setting2 = Setting(q,p,speech, pokemon, 3)
 setting1.link([setting2])
 setting2.link([setting1])
@@ -89,6 +89,7 @@ def setting(liste):
     for tile in tiles:
         tile.get_function(coordinates, tiles)
         y += 25
+        
 setting(setting1.return_all())
 window.update()
 
@@ -98,10 +99,13 @@ def movement(event):
     key = event.keysym
     current_key = key
 c.bind_all('<Key>', movement)
+player.add_new_pokemon("Glurak", 20)
 while True:
     if player.return_current_tile().return_function() == "Tür":
         c.delete("all")
+        player.write()
         setting(player.return_current_tile().return_setting().return_all())
+        player.load_pokemon()
     player.move(current_key)
     current_key = None
     window.update()

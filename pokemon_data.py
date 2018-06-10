@@ -173,7 +173,7 @@ class Player():
         self.design = id1
         self.current_tile = current_tile
         self.posibpoke = pokemon
-        self.pokemon = [Pokemon("Bisasam", 5)]
+        self.pokemon = []
         self.window = window
     def beweg(self, x, y):
         for design in self.design:
@@ -202,13 +202,32 @@ class Player():
         return self.current_tile
     def return_posibpoke(self):
         return self.posibpoke
-    def add_pokemon(self, name, level):
-        self.pookemon.append(Pokemon(name, level))
-        #dateihandler = open('PlayerPoke', 'a')
-        #dateihandler.write("\n")
-        #dateihandler.write(name+";"+str(level))
-        #dateihandler.close()
-
+    def add_pokemon(self, name, level, hp):
+        self.pokemon.append(Pokemon(name, level, hp))
+    def add_new_pokemon(self, name, level):
+        for pokemon in pokedex:
+            if name in pokemon:
+                self.pokemon.append(Pokemon(name, level, pokemon[1]))
+    
+    #Pokemon speichern
+    def write(self):
+         dateihandler = open("PlayerPoke", "r")
+         lines = dateihandler.readlines()
+         dateihandler.close()
+         del lines[:]
+         dateihandler = open("PlayerPoke", "w")
+         for line in lines:
+             dateihandler.write(line)
+         for pokemon in self.pokemon:
+             dateihandler.write(pokemon.return_name()+";"+str(pokemon.return_level())+";"+str(pokemon.return_hp()))
+    def load_pokemon(self):
+        dateihandler = open("PlayerPoke", "r")
+        for line in dateihandler:
+            id1 = line.rstrip()
+            pokemon = id1.split(";")
+            self.add_pokemon(pokemon[0], pokemon[1], pokemon[2])
+        for pokemon in self.pokemon:
+            print(pokemon.return_name())
 class Person():
     def __init__(self, canvas, x, y):
         self.canvas = canvas
@@ -231,21 +250,24 @@ class Setting():
         self.all.append(link)
 
 class Pokemon():
-    def __init__(self, name, level):
+    def __init__(self, name, level, hp):
         self.name = name
         self.level = level
         self.attackennamen = []
         self.attacken = {}
         for i in range(len(pokedex)):
             if self.name in pokedex[i]:
-                self.hp = int(pokedex[i][1])
+                if hp == None:
+                    self.hp = int(pokedex[i][1])
+                else:
+                    self.hp = int(hp)
                 for q in range(3, len(pokedex[i]), +2):
                     self.attackennamen.append(pokedex[i][q])
                     self.attacken[pokedex[i][q]] = pokedex[i][q+1]
     def return_attackennamen(self):
         return self.attackennamen
     def return_attackenstärke(self, name):
-        return self.attacken[name]
+        return int(self.attacken[name])
     def change_hp(self, change):
         self.hp += int(change)
     def return_name(self):
@@ -256,7 +278,8 @@ class Pokemon():
         return int(self.level)
     def angriff(self, attacke, pokemon):
         if attacke in self.attackennamen:
-            stärke = int(self.return_attackenstärke(attacke)) + int(self.return_attackenstärke(attacke))/10 *self.level
+            stärke = int(self.return_attackenstärke(attacke))
+            stärke += round(self.return_attackenstärke(attacke)/10) * self.return_level()
             print(self.name+" wendet "+str(attacke)+ " an.")
             sleep(0.5)
             pokemon.change_hp(-stärke)
@@ -273,7 +296,7 @@ class Pokemon():
         return self.angriff(attack, pokemon)
                   
     def fight(self, pokemon, level):
-        pokemon = Pokemon(pokemon, level)
+        pokemon = Pokemon(pokemon, level, None)
         print("Folgende Attacken stehen dir zur Verfügung:")
         for i in range(len(self.attackennamen)):
             print(self.attackennamen[i])
@@ -286,5 +309,5 @@ class Pokemon():
                   kill = pokemon.randattack(self)
         if self.return_hp() <= 0:
               print("Du hast verloren!")    
-                  
+        
             
