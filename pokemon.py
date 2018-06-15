@@ -58,12 +58,12 @@ def setting(liste):
         for f in range(len(liste[0][i])):
             #Tile erzeugen
             if liste[0][i][f] == 1:
-                id1 = Wildnis(c, x, y, current_pokemon, current_level)
+                id1 = Wildnis(c, x, y, current_pokemon, current_level,window)
                 tiles.append(id1)
                 coordinates.append([x, y])
             #Hindernis erzeugen
             if liste[0][i][f] == 0:
-                id1 = Hindernis(c,x,y)
+                id1 = Hindernis(c,x,y,window)
             #Personen erzeugen
             if liste[1][i][f] == 1:
                 person = liste[2].pop(0)
@@ -72,13 +72,13 @@ def setting(liste):
             #Portale erzeugen    
             if liste[0][i][f] == 2:
                 link = liste[len(liste)-1].pop(0)
-                id1 = Tür(c, x, y, link)
+                id1 = Tür(c, x, y, link,tk)
                 liste[len(liste)-1].append(link)
                 tiles.append(id1)
                 coordinates.append([x,y])
             #Daten für Spieler speichern
             if liste[0][i][f] == 3:
-                id1 = Wildnis(c, x, y, current_pokemon, current_level)
+                id1 = Wildnis(c, x, y, current_pokemon, current_level,window)
                 tiles.append(id1)
                 coordinates.append([x,y])
                 playdata = [x, y, id1]

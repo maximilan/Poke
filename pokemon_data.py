@@ -10,7 +10,9 @@ id1 = list()
 colors = list()
 from random import randint
 from time import sleep
-
+import tkinter as tk
+from tkinter import*
+from bisasam import Bisasam
 #Pokedex wird eingelesen
 dateihandler = open('pokedex.csv')
 
@@ -27,7 +29,7 @@ for i in range(len(zeilen)-1):
 pokedex = tabelle
         
 class Tile():
-    def __init__(self, canvas, x, y):
+    def __init__(self, canvas, x, y,module):
         self.canvas = canvas
         id1 = self.canvas.create_rectangle(x, y, x+kastengröße, y+kastengröße, fill = 'grey')
         self.design = [id1]
@@ -38,6 +40,7 @@ class Tile():
         self.neighbor_tiles = {}
         self.person = None
         self.function = None
+        self.module = module
     #Koordinaten wiedergeben
     def return_coordinate(self):
         return self.coordinates
@@ -72,7 +75,7 @@ class Tile():
     def return_linked_tile(self, direction):
         return self.neighbor_tiles[direction]
     def add_person(self, speech):
-        self.person = Person(self.canvas, self.x, self.y)
+        self.person = Person(self.canvas, self.x, self.y,self.module)
         self.person.set_speech(speech)
     def return_persons(self):
         return self.person
@@ -97,11 +100,13 @@ class Tile():
         
 
 class Wildnis(Tile):
-    def __init__(self, canvas, x, y, pokemon, pokemon_level):
-        super().__init__(canvas, x, y)
+    def __init__(self, canvas, x, y, pokemon, pokemon_level,module):
+        self.module = module
+        super().__init__(canvas, x, y,module)
         self.function = "Wildnis"
         self.pokemon = pokemon
         self.pokemon_level = pokemon_level
+        
         for i in range(len(self.design)):
             self.canvas.itemconfig(self.design, fill = 'green')
         self.canvas.create_rectangle(x,y,x+25,y+6,fill="green4",outline="green4")
@@ -110,8 +115,8 @@ class Wildnis(Tile):
         self.canvas.create_rectangle(x,y+18,x+25,y+25,fill="green2",outline="green2")
 
 class Hindernis(Tile):
-    def __init__(self, canvas, x, y):
-        super().__init__(canvas, x, y)
+    def __init__(self, canvas, x, y,module):
+        super().__init__(canvas, x, y,module)
         self.function = "Hindernis"
         for i in range(len(self.design)):
             self.canvas.itemconfig(self.design, fill = 'grey')
@@ -123,8 +128,9 @@ class Hindernis(Tile):
             self.canvas.create_oval(x+27,y+i*5,x+22,y+i*5+5,fill="green4",outline="green4")
         self.canvas.create_rectangle(x,y,x+25,y+25,fill="green4",outline="green4")
 class Tür(Tile):
-    def __init__(self, canvas, x, y, linked_setting):
-        super().__init__(canvas, x, y)
+    def __init__(self, canvas, x, y, linked_setting,module):
+        self.module = module
+        super().__init__(canvas, x, y,module)
         self.linked_setting = linked_setting
         self.function = "Tür"
     def return_setting(self):
@@ -229,18 +235,30 @@ class Player():
         for pokemon in self.pokemon:
             print(pokemon.return_name())
 class Person():
-    def __init__(self, canvas, x, y):
+    def __init__(self, canvas, x, y,module):
         self.canvas = canvas
         id1 = self.canvas.create_rectangle(x, y, x+kastengröße, y+kastengröße, fill = 'purple')
         self.design = (id1)
         self.speech = None
         self.x = x
         self.y = y
+        self.module = module
     def set_speech(self, speech):
         self.speech = speech
     def speak(self):
         print(self.speech)
-
+        #self.module = module
+        fight = input(str("Möchtest du kämpfen: "))
+        if fight == "Ja":
+            self.module.destroy()
+            top = tk.Tk()
+            c = Canvas(top, width=500,height=500,bg="green")
+            c.pack()
+            bisasam = Bisasam(c)
+        elif fight == "Nein":
+            print("Ok. Vielleicht ein anderes mal!")
+        else:
+            print("Der Befehl existiert nicht")
 class Setting():
     def __init__(self, tiles, persons, speech, pokemon, level):
         self.all = [tiles, persons, speech,pokemon, level]
