@@ -251,8 +251,11 @@ class Person():
         fight = input(str("Möchtest du kämpfen: "))
         if fight == "Ja":
             self.canvas.delete("all")
+            self.canvas.create_rectangle(0,0,500,500,fill="SpringGreen4",outline="SpringGreen4")
             bisasam = Bisasam(self.canvas)
+            self.canvas.move(bisasam, 300,50)
             self.module.update()
+            
         elif fight == "Nein":
             print("Ok. Vielleicht ein anderes mal!")
         else:
