@@ -250,11 +250,9 @@ class Person():
         #self.module = module
         fight = input(str("Möchtest du kämpfen: "))
         if fight == "Ja":
-            self.module.destroy()
-            top = tk.Tk()
-            c = Canvas(top, width=500,height=500,bg="green")
-            c.pack()
-            bisasam = Bisasam(c)
+            self.canvas.delete("all")
+            bisasam = Bisasam(self.canvas)
+            self.module.update()
         elif fight == "Nein":
             print("Ok. Vielleicht ein anderes mal!")
         else:

@@ -51,4 +51,5 @@ def norm():
     red(rot)
 graphics(1)
 norm()
+top.update()
 top.mainloop()
