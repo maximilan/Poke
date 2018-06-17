@@ -274,8 +274,10 @@ class Person():
                         print("Der Kampf kann beginnen!")
                         if pokemon == "Pikachu":
                             pokefighter = Pikachu(self.canvas)
-                        if pokemon == "Bisasam":
+                        elif pokemon == "Bisasam":
                             pokefighter = Bisasam(self.canvas)
+                        else:
+                            print("Du besitzt dieses Pokemon nicht oder es existiert nicht") 
             self.module.update()
         elif fight == "Nein":
             print("Ok. Vielleicht ein anderes mal!")
