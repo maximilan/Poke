@@ -12,6 +12,7 @@ from random import randint
 from time import sleep
 import tkinter as tk
 from tkinter import*
+#grafiken importieren
 from pokegraphics import *
 #Pokedex wird eingelesen
 dateihandler = open('pokedex.csv')
