@@ -253,12 +253,30 @@ class Person():
             self.canvas.delete("all")
             self.canvas.config(width=700,height=700)
             self.canvas.create_rectangle(0,0,700,700,fill="SpringGreen4",outline="SpringGreen4")
-            pikachu = Pikachu(self.canvas)
+            
             self.canvas.create_line(0,57,700,607,fill="white")
             self.canvas.create_oval(290,290,460,420,fill="SpringGreen4",outline="white")
             self.canvas.create_polygon(610,0,700,0,700,70,fill="gray",outline="grey")
             self.module.update()
+            pokemon = input(str("Wähle dein Pokemon: "))
+            dateihandler = open("playerpokedex.csv")
+            inhalt = dateihandler.read()
+            pokedex = []
+            zeilen = inhalt.split("\n")
             
+            for i in range(len(zeilen)-1):
+                #del pokemon[:]
+                spalten = zeilen[i].split(',')
+                pokedex.append(spalten)
+            for i in range(len(zeilen)):
+                if pokemon in zeilen[i]:
+                    if pokedex[i][7]=="j":
+                        print("Der Kampf kann beginnen!")
+                        if pokemon == "Pikachu":
+                            pokefighter = Pikachu(self.canvas)
+                        if pokemon == "Bisasam":
+                            pokefighter = Bisasam(self.canvas)
+            self.module.update()
         elif fight == "Nein":
             print("Ok. Vielleicht ein anderes mal!")
         else:
