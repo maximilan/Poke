@@ -12,7 +12,7 @@ from random import randint
 from time import sleep
 import tkinter as tk
 from tkinter import*
-from bisasam import Bisasam
+from pokegraphics import *
 #Pokedex wird eingelesen
 dateihandler = open('pokedex.csv')
 
@@ -253,7 +253,6 @@ class Person():
             self.canvas.delete("all")
             self.canvas.create_rectangle(0,0,500,500,fill="SpringGreen4",outline="SpringGreen4")
             bisasam = Bisasam(self.canvas)
-            self.canvas.move(bisasam, 300,50)
             self.module.update()
             
         elif fight == "Nein":
