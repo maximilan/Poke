@@ -12,7 +12,6 @@ from random import randint
 from time import sleep
 import tkinter as tk
 from tkinter import*
-#grafiken importieren
 from pokegraphics import *
 #Pokedex wird eingelesen
 dateihandler = open('pokedex.csv')
@@ -252,8 +251,12 @@ class Person():
         fight = input(str("Möchtest du kämpfen: "))
         if fight == "Ja":
             self.canvas.delete("all")
-            self.canvas.create_rectangle(0,0,500,500,fill="SpringGreen4",outline="SpringGreen4")
-            bisasam = Bisasam(self.canvas)
+            self.canvas.config(width=700,height=700)
+            self.canvas.create_rectangle(0,0,700,700,fill="SpringGreen4",outline="SpringGreen4")
+            pikachu = Pikachu(self.canvas)
+            self.canvas.create_line(0,57,700,607,fill="white")
+            self.canvas.create_oval(290,290,460,420,fill="SpringGreen4",outline="white")
+            self.canvas.create_polygon(610,0,700,0,700,70,fill="gray",outline="grey")
             self.module.update()
             
         elif fight == "Nein":
