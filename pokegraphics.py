@@ -31,7 +31,7 @@ class Bisasam():
             self.canvas = canvas
             for i in range(0,20):
                     for q in range(0,21):
-                            id1 = self.canvas.create_rectangle(350+q*5,50+i*5,350+q*5+5,50+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
+                            id1 = self.canvas.create_rectangle(540+q*5,110+i*5,540+q*5+5,110+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
                             self.graphic.append(id1)
             hellgruen = [56,58,78,131,152,153,154,173,174,175,176,193,194,196,199,215,216,217,218,219,220,221,222,223,236,237,238,240,241,242,243,255,256,257,258,260,263,264,277,278,279,280,285,299,300,301,305]
             schwarz = [35,36,37,55,57,59,74,75,76,80,93,94,96,98,100,102,103,110,113,116,119,121,125,130,132,133,134,136,140,143,147,151,156,157,160,165,168,172,179,181,186,189,192,201,202,203,207,209,212]
@@ -81,7 +81,7 @@ class Glumanda():
             self.canvas = canvas
             for i in range(0,20):
                     for q in range(0,20):
-                            id1 = self.canvas.create_rectangle(350+q*5,50+i*5,350+q*5+5,50+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
+                            id1 = self.canvas.create_rectangle(540+q*5,110+i*5,540+q*5+5,110+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
                             self.graphic.append(id1)
             schwarz = [6,7,8,9,25,30,44,51,64,71,83,92,102,108,112,122,127,128,133,142,147,148,153,157,159,160,163,164,174,177,179,185,186,187,190,194,196,199,206,209,214,215,218,226,230,235,237,245,246,247]
             schwarz2 = [255,256,266,267,268,274,275,288,289,290,293,294,309,314,330,331,332,333]
@@ -132,7 +132,7 @@ class Pikachu():
             self.canvas = canvas
             for i in range(0,20):
                     for q in range(0,20):
-                            id1 = self.canvas.create_rectangle(350+q*5,50+i*5,350+q*5+5,50+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
+                            id1 = self.canvas.create_rectangle(540+q*5,110+i*5,540+q*5+5,110+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
                             self.graphic.append(id1)
             schwarz = [6,7,17,25,27,36,38,45,47,55,59,64,67,72,73,74,79,84,87,90,91,94,98,103,108,109,113,117,122,132,133,136,141,152,154,157,161,162,172,175,177,181,187,193,194,196,202,206,207,213,214,215]
             schwarz2 = [223,234,242,254,263,264,270,274,284,289,294,303,305,310,314,323,324,325,326,327,333,348,349,350,352,353,369,373,390,391,392,393]
