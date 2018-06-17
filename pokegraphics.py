@@ -2,7 +2,6 @@ from tkinter import *
 
 
 
-
 class Bisasam():
         global colors
         colors = list()
@@ -47,8 +46,6 @@ class Bisasam():
             self.darkgreen(dunkelgruen2)
             self.red(rot)
             self.white(weiss)
-
-
 class Glumanda():
         global colors
         colors = list()
@@ -97,9 +94,64 @@ class Glumanda():
             self.white(weiss)
             self.yellow(gelb)
             self.orange(orange2)
-
-
-
+class Schiggy():
+        global colors
+        colors = list()
+        def yellow(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'yellow', outline = 'yellow')
+                colors.append(x[i]-1)
+        def black(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'black', outline = 'black')
+                colors.append(x[i]-1)
+        def gray(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'gray64', outline = 'gray64')
+                colors.append(x[i]-1)
+        def white(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'white', outline = 'white')
+                colors.append(x[i]-1)
+        def brown(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'brown', outline = 'brown')
+                colors.append(x[i]-1)
+        def brown2(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'sienna3', outline = 'sienna3')
+                colors.append(x[i]-1)
+        def blue(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'dodger blue', outline = 'dodger blue')
+                colors.append(x[i]-1)
+        def __init__(self,canvas):
+            self.graphic = list()
+            self.canvas = canvas
+            for i in range(0,18):
+                    for q in range(0,22):
+                            id1 = self.canvas.create_rectangle(540+q*5,110+i*5,540+q*5+5,110+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
+                            self.graphic.append(id1)
+            schwarz = [4,5,6,7,17,18,19,20,25,30,31,38,43,47,54,55,59,66,68,76,78,79,81,88,90,102,108,110,111,125,129,132,133,139,147,151,153,155,160,169,172,173,174,178,182,187,192,193,194]
+            schwarz2 = [201,202,207,208,214,223,225,226,227,228,236,246,247,250,254,258,270,273,274,275,276,280,291,293,299,301,314,315,316,317,321,323,339,340,341,343,344,362,366,385,386,387]
+            weiss = [138,165,188,211,233,255]
+            braun = [77,99,101,124,161,183,191,212,213,234,235,256,257,278,279]
+            grau = [277,300,322]
+            gelb = [248,249,271,272,294,295,296,297,298,318,319]
+            braun2 = [100,122,123,144,145,146,167,168,189,190]
+            blau = [26,27,28,29,39,40,41,42,48,49,50,51,52,53,60,61,62,63,64,65,69,70,71,72,73,74,75,82,83,84,85,86,87,91,92,93,94,95,96,97,98,103,104,105,106,107,109,112,113,114,115,116,117,118,119,120,121]
+            blau2 = [126,127,128,130,131,134,135,136,137,140,141,142,143,148,149,150,152,156,157,158,159,162,163,164,166,170,171,179,180,181,184,185,186,203,204,205,206,209,210]
+            blau3 = [224,229,230,231,232,251,252,253,292,320,342,363,364,365]
+            self.black(schwarz)
+            self.black(schwarz2)
+            self.white(weiss)
+            self.brown(braun)
+            self.gray(grau)
+            self.yellow(gelb)
+            self.brown2(braun2)
+            self.blue(blau)
+            self.blue(blau2)
+            self.blue(blau3)
 class Pikachu():
         global colors
         colors = list()
@@ -136,7 +188,7 @@ class Pikachu():
                             self.graphic.append(id1)
             schwarz = [6,7,17,25,27,36,38,45,47,55,59,64,67,72,73,74,79,84,87,90,91,94,98,103,108,109,113,117,122,132,133,136,141,152,154,157,161,162,172,175,177,181,187,193,194,196,202,206,207,213,214,215]
             schwarz2 = [223,234,242,254,263,264,270,274,284,289,294,303,305,310,314,323,324,325,326,327,333,348,349,350,352,353,369,373,390,391,392,393]
-            weiss = [142,186,283]
+            weiss = [142,186]
             rot = [208,209,228]
             grau = [26,92,93,112]
             braun = [232,233,273]
