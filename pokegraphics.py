@@ -1,7 +1,6 @@
 from tkinter import *
 
 
-
 class Bisasam():
         global colors
         colors = list()
@@ -202,3 +201,47 @@ class Pikachu():
             self.brown(braun)
             self.yellow(gelb)
             self.yellow(gelb2)
+class Raupy():
+        global colors
+        colors = list()
+        def yellow(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'yellow', outline = 'yellow')
+                colors.append(x[i]-1)
+        def black(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'black', outline = 'black')
+                colors.append(x[i]-1)
+        def lightgreen(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'lime green', outline = 'lime green')
+                colors.append(x[i]-1)
+        def red(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'red', outline = 'red')
+                colors.append(x[i]-1)
+        def white(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'white', outline = 'white')
+                colors.append(x[i]-1)
+        def brown(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'brown', outline = 'brown')
+                colors.append(x[i]-1)
+        def __init__(self,canvas):
+            self.graphic = list()
+            self.canvas = canvas
+            for i in range(0,17):
+                    for q in range(0,14):
+                            id1 = self.canvas.create_rectangle(540+q*5,110+i*5,540+q*5+5,110+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
+                            self.graphic.append(id1)
+            schwarz = [4,17,19,21,22,31,33,34,37,45,47,51,58,62,63,64,66,72,74,75,81,85,89,92,95,99,105,106,109,114,118,123,125,129,130,131,132,136,138,140,144,147,148,149,150,152,154,158,164,165,166,168,173,177,179,181,188,189,190,194,195,203,207,208,218,219,220]
+            weiss = [91]
+            gelb = [59,73,77,78,90,93,104,107,119,120]
+            rot = [18,32,35,36,46,48,49,50,60,61]
+            hellgruen = [88,100,101,103,115,117,139,145,146,153,159,160,161,162,167,174,175]
+            self.black(schwarz)
+            self.white(weiss)
+            self.yellow(gelb)
+            self.red(rot)
+            self.lightgreen(hellgruen)
