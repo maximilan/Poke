@@ -276,6 +276,8 @@ class Person():
                             pokefighter = Pikachu(self.canvas)
                         elif pokemon == "Bisasam":
                             pokefighter = Bisasam(self.canvas)
+                        elif pokemon == "Raupy":
+                            pokefighter = Raupy(self.canvas)
                         else:
                             print("Du besitzt dieses Pokemon nicht oder es existiert nicht") 
             self.module.update()
