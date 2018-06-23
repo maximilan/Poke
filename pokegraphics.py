@@ -1,7 +1,21 @@
 from tkinter import *
 
-
-class Bisasam():
+class Pokedesign():
+        def __init__(self, name, canvas):
+                if name == "Bisasam":
+                       Bisasam(canvas)
+                elif name == "Glumanda":
+                        Glumanda(canvas)
+                elif name == "Schiggy":
+                        Schiggy(canvas)
+                elif name == "Raupy":
+                        Raupy(canvas)
+                elif name == "Pikachu":
+                        Pikachu(canvas)
+                elif name == "Raichu":
+                        Raichu(canvas)
+                
+class Bisasam(Pokedesign):
         global colors
         colors = list()
         def lightgreen(self,x):
@@ -45,7 +59,7 @@ class Bisasam():
             self.darkgreen(dunkelgruen2)
             self.red(rot)
             self.white(weiss)
-class Glumanda():
+class Glumanda(Pokedesign):
         global colors
         colors = list()
         def yellow(self,x):
@@ -93,7 +107,7 @@ class Glumanda():
             self.white(weiss)
             self.yellow(gelb)
             self.orange(orange2)
-class Schiggy():
+class Schiggy(Pokedesign):
         global colors
         colors = list()
         def yellow(self,x):
@@ -151,7 +165,7 @@ class Schiggy():
             self.blue(blau)
             self.blue(blau2)
             self.blue(blau3)
-class Raupy():
+class Raupy(Pokedesign):
         global colors
         colors = list()
         def yellow(self,x):
@@ -195,7 +209,7 @@ class Raupy():
             self.yellow(gelb)
             self.red(rot)
             self.lightgreen(hellgruen)
-class Pikachu():
+class Pikachu(Pokedesign):
         global colors
         colors = list()
         def yellow(self,x):
@@ -245,7 +259,7 @@ class Pikachu():
             self.brown(braun)
             self.yellow(gelb)
             self.yellow(gelb2)
-class Raichu():
+class Raichu(Pokedesign):
         global colors
         colors = list()
         def lightyellow(self,x):

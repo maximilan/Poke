@@ -99,8 +99,12 @@ def movement(event):
     key = event.keysym
     current_key = key
 c.bind_all('<Key>', movement)
-player.add_new_pokemon("Glurak", 20)
+player.add_new_pokemon("Pikachu", 13)
+player.add_new_pokemon("Raupy",5)
+player.add_new_pokemon("Schiggy", 5)
+player.add_new_pokemon("Raichu", 4)
 while True:
+    player.load_pokemon()
     if player.return_current_tile().return_function() == "Tür":
         c.delete("all")
         player.write()

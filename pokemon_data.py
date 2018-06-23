@@ -203,37 +203,35 @@ class Player():
                 self.pokemon[0].fight(pokemon, self.current_tile.return_pokemon_level())
             #Mit Personen reden
             if self.current_tile.persons() == True:
-                self.current_tile.return_persons().speak()
+                self.current_tile.return_persons().speak(self)
     def return_current_tile(self):
         return self.current_tile
     def return_posibpoke(self):
         return self.posibpoke
+    def return_pokemon(self):
+        return self.pokemon
     def add_pokemon(self, name, level, hp):
         self.pokemon.append(Pokemon(name, level, hp))
     def add_new_pokemon(self, name, level):
         for pokemon in pokedex:
             if name in pokemon:
                 self.pokemon.append(Pokemon(name, level, pokemon[1]))
+        self.write()
     
     #Pokemon speichern
     def write(self):
-         dateihandler = open("PlayerPoke", "r")
-         lines = dateihandler.readlines()
-         dateihandler.close()
-         del lines[:]
          dateihandler = open("PlayerPoke", "w")
-         for line in lines:
-             dateihandler.write(line)
+         dateihandler.write("")
          for pokemon in self.pokemon:
              dateihandler.write(pokemon.return_name()+";"+str(pokemon.return_level())+";"+str(pokemon.return_hp()))
+             dateihandler.write("\n")
     def load_pokemon(self):
         dateihandler = open("PlayerPoke", "r")
+        del self.pokemon[:]
         for line in dateihandler:
             id1 = line.rstrip()
             pokemon = id1.split(";")
             self.add_pokemon(pokemon[0], pokemon[1], pokemon[2])
-        for pokemon in self.pokemon:
-            print(pokemon.return_name())
 class Person():
     def __init__(self, canvas, x, y,module):
         self.canvas = canvas
@@ -245,7 +243,7 @@ class Person():
         self.module = module
     def set_speech(self, speech):
         self.speech = speech
-    def speak(self):
+    def speak(self, player):
         print(self.speech)
         #self.module = module
         fight = input(str("Möchtest du kämpfen: "))
@@ -259,29 +257,11 @@ class Person():
             self.canvas.create_polygon(610,0,700,0,700,70,fill="gray",outline="grey")
             self.module.update()
             pokemon = input(str("Wähle dein Pokemon: "))
-            dateihandler = open("playerpokedex.csv")
-            inhalt = dateihandler.read()
-            pokedex = []
-            zeilen = inhalt.split("\n")
+            #Pokemon wird auf Besitz überprüft
+            for possesion in player.return_pokemon():
+                if possesion.return_name() == pokemon:
+                    Pokedesign(pokemon, self.canvas)
             
-            for i in range(len(zeilen)-1):
-                #del pokemon[:]
-                spalten = zeilen[i].split(',')
-                pokedex.append(spalten)
-            for i in range(len(zeilen)):
-                if pokemon in zeilen[i]:
-                    if pokedex[i][7]=="j":
-                        print("Der Kampf kann beginnen!")
-                        if pokemon == "Pikachu":
-                            pokefighter = Pikachu(self.canvas)
-                        elif pokemon == "Bisasam":
-                            pokefighter = Bisasam(self.canvas)
-                        elif pokemon == "Raupy":
-                            pokefighter = Raupy(self.canvas)
-                        elif pokemon == "Raichu":
-                            pokefighter = Raichu(self.canvas)
-                        else:
-                            print("Du besitzt dieses Pokemon nicht oder es existiert nicht") 
             self.module.update()
         elif fight == "Nein":
             print("Ok. Vielleicht ein anderes mal!")
