@@ -369,7 +369,7 @@ class Choice():
         coords = list()
         for i in range(2):
             for q in range(3):
-                coordinates = [0 + q*220+240, 550+i*50+120]
+                coordinates = [0 + q*220+140, 550+i*50+50]
                 text = str(optionen.pop(0))
                 if i == 0 and q == 0:
                     id2 = self.canvas.create_text(coordinates,text = text, fill = 'red', font = ('Lato Black', 17))
