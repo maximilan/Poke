@@ -13,8 +13,12 @@ from time import sleep
 import tkinter as tk
 from tkinter import*
 from pokegraphics import *
+#from pokemon import Master
 #Pokedex wird eingelesen
 dateihandler = open('pokedex.csv')
+#Master (für Dateienaustausch zuständig) wird erstellt
+master = Master()
+
 
 inhalt = dateihandler.read()
 
@@ -210,6 +214,11 @@ class Player():
         return self.posibpoke
     def return_pokemon(self):
         return self.pokemon
+    def return_pokemon_names(self):
+        names = []
+        for pokemon in self.pokemon:
+            names.append(pokemon.return_name())
+        return names
     def add_pokemon(self, name, level, hp):
         self.pokemon.append(Pokemon(name, level, hp))
     def add_new_pokemon(self, name, level):
@@ -256,7 +265,10 @@ class Person():
             self.canvas.create_oval(290,290,460,420,fill="SpringGreen4",outline="white")
             self.canvas.create_polygon(610,0,700,0,700,70,fill="gray",outline="grey")
             self.module.update()
-            pokemon = input(str("Wähle dein Pokemon: "))
+            allpoke = []
+            for possesion in player.return_pokemon():
+                allpoke.append(possesion.return_name())
+            pokemon = Choice(allpoke, self.canvas, self.module)
             #Pokemon wird auf Besitz überprüft
             for possesion in player.return_pokemon():
                 if possesion.return_name() == pokemon:
@@ -335,5 +347,89 @@ class Pokemon():
                   kill = pokemon.randattack(self)
         if self.return_hp() <= 0:
               print("Du hast verloren!")    
-        
+
+class Choice():
+    def __init__(self, optionen, canvas,module):
+        self.canvas = canvas
+        self.design = self.canvas.create_rectangle(0, 550, 700, 700, fill = 'white')
+        self.key = key
+        self.module = module
+        self.current_choice = None
+        while len(optionen) < 6:
+            optionen.append("None")
+        choices = list()
+        coords = list()
+        for i in range(2):
+            for q in range(3):
+                coordinates = [0 + q*220+140, 550+i*50+50]
+                text = str(optionen.pop(0))
+                if i == 0 and q == 0:
+                    id2 = self.canvas.create_text(coordinates,text = text, fill = 'red')
+                else:
+                    id2 = self.canvas.create_text(coordinates,text = text, fill = 'black')
+                id1 = Option(id2, self.canvas, coordinates, text)
+                coords.append(coordinates)
+                choices.append(id1)
+        for i in range(len(choices)):
+            choices[i].link(coords, coords[i], choices)
+        self.current_choice = choices[0]
+        while True:
+            self.module.update()
+            key = master.return_current_key()
+            self.key.change_key(None)
+            if key in ["Left", "Right", "Up", "Down"]:
+                self.current_choice = self.current_choice.switch(key)
+            if key == "z":
+                break
+            sleep(0.1)
+        for choice in choices:
+            choice.delete_design()
+        self.canvas.delete(self.design)
+def return_choice(self):
+    return self.current_choice.return_text()
+class Option():
+    def __init__(self, design, canvas, coordinates, text):
+        self.design = design
+        self.canvas = canvas
+        self.coordinates = coordinates
+        self.directions = []
+        self.links = {}
+        self.text = text
+    def change_coords(self, x, y):
+        id1 = self.coordinates[0]+x
+        id2 = self.coordinates[1]+y
+        return[id1, id2]
+    def return_design(self):
+        return self.design
+    def link(self, liste, position, objects):
+        coords = self.change_coords(220, 0)
+        if coords in liste:
+            self.directions.append("Right")
+            self.links["Right"] = objects[liste.index(coords)]
             
+        coords = self.change_coords(-220, 0)
+        if coords in liste:
+            self.directions.append("Left")
+            self.links["Left"] = objects[liste.index(coords)]
+
+        coords = self.change_coords(0, 50)
+        if coords in liste:
+            self.directions.append("Down")
+            self.links["Down"] = objects[liste.index(coords)]
+
+        coords = self.change_coords(0, -50)
+        if coords in liste:
+            self.directions.append("Up")
+            self.links["Up"] = objects[liste.index(coords)]
+    def switch(self, direction):
+        if direction in self.directions:
+            self.canvas.itemconfig(self.design, fill = 'black')
+            new_choice = self.links[direction]
+            self.canvas.itemconfig(new_choice.return_design(), fill = 'red')
+            return new_choice
+        else:
+            return self
+    def return_text(self):
+        return self.text
+    def delete_design(self):
+        self.canvas.delete(self.design)
