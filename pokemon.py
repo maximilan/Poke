@@ -372,9 +372,9 @@ class Choice():
                 coordinates = [0 + q*220+140, 550+i*50+50]
                 text = str(optionen.pop(0))
                 if i == 0 and q == 0:
-                    id2 = self.canvas.create_text(coordinates,text = text, fill = 'red')
+                    id2 = self.canvas.create_text(coordinates,text = text, fill = 'red', font = ('Lato Black', 17))
                 else:
-                    id2 = self.canvas.create_text(coordinates,text = text, fill = 'black')
+                    id2 = self.canvas.create_text(coordinates,text = text, fill = 'black', font = ('Lato Black', 17))
                 id1 = Option(id2, self.canvas, coordinates, text)
                 coords.append(coordinates)
                 choices.append(id1)
@@ -541,6 +541,7 @@ def setting(liste):
 def menu(optionen):
     id1 = Choice(optionen, c, window)
     return id1.return_choice()
+################
 setting(setting1.return_all())
 window.update()
 
