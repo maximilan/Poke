@@ -1,13 +1,13 @@
-Bisasam,400,3,Tackle,50,Rankenhieb,60,n
+Bisasam,400,3,Tackle,50,Rankenhieb,60,j
 Bisaknosp,500,3,Rasierblatt,50,Giftgeissel,60,n
 Bisaflor,600,3,Giftpuder,60,Dschungel-Hammer,130,n
-Glumanda,350,5,Kratzer,50,Glut,70,n
+Glumanda,350,5,Kratzer,50,Glut,70,j
 Glutexo,450,5,Schlitzer,60,Flammenwurf,80,n
 Glurak,500,5,Fluegelschlag,80,Feuerroter Sturzflug,180,n
-Schiggy,450,50,Tackle,45,Ruckzuckhieb,40,n
+Schiggy,450,50,Tackle,45,Ruckzuckhieb,40,j
 Schillok,550,3,Raketenstart,30,Kaskade,60,n
 Turtok,650,3,Turbodreher,30,Bombenplatscher,120,n
-Raupy,300,4,Kaeferbiss,30,Tackle,50,n
+Raupy,300,4,Kaeferbiss,30,Tackle,50,j
 Safcon,400,4,Schaerfer,40,Ramme,50,n
 Smettbo,450,4,Parallelsauger,40,Schlummerschuppen,60,n
 Hornliu,250,3,Giftstachel,30,Triplexstich,40,n
@@ -23,7 +23,7 @@ Ibitak,400,4,Furienschlag,30,Bohrschnabel,60,n
 Rettan,350,5,Giftzahn,30,Biss,50,n
 Arbok,450,5,Toedliches Gift,30,Wickel,60,n
 Pikachu,400,6,Ruckzuckhieb,30,Elektroball,60,j
-Raichu,500,6,Explosiver Donner,40,Donnerblitz,100,n
+Raichu,500,6,Explosiver Donner,40,Donnerblitz,100,j
 Sandan,350,5,Kratzer,30,Ramme,70,n
 Sandamer,450,5,Stachelpanzer,40,Giftige Stacheln,80,n
 Nidoran Weiblich,350,4,Giftstachel,40,Doppelkick,40,n
