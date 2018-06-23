@@ -151,6 +151,50 @@ class Schiggy():
             self.blue(blau)
             self.blue(blau2)
             self.blue(blau3)
+class Raupy():
+        global colors
+        colors = list()
+        def yellow(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'yellow', outline = 'yellow')
+                colors.append(x[i]-1)
+        def black(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'black', outline = 'black')
+                colors.append(x[i]-1)
+        def lightgreen(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'lime green', outline = 'lime green')
+                colors.append(x[i]-1)
+        def red(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'red', outline = 'red')
+                colors.append(x[i]-1)
+        def white(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'white', outline = 'white')
+                colors.append(x[i]-1)
+        def brown(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'brown', outline = 'brown')
+                colors.append(x[i]-1)
+        def __init__(self,canvas):
+            self.graphic = list()
+            self.canvas = canvas
+            for i in range(0,17):
+                    for q in range(0,14):
+                            id1 = self.canvas.create_rectangle(540+q*5,110+i*5,540+q*5+5,110+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
+                            self.graphic.append(id1)
+            schwarz = [4,17,19,21,22,31,33,34,37,45,47,51,58,62,63,64,66,72,74,75,81,85,89,92,95,99,105,106,109,114,118,123,125,129,130,131,132,136,138,140,144,147,148,149,150,152,154,158,164,165,166,168,173,177,179,181,188,189,190,194,195,203,207,208,218,219,220]
+            weiss = [91]
+            gelb = [59,73,77,78,90,93,104,107,119,120]
+            rot = [18,32,35,36,46,48,49,50,60,61]
+            hellgruen = [88,100,101,103,115,117,139,145,146,153,159,160,161,162,167,174,175]
+            self.black(schwarz)
+            self.white(weiss)
+            self.yellow(gelb)
+            self.red(rot)
+            self.lightgreen(hellgruen)
 class Pikachu():
         global colors
         colors = list()
@@ -201,10 +245,10 @@ class Pikachu():
             self.brown(braun)
             self.yellow(gelb)
             self.yellow(gelb2)
-class Raupy():
+class Raichu():
         global colors
         colors = list()
-        def yellow(self,x):
+        def lightyellow(self,x):
             for i in range(len(x)):
                 self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'yellow', outline = 'yellow')
                 colors.append(x[i]-1)
@@ -212,36 +256,50 @@ class Raupy():
             for i in range(len(x)):
                 self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'black', outline = 'black')
                 colors.append(x[i]-1)
-        def lightgreen(self,x):
+        def yellow(self,x):
             for i in range(len(x)):
-                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'lime green', outline = 'lime green')
-                colors.append(x[i]-1)
-        def red(self,x):
-            for i in range(len(x)):
-                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'red', outline = 'red')
-                colors.append(x[i]-1)
-        def white(self,x):
-            for i in range(len(x)):
-                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'white', outline = 'white')
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'gold', outline = 'gold')
                 colors.append(x[i]-1)
         def brown(self,x):
             for i in range(len(x)):
                 self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'brown', outline = 'brown')
                 colors.append(x[i]-1)
+        def white(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'white', outline = 'white')
+                colors.append(x[i]-1)
+        def orange(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'orange', outline = 'orange')
+                colors.append(x[i]-1)
+        def lightbrown(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'chocolate3', outline = 'chocolate3')
+                colors.append(x[i]-1)
         def __init__(self,canvas):
             self.graphic = list()
             self.canvas = canvas
-            for i in range(0,17):
-                    for q in range(0,14):
+            for i in range(0,24):
+                    for q in range(0,25):
                             id1 = self.canvas.create_rectangle(540+q*5,110+i*5,540+q*5+5,110+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
                             self.graphic.append(id1)
-            schwarz = [4,17,19,21,22,31,33,34,37,45,47,51,58,62,63,64,66,72,74,75,81,85,89,92,95,99,105,106,109,114,118,123,125,129,130,131,132,136,138,140,144,147,148,149,150,152,154,158,164,165,166,168,173,177,179,181,188,189,190,194,195,203,207,208,218,219,220]
-            weiss = [91]
-            gelb = [59,73,77,78,90,93,104,107,119,120]
-            rot = [18,32,35,36,46,48,49,50,60,61]
-            hellgruen = [88,100,101,103,115,117,139,145,146,153,159,160,161,162,167,174,175]
+            schwarz = [7,31,32,55,57,80,82,89,90,91,92,93,96,104,107,112,113,117,120,122,129,131,136,141,145,147,154,155,156,157,158,160,165,170,173,178,179,184,189,195,198,202,209,215,216,220,224,227,234,235,239,241,243,244,245,249,251,260,261,262,263]
+            schwarz2 = [268,270,275,276,283,289,294,298,300,302,307,308,314,319,322,324,325,328,340,345,347,352,354,360,365,371,372,377,379,383,384,391,397,403,404,405,407,416,422,423,430,432,436,441,448,455,458,459,460,466,467,473,479,481,482,483,490,492,493,497,498,504,505,506,507]
+            schwarz3 = [509,514,518,519,520,521,522,535,536,537,540,559,564,585,586,587,588]
+            weiss = [282,380,381,406,431,457,484,485]
+            braun = [56,81,105,106,114,115,116,130,137,138,161,162,185,186,210,211,236,237,364,408,415,433,434,439,440,480,560,561,562,563]
+            gelb = [139,212,180,181,182,183,203,204,205,206,207,208,228,229,230,231,232,233,252,253,254,255,256,258,259,269,271,277,279,280,281,284,285,286,287,288,295,296,303,304,305,306,311,312,313,320,321,331,332,333,336,337,338,346,355,356,357,358,359]
+            gelb2 = [361,362,363,382,385,386,387,409,410,411,435]
+            hellgelb = [121,140,146,163,164,171,172,187,188,196,197,213,214,221,222,223,238,246,247,248,272,273,274,297,299,309,310,334,335]
+            orange1 = [257,329,330,339,353,378,388,389,390,412,413,414,437,438,456,461,462,463,464,486,487,488,489,510,511,512,538,539]
+            hellbraun = [278,465,513]
             self.black(schwarz)
+            self.black(schwarz2)
+            self.black(schwarz3)
             self.white(weiss)
+            self.brown(braun)
             self.yellow(gelb)
-            self.red(rot)
-            self.lightgreen(hellgruen)
+            self.yellow(gelb2)
+            self.orange(orange1)
+            self.lightyellow(hellgelb)
+            self.lightbrown(hellbraun)
