@@ -107,30 +107,6 @@ class Tile():
                    break
         return pokemon
                    
-#Dieser Bestandteil muss eine Funktion sein, da Klassen keine Events supporten
-def inventar():
-    global button
-    button = Button(window,text="Inventar",bg="black")
-    button.pack(side = RIGHT)
-    button.bind("<Button-1>",oeffne_inventar)
-    
-def oeffne_inventar(event):
-    c.delete("all")
-    global zurueck
-    zurueck = Button(window,text="Zurück")
-    zurueck.pack(side=RIGHT)
-    zurueck.bind("<Button-1>",go_back)
-    window.update()
-    button.destroy()
-def go_back(event):
-    setting(setting1.return_all())
-    zurueck.destroy()
-    global button
-    button = Button(window,text="Inventar",bg="black")
-    button.pack(side = RIGHT)
-    button.bind("<Button-1>",oeffne_inventar)
-    window.update()
-#####################################################################
 class Wildnis(Tile):
     def __init__(self, canvas, x, y, pokemon, pokemon_level,module):
         self.module = module
@@ -496,6 +472,8 @@ setting2 = Setting(q,p,speech, pokemon, 3)
 setting1.link([setting2])
 setting2.link([setting1])
 ######################
+current_setting = setting1
+######################
 def setting(liste):
     global player
     global setting2
@@ -548,8 +526,15 @@ def menu(optionen):
     return id1.return_choice()
 ################
 setting(setting1.return_all())
-inventar()
-window.update()
+
+#Dieser Bestandteil muss eine Funktion sein, da Klassen keine Events supporten
+def inventar():
+    if current_key == "e":
+        c.delete("all")
+        window.update()
+    if current_key == "q":
+        setting(current_setting.return_all())
+#####################################################################
 
 
 def movement(event):
@@ -559,6 +544,7 @@ def movement(event):
 c.bind_all('<Key>', movement)
 ######################
 def arena(enemypokemon, level):
+    player.load_pokemon()
     c.delete("all")
     c.config(width=700,height=700)
     c.create_rectangle(0,0,700,700,fill="SpringGreen4",outline="SpringGreen4")
@@ -608,11 +594,13 @@ while True:
     if player.return_current_tile().return_function() == "Tür":
         c.delete("all")
         player.write()
-        setting(player.return_current_tile().return_setting().return_all())
+        current_setting = player.return_current_tile().return_setting()
+        setting(current_setting.return_all())
         player.load_pokemon()
     player.move(current_key)
     current_key = None
     window.update()
+    inventar()
     sleep(0.1)
 
 
