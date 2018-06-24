@@ -1,1 +1,1 @@
-Daten von pokemon_data wurden ins Hauptprogramm übertragen, weshalb pokemon_data nicht mehr benötigt wird
+Inventar machen, das über Button zugänglich ist?
