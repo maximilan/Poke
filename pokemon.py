@@ -107,8 +107,30 @@ class Tile():
                    break
         return pokemon
                    
-        
-
+#Dieser Bestandteil muss eine Funktion sein, da Klassen keine Events supporten
+def inventar():
+    global button
+    button = Button(window,text="Inventar",bg="black")
+    button.pack(side = RIGHT)
+    button.bind("<Button-1>",oeffne_inventar)
+    
+def oeffne_inventar(event):
+    c.delete("all")
+    global zurueck
+    zurueck = Button(window,text="Zurück")
+    zurueck.pack(side=RIGHT)
+    zurueck.bind("<Button-1>",go_back)
+    window.update()
+    button.destroy()
+def go_back(event):
+    setting(setting1.return_all())
+    zurueck.destroy()
+    global button
+    button = Button(window,text="Inventar",bg="black")
+    button.pack(side = RIGHT)
+    button.bind("<Button-1>",oeffne_inventar)
+    window.update()
+#####################################################################
 class Wildnis(Tile):
     def __init__(self, canvas, x, y, pokemon, pokemon_level,module):
         self.module = module
@@ -526,6 +548,7 @@ def menu(optionen):
     return id1.return_choice()
 ################
 setting(setting1.return_all())
+inventar()
 window.update()
 
 
