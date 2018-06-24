@@ -314,7 +314,7 @@ class Pokemon():
             output(pokemon.return_name()+" besitzt noch "+str(pokemon.return_hp())+ " HP.")
             window.update()
             if pokemon.return_hp() <= 0:
-                ouput(pokemon.return_name()+" wurde ohnmächtig.")
+                output(pokemon.return_name()+" wurde ohnmächtig.")
                 return True
             else:
                 return False
@@ -332,21 +332,18 @@ class Pokemon():
             output("Wähle eine Attacke:")
             attacke = menu(self.return_attackennamen())
             kill = self.angriff(attacke, pokemon)
-            sleep(1)
             if kill != True:
                   kill = pokemon.randattack(self)
         if self.return_hp() <= 0:
               output("Du hast verloren!")    
 
 class Choice():
-    def __init__(self, optio, canvas,module):
+    def __init__(self, optionen, canvas,module):
         global current_key
         self.canvas = canvas
         self.design = self.canvas.create_rectangle(0, 550, 700, 700, fill = 'white')
         self.module = module
         self.current_choice = None
-        print(optio)
-        optionen = optio
         while len(optionen) < 6:
             optionen.append("")
         choices = list()
@@ -355,6 +352,8 @@ class Choice():
             for q in range(3):
                 coordinates = [0 + q*220+140, 550+i*50+50]
                 text = str(optionen.pop(0))
+                if text != "":
+                    optionen.append(text)
                 if i == 0 and q == 0:
                     id2 = self.canvas.create_text(coordinates,text = text, fill = 'red', font = ('Lato Black', 17))
                 else:
@@ -377,7 +376,6 @@ class Choice():
         for choice in choices:
             choice.delete_design()
         self.canvas.delete(self.design)
-        print(optio)
     def return_choice(self):
         return self.current_choice.return_text()
 class Option():
