@@ -360,7 +360,7 @@ class Choice():
     def __init__(self, optionen, canvas,module):
         global current_key
         self.canvas = canvas
-        self.design = self.canvas.create_rectangle(0, 650, 700, 700, fill = 'white')
+        self.design = self.canvas.create_rectangle(0, 550, 700, 700, fill = 'white')
         self.module = module
         self.current_choice = None
         while len(optionen) < 6:
@@ -374,7 +374,7 @@ class Choice():
                 if i == 0 and q == 0:
                     id2 = self.canvas.create_text(coordinates,text = text, fill = 'red', font = ('Lato Black', 17))
                 else:
-                    id2 = self.canvas.create_text(coordinates,text = text, fill = 'white', font = ('Lato Black', 17))
+                    id2 = self.canvas.create_text(coordinates,text = text, fill = 'black', font = ('Lato Black', 17))
                 id1 = Option(id2, self.canvas, coordinates, text)
                 coords.append(coordinates)
                 choices.append(id1)
@@ -554,7 +554,7 @@ def movement(event):
 c.bind_all('<Key>', movement)
 
 
-player.add_new_pokemon("Pikachu", 13)
+player.add_new_pokemon("Pikachu", 20)
 player.add_new_pokemon("Raupy",5)
 player.add_new_pokemon("Schiggy", 5)
 player.add_new_pokemon("Raichu", 4)
@@ -562,6 +562,7 @@ player.add_new_pokemon("Raichu", 4)
 keysaver = Key()
 #Hauptschleife
 while True:
+    player.write()
     player.load_pokemon()
     if player.return_current_tile().return_function() == "Tür":
         c.delete("all")
