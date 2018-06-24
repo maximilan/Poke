@@ -259,18 +259,16 @@ class Person():
     def set_speech(self, speech):
         self.speech = speech
     def speak(self, player):
-        print(self.speech)
+        output(self.speech)
         #self.module = module
-        print("Möchtest du kämpfen?")
+        output("Möchtest du kämpfen?")
         fight = menu(["Ja", "Nein"])
         if fight == "Ja":
             
             arena()
             self.module.update()
         elif fight == "Nein":
-            print("Ok. Vielleicht ein anderes mal!")
-        else:
-            print("Der Befehl existiert nicht")
+            output("Ok. Vielleicht ein anderes mal!")
 class Setting():
     def __init__(self, tiles, persons, speech, pokemon, level):
         self.all = [tiles, persons, speech,pokemon, level]
@@ -547,13 +545,28 @@ def arena():
     allpoke = []
     for possesion in player.return_pokemon():
         allpoke.append(possesion.return_name())
-    print(allpoke)
     pokemon = menu(allpoke)
     #Pokemon wird auf Besitz überprüft
     for possesion in player.return_pokemon():
         if possesion.return_name() == pokemon:
             Pokedesign(pokemon, c)
 ##########################
+def output(inhalt):
+    global current_key
+    design = []
+    id1 = c.create_rectangle(0, 550, 700, 700, fill = 'white')
+    id2 = c.create_text(350, 600, text = inhalt, fill = 'black', font = ('Lato Black', 17))
+    window.update()
+    current_key = None
+    while True:
+        window.update()
+        if current_key == "Return" or current_key == "z":
+            current_key = None
+            print("Hello World")
+            break
+        sleep(0.1)
+    c.delete(design)
+    window.update()
 player.add_new_pokemon("Pikachu", 20)
 player.add_new_pokemon("Raupy",5)
 player.add_new_pokemon("Schiggy", 5)
