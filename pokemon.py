@@ -209,8 +209,8 @@ class Player():
             #Pokemon suchen und bekämpfen
             pokemon = self.current_tile.check_pokemon(self.return_posibpoke())
             if pokemon != None:
-                print("Ein wildes "+pokemon+" (Level "+str(self.current_tile.return_pokemon_level())+") erscheint.")
-                self.pokemon[0].fight(pokemon, self.current_tile.return_pokemon_level())
+                output("Ein wildes "+pokemon+" (Level "+str(self.current_tile.return_pokemon_level())+") erscheint.")
+                arena(pokemon, self.current_tile.return_pokemon_level())
             #Mit Personen reden
             if self.current_tile.persons() == True:
                 self.current_tile.return_persons().speak(self)
@@ -308,16 +308,18 @@ class Pokemon():
         if attacke in self.attackennamen:
             stärke = int(self.return_attackenstärke(attacke))
             stärke += round(self.return_attackenstärke(attacke)/10) * self.return_level()
-            print(self.name+" wendet "+str(attacke)+ " an.")
-            sleep(0.5)
+            output(self.name+" wendet "+str(attacke)+ " an.")
+            window.update()
             pokemon.change_hp(-stärke)
-            print(pokemon.return_name()+" besitzt noch "+str(pokemon.return_hp())+ " HP.")
-            sleep(0.5)
+            output(pokemon.return_name()+" besitzt noch "+str(pokemon.return_hp())+ " HP.")
+            window.update()
             if pokemon.return_hp() <= 0:
-                print(pokemon.return_name()+" wurde ohnmächtig.")
+                ouput(pokemon.return_name()+" wurde ohnmächtig.")
                 return True
             else:
                 return False
+        else:
+            print("Fehler")
     def randattack(self, pokemon):
         attack = randint(0, len(self.attackennamen)-1)
         attack = self.attackennamen[attack]
@@ -325,26 +327,26 @@ class Pokemon():
                   
     def fight(self, pokemon, level):
         pokemon = Pokemon(pokemon, level, None)
-        print("Folgende Attacken stehen dir zur Verfügung:")
-        for i in range(len(self.attackennamen)):
-            print(self.attackennamen[i])
         kill = False
         while kill != True:
-            attacke = input("Welche Attacke soll "+str(self.name)+" anwenden: ")
+            output("Wähle eine Attacke:")
+            attacke = menu(self.return_attackennamen())
             kill = self.angriff(attacke, pokemon)
             sleep(1)
             if kill != True:
                   kill = pokemon.randattack(self)
         if self.return_hp() <= 0:
-              print("Du hast verloren!")    
+              output("Du hast verloren!")    
 
 class Choice():
-    def __init__(self, optionen, canvas,module):
+    def __init__(self, optio, canvas,module):
         global current_key
         self.canvas = canvas
         self.design = self.canvas.create_rectangle(0, 550, 700, 700, fill = 'white')
         self.module = module
         self.current_choice = None
+        print(optio)
+        optionen = optio
         while len(optionen) < 6:
             optionen.append("")
         choices = list()
@@ -375,6 +377,7 @@ class Choice():
         for choice in choices:
             choice.delete_design()
         self.canvas.delete(self.design)
+        print(optio)
     def return_choice(self):
         return self.current_choice.return_text()
 class Option():
@@ -452,9 +455,9 @@ q1 = [3,1,1,1,1,1,1,1,1,1,2,0]
 q2 = [0,1,0,1,0,0,0,0,0,0,0,0]
 q3 = [0,1,1,1,0,0,0,0,0,0,0,0]
 q = [q1,q2,q3]
-p1 = [0,1,0,0,0,0,0,0,0,0,0,0]
+p1 = [0,0,0,0,0,0,0,0,0,0,0,0]
 p2 = [0,0,0,0,0,0,0,0,0,0,0,0]
-p3 = [0,0,0,0,0,0,0,0,0,0,0,0]
+p3 = [0,1,0,0,0,0,0,0,0,0,0,0]
 p = [p1,p2,p3]
 pokemon = ["Schiggy"]
 speech = ["Hallo! Ich bin Tom"]
@@ -534,22 +537,28 @@ def movement(event):
     current_key = key
 c.bind_all('<Key>', movement)
 ######################
-def arena():
+def arena(enemypokemon, level):
     c.delete("all")
     c.config(width=700,height=700)
     c.create_rectangle(0,0,700,700,fill="SpringGreen4",outline="SpringGreen4")
     c.create_line(0,57,700,607,fill="white")
     c.create_oval(290,290,460,420,fill="SpringGreen4",outline="white")
     c.create_polygon(610,0,700,0,700,70,fill="gray",outline="grey")
+    Pokedesign(enemypokemon, c, "enemy", window)
+    output("Wähle dein Pokemon!")
     window.update()
     allpoke = []
     for possesion in player.return_pokemon():
         allpoke.append(possesion.return_name())
     pokemon = menu(allpoke)
+    classpoke = None
     #Pokemon wird auf Besitz überprüft
     for possesion in player.return_pokemon():
         if possesion.return_name() == pokemon:
-            Pokedesign(pokemon, c)
+            classpoke = possesion
+            design = Pokedesign(pokemon, c, "self", window)
+            window.update()
+    classpoke.fight(enemypokemon, level)
 ##########################
 def output(inhalt):
     global current_key
@@ -562,7 +571,6 @@ def output(inhalt):
         window.update()
         if current_key == "Return" or current_key == "z":
             current_key = None
-            print("Hello World")
             break
         sleep(0.1)
     c.delete(design)

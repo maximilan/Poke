@@ -1,19 +1,27 @@
 from tkinter import *
-
+from time import sleep
 class Pokedesign():
-        def __init__(self, name, canvas):
+        def __init__(self, name, canvas, function, module):
+                self.canvas = canvas
+                self.module = module
                 if name == "Bisasam":
-                       Bisasam(canvas)
+                       id1 = Bisasam(canvas)
                 elif name == "Glumanda":
-                        Glumanda(canvas)
+                        id1 = Glumanda(canvas)
                 elif name == "Schiggy":
-                        Schiggy(canvas)
+                        id1 = Schiggy(canvas)
                 elif name == "Raupy":
-                        Raupy(canvas)
+                        id1 = Raupy(canvas)
                 elif name == "Pikachu":
-                        Pikachu(canvas)
+                        id1 = Pikachu(canvas)
                 elif name == "Raichu":
-                        Raichu(canvas)
+                        id1 = Raichu(canvas)
+                self.graphic = id1.return_design()
+                if function == "self":
+                        for graphic in self.graphic:
+                                self.canvas.move(graphic, -400, 300)
+        def return_design(self):
+                return self.graphic
                 
 class Bisasam(Pokedesign):
         global colors
