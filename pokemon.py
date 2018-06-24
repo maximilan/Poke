@@ -264,24 +264,8 @@ class Person():
         print("Möchtest du kämpfen?")
         fight = menu(["Ja", "Nein"])
         if fight == "Ja":
-            self.canvas.delete("all")
-            self.canvas.config(width=700,height=700)
-            self.canvas.create_rectangle(0,0,700,700,fill="SpringGreen4",outline="SpringGreen4")
             
-            self.canvas.create_line(0,57,700,607,fill="white")
-            self.canvas.create_oval(290,290,460,420,fill="SpringGreen4",outline="white")
-            self.canvas.create_polygon(610,0,700,0,700,70,fill="gray",outline="grey")
-            self.module.update()
-            allpoke = []
-            for possesion in player.return_pokemon():
-                allpoke.append(possesion.return_name())
-            pokemon = menu(allpoke)
-            print(pokemon)
-            #Pokemon wird auf Besitz überprüft
-            for possesion in player.return_pokemon():
-                if possesion.return_name() == pokemon:
-                    Pokedesign(pokemon, self.canvas)
-            
+            arena()
             self.module.update()
         elif fight == "Nein":
             print("Ok. Vielleicht ein anderes mal!")
@@ -550,16 +534,31 @@ def movement(event):
     global current_key
     key = event.keysym
     current_key = key
-    keysaver.change_key(key)
 c.bind_all('<Key>', movement)
-
-
+######################
+def arena():
+    c.delete("all")
+    c.config(width=700,height=700)
+    c.create_rectangle(0,0,700,700,fill="SpringGreen4",outline="SpringGreen4")
+    c.create_line(0,57,700,607,fill="white")
+    c.create_oval(290,290,460,420,fill="SpringGreen4",outline="white")
+    c.create_polygon(610,0,700,0,700,70,fill="gray",outline="grey")
+    window.update()
+    allpoke = []
+    for possesion in player.return_pokemon():
+        allpoke.append(possesion.return_name())
+    print(allpoke)
+    pokemon = menu(allpoke)
+    #Pokemon wird auf Besitz überprüft
+    for possesion in player.return_pokemon():
+        if possesion.return_name() == pokemon:
+            Pokedesign(pokemon, c)
+##########################
 player.add_new_pokemon("Pikachu", 20)
 player.add_new_pokemon("Raupy",5)
 player.add_new_pokemon("Schiggy", 5)
 player.add_new_pokemon("Raichu", 4)
-#Tastenspeicehr wird initialisiert
-keysaver = Key()
+
 #Hauptschleife
 while True:
     player.write()
