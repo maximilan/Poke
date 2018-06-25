@@ -470,11 +470,11 @@ speech = ["Hallo! Ich bin Tom"]
 level = 2
 coords = [[175, 25]]
 setting1 = Setting(q, p, speech, pokemon, level,coords)
-q1 = [0,1,3,1,0,1,1,2]
-q2 = [0,1,0,1,1,1,0,1]
+q1 = [0,1,1,1,0,1,0,2]
+q2 = [0,1,0,1,1,1,1,1]
 q3 = [0,1,1,1,0,1,1,1]
 q = [q1,q2,q3]
-p1 = [0,0,0,0,0,0,1,0]
+p1 = [0,0,0,0,0,1,0,0]
 p2 = [0,0,0,0,0,0,0,0]
 p3 = [0,0,0,0,0,0,0,0]
 p = [p1,p2,p3]
@@ -524,19 +524,13 @@ def setting(liste, coords):
                 liste[5].append(linked_coords)
                 tiles.append(id1)
                 coordinates.append([x,y])
-            '''#Daten für Spieler speichern
-            if liste[0][i][f] == 3:
-                id1 = Wildnis(c, x, y, current_pokemon, current_level,window)
-                tiles.append(id1)
-                coordinates.append([x,y])
-                playdata = [x, y, id1]'''
             x += 25
         y += 25
-    #Spieler erstellen
     #player = Player(c, playdata[0], playdata[1], playdata[2], current_pokemon,window)
     for tile in tiles:
         tile.get_function(coordinates, tiles)
         if tile.return_coordinates() == coords:
+            #Spieler erstellen
             player = Player(c, tile.return_coordinates()[0], tile.return_coordinates()[1], tile, current_pokemon, window)
             current_coords = coords
 ################
