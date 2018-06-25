@@ -196,25 +196,31 @@ class Player():
         for design in self.design:
             self.canvas.move(design, x, y)
     def move(self, direction):
+        global current_coords
         if direction in self.current_tile.return_directions():
             self.current_tile = self.current_tile.return_linked_tile(direction)
             if direction == 'Up':
                 self.beweg(0, -kastengröße)
+                current_coords[1] += -25
             elif direction == 'Down':
                 self.beweg(0, kastengröße)
+                current_coords[1] += 25
             elif direction == 'Left':
                 self.beweg(-kastengröße, 0)
+                current_coords[0] += -25
             elif direction == 'Right':
                 self.beweg(kastengröße, 0)
+                current_coords[0] += 25
             self.window.update()
             #Pokemon suchen und bekämpfen
-            pokemon = self.current_tile.check_pokemon(self.return_posibpoke())
-            if pokemon != None:
-                output("Ein wildes "+pokemon+" (Level "+str(self.current_tile.return_pokemon_level())+") erscheint.")
-                arena(pokemon, self.current_tile.return_pokemon_level())
-            #Mit Personen reden
-            if self.current_tile.persons() == True:
-                self.current_tile.return_persons().speak(self)
+            if self.current_tile.return_function() == "Wildnis":
+                pokemon = self.current_tile.check_pokemon(self.return_posibpoke())
+                if pokemon != None:
+                    output("Ein wildes "+pokemon+" (Level "+str(self.current_tile.return_pokemon_level())+") erscheint.")
+                    arena(pokemon, self.current_tile.return_pokemon_level())
+                #Mit Personen reden
+                if self.current_tile.persons() == True:
+                    self.current_tile.return_persons().speak(self)
     def return_current_tile(self):
         return self.current_tile
     def return_posibpoke(self):
@@ -446,6 +452,7 @@ current_pokemon = []
 kastengröße = 25
 current_key = None
 player = None
+current_coords = None
 ############
 window = tk.Tk()
 c = Canvas(width = 700, height = 700, background = 'black')
@@ -465,14 +472,14 @@ coords = [[175, 25]]
 setting1 = Setting(q, p, speech, pokemon, level,coords)
 q1 = [0,1,3,1,0,1,1,2]
 q2 = [0,1,0,1,1,1,0,1]
-q3 = [0,1,1,1,0,1,1,0]
+q3 = [0,1,1,1,0,1,1,1]
 q = [q1,q2,q3]
 p1 = [0,0,0,0,0,0,1,0]
 p2 = [0,0,0,0,0,0,0,0]
 p3 = [0,0,0,0,0,0,0,0]
 p = [p1,p2,p3]
 speech = ["Hallo! Ich heiße Bob!"]
-pokemon = ["Schiggy", "Raupy"]
+pokemon = ["Schiggy"]
 level = 3
 coords = [[200, 25]]
 setting2 = Setting(q,p,speech, pokemon, level,coords)
@@ -484,6 +491,7 @@ current_setting = setting1
 def setting(liste, coords):
     global player
     global setting2
+    global current_coords
     del tiles[:]
     del coordinates[:]
     y = 0
@@ -528,9 +536,9 @@ def setting(liste, coords):
     #player = Player(c, playdata[0], playdata[1], playdata[2], current_pokemon,window)
     for tile in tiles:
         tile.get_function(coordinates, tiles)
-        print(tile.return_coordinates())
         if tile.return_coordinates() == coords:
             player = Player(c, tile.return_coordinates()[0], tile.return_coordinates()[1], tile, current_pokemon, window)
+            current_coords = coords
 ################
 def menu(optionen):
     id1 = Choice(optionen, c, window)
@@ -539,11 +547,12 @@ def menu(optionen):
 
 #Dieser Bestandteil muss eine Funktion sein, da Klassen keine Events supporten
 def inventar():
+    global current_coords
     if current_key == "e":
         c.delete("all")
         window.update()
     if current_key == "q":
-        setting(current_setting.return_all())
+        setting(current_setting.return_all(),current_coords)
 #####################################################################
 
 
@@ -555,7 +564,6 @@ c.bind_all('<Key>', movement)
 ######################
 def arena(enemypokemon, level):
     player.load_pokemon()
-    print(player.return_pokemon())
     c.delete("all")
     c.config(width=700,height=700)
     c.create_rectangle(0,0,700,700,fill="SpringGreen4",outline="SpringGreen4")
@@ -610,7 +618,8 @@ while True:
         c.delete("all")
         player.write()
         current_setting = player.return_current_tile().return_setting()
-        setting(current_setting.return_all())
+        current_coords = player.return_current_tile().return_linked_coords()
+        setting(current_setting.return_all(), current_coords)
         player.load_pokemon()
     player.move(current_key)
     current_key = None
