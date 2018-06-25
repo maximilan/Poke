@@ -23,7 +23,6 @@ from tkinter import*
 from pokegraphics import *
 #Pokedex wird eingelesen
 dateihandler = open('pokedex.csv')
-#Master (für Dateienaustausch zuständig) wird erstellt
 
 
 inhalt = dateihandler.read()
@@ -106,7 +105,8 @@ class Tile():
                    pokemon = pokedex[i][0]
                    break
         return pokemon
-                   
+    def return_coordinates(self):
+        return self.coordinates
 class Wildnis(Tile):
     def __init__(self, canvas, x, y, pokemon, pokemon_level,module):
         self.module = module
@@ -136,11 +136,14 @@ class Hindernis(Tile):
             self.canvas.create_oval(x+27,y+i*5,x+22,y+i*5+5,fill="green4",outline="green4")
         self.canvas.create_rectangle(x,y,x+25,y+25,fill="green4",outline="green4")
 class Tür(Tile):
-    def __init__(self, canvas, x, y, linked_setting,module):
+    def __init__(self, canvas, x, y, linked_setting,module, linked_coords):
         self.module = module
         super().__init__(canvas, x, y,module)
         self.linked_setting = linked_setting
         self.function = "Tür"
+        self.linked_coords = linked_coords
+    def return_linked_coords(self):
+        return self.linked_coords
     def return_setting(self):
         return self.linked_setting
 class Player():
@@ -268,8 +271,8 @@ class Person():
         elif fight == "Nein":
             output("Ok. Vielleicht ein anderes mal!")
 class Setting():
-    def __init__(self, tiles, persons, speech, pokemon, level):
-        self.all = [tiles, persons, speech,pokemon, level]
+    def __init__(self, tiles, persons, speech, pokemon, level, coords):
+        self.all = [tiles, persons, speech,pokemon, level, coords]
     def return_all(self):
         return self.all
     def link(self, link):
@@ -447,9 +450,9 @@ player = None
 window = tk.Tk()
 c = Canvas(width = 700, height = 700, background = 'black')
 c.pack()
-q1 = [3,1,1,1,1,1,1,1,1,1,2,0]
-q2 = [0,1,0,1,0,0,0,0,0,0,0,0]
-q3 = [0,1,1,1,0,0,0,0,0,0,0,0]
+q1 = [1,1,1,1,1,1,1,1,1,1,0,0]
+q2 = [0,1,0,1,0,0,0,0,1,0,0,0]
+q3 = [0,1,1,1,0,0,0,0,2,0,0,0]
 q = [q1,q2,q3]
 p1 = [0,0,0,0,0,0,0,0,0,0,0,0]
 p2 = [0,0,0,0,0,0,0,0,0,0,0,0]
@@ -457,24 +460,28 @@ p3 = [0,1,0,0,0,0,0,0,0,0,0,0]
 p = [p1,p2,p3]
 pokemon = ["Schiggy"]
 speech = ["Hallo! Ich bin Tom"]
-setting1 = Setting(q, p, speech, pokemon, 2)
-q1 = [0,1,3,1,0,1,1,1]
+level = 2
+coords = [[175, 25]]
+setting1 = Setting(q, p, speech, pokemon, level,coords)
+q1 = [0,1,3,1,0,1,1,2]
 q2 = [0,1,0,1,1,1,0,1]
-q3 = [0,1,1,1,0,1,1,2]
+q3 = [0,1,1,1,0,1,1,0]
 q = [q1,q2,q3]
 p1 = [0,0,0,0,0,0,1,0]
 p2 = [0,0,0,0,0,0,0,0]
 p3 = [0,0,0,0,0,0,0,0]
 p = [p1,p2,p3]
 speech = ["Hallo! Ich heiße Bob!"]
-pokemon = ["Schiggy", "Glurak"]
-setting2 = Setting(q,p,speech, pokemon, 3)
+pokemon = ["Schiggy", "Raupy"]
+level = 3
+coords = [[200, 25]]
+setting2 = Setting(q,p,speech, pokemon, level,coords)
 setting1.link([setting2])
 setting2.link([setting1])
 ######################
 current_setting = setting1
 ######################
-def setting(liste):
+def setting(liste, coords):
     global player
     global setting2
     del tiles[:]
@@ -503,29 +510,32 @@ def setting(liste):
             #Portale erzeugen    
             if liste[0][i][f] == 2:
                 link = liste[len(liste)-1].pop(0)
-                id1 = Tür(c, x, y, link,tk)
+                linked_coords = liste[5].pop(0)
+                id1 = Tür(c, x, y, link,tk, linked_coords)
                 liste[len(liste)-1].append(link)
+                liste[5].append(linked_coords)
                 tiles.append(id1)
                 coordinates.append([x,y])
-            #Daten für Spieler speichern
+            '''#Daten für Spieler speichern
             if liste[0][i][f] == 3:
                 id1 = Wildnis(c, x, y, current_pokemon, current_level,window)
                 tiles.append(id1)
                 coordinates.append([x,y])
-                playdata = [x, y, id1]
+                playdata = [x, y, id1]'''
             x += 25
         y += 25
     #Spieler erstellen
-    player = Player(c, playdata[0], playdata[1], playdata[2], current_pokemon,window)
+    #player = Player(c, playdata[0], playdata[1], playdata[2], current_pokemon,window)
     for tile in tiles:
         tile.get_function(coordinates, tiles)
-        y += 25
+        print(tile.return_coordinates())
+        if tile.return_coordinates() == coords:
+            player = Player(c, tile.return_coordinates()[0], tile.return_coordinates()[1], tile, current_pokemon, window)
 ################
 def menu(optionen):
     id1 = Choice(optionen, c, window)
     return id1.return_choice()
 ################
-setting(setting1.return_all())
 
 #Dieser Bestandteil muss eine Funktion sein, da Klassen keine Events supporten
 def inventar():
@@ -545,6 +555,7 @@ c.bind_all('<Key>', movement)
 ######################
 def arena(enemypokemon, level):
     player.load_pokemon()
+    print(player.return_pokemon())
     c.delete("all")
     c.config(width=700,height=700)
     c.create_rectangle(0,0,700,700,fill="SpringGreen4",outline="SpringGreen4")
@@ -582,11 +593,15 @@ def output(inhalt):
         sleep(0.1)
     c.delete(design)
     window.update()
+
+################
+setting(setting1.return_all(), [0,0])
+##################
 player.add_new_pokemon("Pikachu", 20)
 player.add_new_pokemon("Raupy",5)
 player.add_new_pokemon("Schiggy", 5)
 player.add_new_pokemon("Raichu", 4)
-
+##################
 #Hauptschleife
 while True:
     player.write()
