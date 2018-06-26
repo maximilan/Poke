@@ -599,7 +599,7 @@ def output(inhalt):
 ################
 setting(setting1.return_all(), [0,0])
 ##################
-player.add_new_pokemon("Pikachu", 20)
+player.add_new_pokemon("Pikachu", 7698354987549086490657873426782316723)
 player.add_new_pokemon("Raupy",5)
 player.add_new_pokemon("Schiggy", 5)
 player.add_new_pokemon("Raichu", 4)

@@ -1,1 +1,1 @@
-Koordinaten des Spielers werden jetzt gespeichert, sodass Spieler an gleicher Stelle bleibt, wenn man Inventory aufruft und verlässt
+Pokebälle für Kämpfe in Arbeit
