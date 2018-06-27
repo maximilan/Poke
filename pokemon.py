@@ -342,7 +342,10 @@ class Pokemon():
             if kill != True:
                   kill = pokemon.randattack(self)
         if self.return_hp() <= 0:
-              output("Du hast verloren!")    
+              output("Du hast verloren!")
+              return False
+        else:
+            return True
 
 class Choice():
     def __init__(self, optionen, canvas,module):
@@ -557,28 +560,55 @@ def movement(event):
 c.bind_all('<Key>', movement)
 ######################
 def arena(enemypokemon, level):
+    #Pokemon aktualisieren
     player.load_pokemon()
+    #Alle Grafikobjekte löschen
     c.delete("all")
+    #Design
     c.config(width=700,height=700)
     c.create_rectangle(0,0,700,700,fill="SpringGreen4",outline="SpringGreen4")
     c.create_line(0,57,700,607,fill="white")
     c.create_oval(290,290,460,420,fill="SpringGreen4",outline="white")
     c.create_polygon(610,0,700,0,700,70,fill="gray",outline="grey")
+    #Pokemondesign laden
     Pokedesign(enemypokemon, c, "enemy", window)
-    output("Wähle dein Pokemon!")
-    window.update()
+    #lokal benötigte Liste, die mit allen Namen der Pokemons, die zur Auswahl stehen, gefüllt wird
     allpoke = []
     for possesion in player.return_pokemon():
         allpoke.append(possesion.return_name())
-    pokemon = menu(allpoke)
-    classpoke = None
-    #Pokemon wird auf Besitz überprüft
-    for possesion in player.return_pokemon():
-        if possesion.return_name() == pokemon:
-            classpoke = possesion
-            design = Pokedesign(pokemon, c, "self", window)
-            window.update()
-    classpoke.fight(enemypokemon, level)
+    while True:
+        output("Wähle dein Pokemon!")
+        window.update()
+        #Menü mit lokaler Liste(allpoke) liefert Auswahl des Spielers
+        pokemon = menu(allpoke)
+        classpoke = None
+        print(player.return_pokemon())
+        #Pokemon wird auf Besitz überprüft
+        for possesion in player.return_pokemon():
+            if possesion.return_name() == pokemon:
+                #Pokemon wird unter Variable classpoke gespeichert
+                classpoke = possesion
+                #Pokemondesign wird geladen
+                design = Pokedesign(pokemon, c, "self", window)
+                window.update()
+        #Kampf wird ausgeführt, wenn Spielerpokemon gewinnt...
+        if classpoke.fight(enemypokemon, level) == True:
+            #wird Kampf abgebrochen
+            break
+        #ansonsten wird Pokemon aus der Auswahl entfernt und Kampf wird fortgeführt
+        else:
+            allpoke.remove(classpoke)
+        #wenn keine Pokemon mehr zur Auswahl stehen...
+        if len(allpoke) == 0:
+            #wird Kampf abgebrochen
+            break
+    print(player.return_pokemon())
+    #Speichern der neuen Pokemon-HP
+    player.write()
+    print("Ende")
+    #Setting wird wieder erstellt
+    c.delete("all")
+    setting(current_setting.return_all(),current_coords)
 ##########################
 def output(inhalt):
     global current_key
@@ -607,7 +637,7 @@ player.add_new_pokemon("Raichu", 4)
 #Hauptschleife
 while True:
     player.write()
-    player.load_pokemon()
+    #player.load_pokemon()
     if player.return_current_tile().return_function() == "Tür":
         c.delete("all")
         player.write()
