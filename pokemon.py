@@ -441,8 +441,41 @@ class Option():
 from tkinter import *
 import tkinter as tk
 from time import sleep
-
-
+###########################
+############
+window = tk.Tk()
+c = Canvas(width = 700, height = 700, background = 'black')
+c.pack()
+#################
+def output(inhalt):
+    global current_key
+    design = []
+    id1 = c.create_rectangle(0, 550, 700, 700, fill = 'white')
+    id2 = c.create_text(350, 600, text = inhalt, fill = 'black', font = ('Lato Black', 17))
+    design.append(id1)
+    design.append(id2)
+    window.update()
+    current_key = None
+    while True:
+        window.update()
+        if current_key == "Return" or current_key == "z":
+            current_key = None
+            break
+        sleep(0.1)
+    for item in design:
+        c.delete(item)
+    window.update()
+################
+def menu(optionen):
+    id1 = Choice(optionen, c, window)
+    return id1.return_choice()
+################
+def movement(event):
+    global current_key
+    key = event.keysym
+    current_key = key
+c.bind_all('<Key>', movement)
+######################
 ##########
 setting1 = None
 setting2 = None
@@ -457,9 +490,13 @@ current_key = None
 player = None
 current_coords = None
 ############
-window = tk.Tk()
-c = Canvas(width = 700, height = 700, background = 'black')
-c.pack()
+#Frage nach neuem Spiel
+output("Neues Spiel?")
+if menu(["Ja", "Nein"]) == "Ja":
+    #gespeicherte Dateien werden gelöscht
+    dateihandler = open("PlayerPoke", "w")
+    dateihandler.write("")
+#################
 q1 = [1,1,1,1,1,1,1,1,1,1,0,0]
 q2 = [0,1,0,1,0,0,0,0,1,0,0,0]
 q3 = [0,1,1,1,0,0,0,0,2,0,0,0]
@@ -535,12 +572,8 @@ def setting(liste, coords):
         if tile.return_coordinates() == coords:
             #Spieler erstellen
             player = Player(c, tile.return_coordinates()[0], tile.return_coordinates()[1], tile, current_pokemon, window)
+            player.load_pokemon()
             current_coords = coords
-################
-def menu(optionen):
-    id1 = Choice(optionen, c, window)
-    return id1.return_choice()
-################
 
 #Dieser Bestandteil muss eine Funktion sein, da Klassen keine Events supporten
 def inventar():
@@ -552,13 +585,6 @@ def inventar():
         setting(current_setting.return_all(),current_coords)
 #####################################################################
 
-
-def movement(event):
-    global current_key
-    key = event.keysym
-    current_key = key
-c.bind_all('<Key>', movement)
-######################
 def arena(enemypokemon, level):
     #Pokemon aktualisieren
     player.load_pokemon()
@@ -597,7 +623,7 @@ def arena(enemypokemon, level):
             break
         #ansonsten wird Pokemon aus der Auswahl entfernt und Kampf wird fortgeführt
         else:
-            allpoke.remove(classpoke)
+            allpoke.remove(classpoke.return_name())
         #wenn keine Pokemon mehr zur Auswahl stehen...
         if len(allpoke) == 0:
             #wird Kampf abgebrochen
@@ -605,31 +631,20 @@ def arena(enemypokemon, level):
     print(player.return_pokemon())
     #Speichern der neuen Pokemon-HP
     player.write()
+    print(player.return_pokemon())
     print("Ende")
     #Setting wird wieder erstellt
     c.delete("all")
+    print(len(player.return_pokemon()))
     setting(current_setting.return_all(),current_coords)
+    print(len(player.return_pokemon()))
 ##########################
-def output(inhalt):
-    global current_key
-    design = []
-    id1 = c.create_rectangle(0, 550, 700, 700, fill = 'white')
-    id2 = c.create_text(350, 600, text = inhalt, fill = 'black', font = ('Lato Black', 17))
-    window.update()
-    current_key = None
-    while True:
-        window.update()
-        if current_key == "Return" or current_key == "z":
-            current_key = None
-            break
-        sleep(0.1)
-    c.delete(design)
-    window.update()
+
 
 ################
 setting(setting1.return_all(), [0,0])
 ##################
-player.add_new_pokemon("Pikachu", 7698354987549086490657873426782316723)
+player.add_new_pokemon("Pikachu", 7698354987)
 player.add_new_pokemon("Raupy",5)
 player.add_new_pokemon("Schiggy", 5)
 player.add_new_pokemon("Raichu", 4)
@@ -650,6 +665,7 @@ while True:
     window.update()
     inventar()
     sleep(0.1)
+    print(len(player.return_pokemon()))
 
 
 
