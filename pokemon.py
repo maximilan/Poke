@@ -143,6 +143,7 @@ class Tür(Tile):
         self.function = "Tür"
         self.linked_coords = linked_coords
     def return_linked_coords(self):
+        print(self.linked_coords)
         return self.linked_coords
     def return_setting(self):
         return self.linked_setting
@@ -521,7 +522,7 @@ p = [p1,p2,p3]
 speech = ["Hallo! Ich heiße Bob!"]
 pokemon = ["Schiggy"]
 level = 3
-coords = [[200, 25]]
+coords = [[200, 0]]
 setting2 = Setting(q,p,speech, pokemon, level,coords)
 setting1.link([setting2])
 setting2.link([setting1])
