@@ -142,10 +142,7 @@ class Tür(Tile):
         self.linked_setting = linked_setting
         self.function = "Tür"
         self.linked_coords = linked_coords
-        #print("Tür")
-        #print(linked_coords)
     def return_linked_coords(self):
-       # print(self.linked_coords)
         return self.linked_coords
     def return_setting(self):
         return self.linked_setting
@@ -216,7 +213,7 @@ class Player():
                 self.beweg(kastengröße, 0)
                 current_coords[0] += 25
             self.window.update()
-            '''#Pokemon suchen und bekämpfen
+            #Pokemon suchen und bekämpfen
             if self.current_tile.return_function() == "Wildnis":
                 pokemon = self.current_tile.check_pokemon(self.return_posibpoke())
                 if pokemon != None:
@@ -224,7 +221,7 @@ class Player():
                     arena(pokemon, self.current_tile.return_pokemon_level())
                 #Mit Personen reden
                 if self.current_tile.persons() == True:
-                    self.current_tile.return_persons().speak(self)'''
+                    self.current_tile.return_persons().speak(self)
     def return_current_tile(self):
         return self.current_tile
     def return_posibpoke(self):
@@ -289,8 +286,6 @@ class Setting():
     def __init__(self, tiles, persons, speech, pokemon, level, coords):
         self.all = [tiles, persons, speech,pokemon, level, coords]
     def return_all(self):
-        #print("Setting")
-        #print(self.all[5])
         everything = self.all
         return everything
     def link(self, link):
@@ -449,7 +444,6 @@ class Option():
 
 ##########################################################################
 
-#from pokemon_data import *
 from tkinter import *
 import tkinter as tk
 from time import sleep
@@ -509,9 +503,9 @@ if menu(["Ja", "Nein"]) == "Ja":
     dateihandler = open("PlayerPoke", "w")
     dateihandler.write("")
 #################
-q1 = [1,1,1,1,1,2,1,1,1,1,1,0]
-q2 = [0,1,0,1,0,0,0,0,1,0,0,0]
-q3 = [0,1,1,1,0,0,0,0,1,0,0,0]
+q1 = [1,1,1,1,1,1,1,1,1,1,1,0]
+q2 = [0,1,0,1,1,1,1,1,1,0,0,0]
+q3 = [0,1,1,1,0,0,0,0,2,0,0,0]
 q = [q1,q2,q3]
 p1 = [0,0,0,0,0,0,0,0,0,0,0,0]
 p2 = [0,0,0,0,0,0,0,0,0,0,0,0]
@@ -522,9 +516,9 @@ speech = ["Hallo! Ich bin Tom"]
 level = 2
 coords = [(175, 25)]
 setting1 = Setting(q, p, speech, pokemon, level,coords)
-q1 = [0,1,1,1,0,1,0,1]
-q2 = [0,1,0,1,2,1,1,1]
-q3 = [0,1,1,1,0,1,1,1]
+q1 = [0,1,1,1,1,1,0,2]
+q2 = [0,1,0,1,1,1,1,1]
+q3 = [0,1,1,1,1,1,1,1]
 q = [q1,q2,q3]
 p1 = [0,0,0,0,0,1,0,0]
 p2 = [0,0,0,0,0,0,0,0]
@@ -570,14 +564,10 @@ def setting(liste, coords):
             #Portale erzeugen    
             if liste[0][i][f] == 2:
                 link = liste[len(liste)-1].pop(0)
-               # print("init")
-                #print(liste[5])
                 linked_coords = liste[5].pop(0)
                 id1 = Tür(c, x, y, link,tk, linked_coords)
                 liste[len(liste)-1].append(link)
                 liste[5].append(linked_coords)
-               # print("init")
-                #print(liste[5])
                 tiles.append(id1)
                 coordinates.append([x,y])
             x += 25
@@ -586,13 +576,11 @@ def setting(liste, coords):
     print(coords)
     for tile in tiles:
         tile.get_function(coordinates, tiles)
-        print((tile.return_coordinates()[0], tile.return_coordinates()[1]))
         if (tile.return_coordinates()[0], tile.return_coordinates()[1]) == coords:
             #Spieler erstellen
             player = Player(c, tile.return_coordinates()[0], tile.return_coordinates()[1], tile, current_pokemon, window)
             #player.load_pokemon()
             current_coords =  [tile.return_coordinates()[0], tile.return_coordinates()[1]]
-            print("Playyyyyyyyyyyyerrrr")
             window.update()
 
 #Dieser Bestandteil muss eine Funktion sein, da Klassen keine Events supporten
@@ -665,28 +653,19 @@ player.add_new_pokemon("Raichu", 4)
 ##################
 #Hauptschleife
 while True:
-    #player.write()
-    #player.load_pokemon()
+    player.write()
+    player.load_pokemon()
     if player.return_current_tile().return_function() == "Tür":
         c.delete("all")
         player.write()
         current_setting = player.return_current_tile().return_setting()
         coords = player.return_current_tile().return_linked_coords()
-       # print("Schleife")
-        #print(current_coords)
-        #print("\n\n\n")
-        print("\n\n\\nWEEEEEEEEECCCCCCCCCCCCCHHHHHHSEEEEEEEEEELLLLLLLLLLLLL!\n\n\n")
         setting(current_setting.return_all(), coords)
-        #player.load_pokemon()
-    #print(current_coords)
+        player.load_pokemon()
     player.move(current_key)
     current_key = None
-    #print(setting1.return_all()[5])
-    #print(setting2.return_all()[5])
-    #print("\n\n\n")
     window.update()
-    #inventar()
-    sleep(0.5)
+    sleep(0.05)
 
 
 
