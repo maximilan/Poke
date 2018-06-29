@@ -522,8 +522,8 @@ speech = ["Hallo! Ich bin Tom"]
 level = 2
 coords = [(175, 25)]
 setting1 = Setting(q, p, speech, pokemon, level,coords)
-q1 = [0,1,1,1,0,1,0,2]
-q2 = [0,1,0,1,1,1,1,1]
+q1 = [0,1,1,1,0,1,0,1]
+q2 = [0,1,0,1,2,1,1,1]
 q3 = [0,1,1,1,0,1,1,1]
 q = [q1,q2,q3]
 p1 = [0,0,0,0,0,1,0,0]
@@ -583,9 +583,11 @@ def setting(liste, coords):
             x += 25
         y += 25
     #player = Player(c, playdata[0], playdata[1], playdata[2], current_pokemon,window)
+    print(coords)
     for tile in tiles:
         tile.get_function(coordinates, tiles)
-        if tile.return_coordinates() == coords:
+        print((tile.return_coordinates()[0], tile.return_coordinates()[1]))
+        if (tile.return_coordinates()[0], tile.return_coordinates()[1]) == coords:
             #Spieler erstellen
             player = Player(c, tile.return_coordinates()[0], tile.return_coordinates()[1], tile, current_pokemon, window)
             #player.load_pokemon()
@@ -654,7 +656,7 @@ def arena(enemypokemon, level):
 
 
 ################
-setting(setting1.return_all(), [0,0])
+setting(setting1.return_all(), (0,0))
 ##################
 player.add_new_pokemon("Pikachu", 7698354987)
 player.add_new_pokemon("Raupy",5)
@@ -676,7 +678,7 @@ while True:
         print("\n\n\\nWEEEEEEEEECCCCCCCCCCCCCHHHHHHSEEEEEEEEEELLLLLLLLLLLLL!\n\n\n")
         setting(current_setting.return_all(), coords)
         #player.load_pokemon()
-    print(current_coords)
+    #print(current_coords)
     player.move(current_key)
     current_key = None
     #print(setting1.return_all()[5])
