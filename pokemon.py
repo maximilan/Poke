@@ -1,4 +1,10 @@
-
+class Key():
+    def __init__(self):
+        self.current_key = None
+    def change_key(self, key):
+        self.current_key = key
+    def return_current_key(self):
+        return self.current_key
 ########################################################################
 kastengröße = 25
 kastengröße = 25
@@ -30,7 +36,7 @@ for i in range(len(zeilen)-1):
     tabelle.append(spalten)
 #Pokedex wrd gespeichert
 pokedex = tabelle
-
+        
 class Tile():
     def __init__(self, canvas, x, y,module):
         self.canvas = canvas
@@ -108,14 +114,22 @@ class Wildnis(Tile):
         self.function = "Wildnis"
         self.pokemon = pokemon
         self.pokemon_level = pokemon_level
-
+        
         for i in range(len(self.design)):
             self.canvas.itemconfig(self.design, fill = 'green')
         self.canvas.create_rectangle(x,y,x+25,y+6,fill="green4",outline="green4")
         self.canvas.create_rectangle(x,y+6,x+25,y+12,fill="green2",outline="green2")
         self.canvas.create_rectangle(x,y+12,x+25,y+18,fill="green4",outline="green4")
         self.canvas.create_rectangle(x,y+18,x+25,y+25,fill="green2",outline="green2")
-
+class Floor_house(Tile):
+    def __init__(self, canvas, x, y, pokemon, pokemon_level,module):
+        self.module = module
+        super().__init__(canvas, x, y,module)
+        self.function = "Floor"
+        self.pokemon = None
+        self.canvas.create_rectangle(x,y,x+25,y+25,fill="khaki3",outline="khaki3")
+        self.canvas.create_rectangle(x+5,y+5,x+20,y+20,fill="khaki1",outline="khaki1")
+            
 class Hindernis(Tile):
     def __init__(self, canvas, x, y,module):
         super().__init__(canvas, x, y,module)
@@ -153,7 +167,7 @@ class Player():
         for i in range(len(x)):
             self.canvas.itemconfig(id1[x[i]-1], fill = 'black', outline = 'black')
             colors.append(x[i]-1)
-
+    
     def weiss(self,x):
         for i in range(len(x)):
             self.canvas.itemconfig(id1[x[i]-1], fill = 'white', outline = 'white')
@@ -181,8 +195,6 @@ class Player():
         self.haut(trainerhaut)
         self.weiss(trainerweiss)
         self.rot(trainerrot)
-        for i in range(0, 25):
-            c.delete(id1.pop())
         self.design = id1
         self.current_tile = current_tile
         self.posibpoke = pokemon
@@ -236,9 +248,7 @@ class Player():
             if name in pokemon:
                 self.pokemon.append(Pokemon(name, level, pokemon[1]))
         self.write()
-    def add_item(self, item):
-        self.items.append(item)
-        self.write()
+    
     #Pokemon speichern
     def write(self):
          dateihandler = open("PlayerPoke", "w")
@@ -246,13 +256,6 @@ class Player():
          for pokemon in self.pokemon:
              dateihandler.write(pokemon.return_name()+";"+str(pokemon.return_level())+";"+str(pokemon.return_hp()))
              dateihandler.write("\n")
-         dateihandler.close()
-         dateihandler = open("Inventar", "w")
-         dateihandler.write("")
-         for item in self.items:
-             dateihandler.write(str(item))
-             dateihandler.write("\n")
-         dateihandler.close()
     def load_pokemon(self):
         dateihandler = open("PlayerPoke", "r")
         del self.pokemon[:]
@@ -260,16 +263,11 @@ class Player():
             id1 = line.rstrip()
             pokemon = id1.split(";")
             self.add_pokemon(pokemon[0], pokemon[1], pokemon[2])
-        dateihandler.close()
-        dateihandler = open("Inventar", "r")
+        '''dateihandler = open("Inventar", "r")
         del self.items[:]
         for line in dateihandler:
             id1 = line.rstrip()
-            self.items.append(str(id1))
-        dateihandler.close()
-    def return_items(self):
-        return self.items
-
+            self.items.append(str(id1))'''
 class Person():
     def __init__(self, canvas, x, y,module):
         self.canvas = canvas
@@ -287,7 +285,7 @@ class Person():
         output("Möchtest du kämpfen?")
         fight = menu(["Ja", "Nein"])
         if fight == "Ja":
-
+            
             arena()
             self.module.update()
         elif fight == "Nein":
@@ -348,9 +346,9 @@ class Pokemon():
         attack = randint(0, len(self.attackennamen)-1)
         attack = self.attackennamen[attack]
         return self.angriff(attack, pokemon)
-
-    def fight(self, pokemon, level, hp):
-        pokemon = Pokemon(pokemon, level, hp)
+                  
+    def fight(self, pokemon, level):
+        pokemon = Pokemon(pokemon, level, None)
         kill = False
         while kill != True:
             output("Wähle eine Attacke:")
@@ -360,9 +358,9 @@ class Pokemon():
                   kill = pokemon.randattack(self)
         if self.return_hp() <= 0:
               output("Du hast verloren!")
-              return False, pokemon.return_hp()
+              return False
         else:
-            return True, None
+            return True
 
 class Choice():
     def __init__(self, optionen, canvas,module):
@@ -424,7 +422,7 @@ class Option():
         if coords in liste:
             self.directions.append("Right")
             self.links["Right"] = objects[liste.index(coords)]
-
+            
         coords = self.change_coords(-220, 0)
         if coords in liste:
             self.directions.append("Left")
@@ -512,14 +510,10 @@ if menu(["Ja", "Nein"]) == "Ja":
     #gespeicherte Dateien werden gelöscht
     dateihandler = open("PlayerPoke", "w")
     dateihandler.write("")
-    dateihandler.close()
-    dateihandler = open("Inventar", "w")
-    dateihandler.write("")
-    dateihandler.close()
 #################
-q1 = [1,1,1,1,1,1,1,1,1,1,1,0]
-q2 = [0,1,0,1,1,1,1,1,1,0,0,0]
-q3 = [0,1,1,1,0,0,0,0,2,0,0,0]
+q1 = [1,4,1,1,1,1,1,1,1,1,1,0]
+q2 = [0,1,0,1,1,1,1,1,1,3,5,0]
+q3 = [0,1,1,1,0,0,0,0,2,5,5,0]
 q = [q1,q2,q3]
 p1 = [0,0,0,0,0,0,0,0,0,0,0,0]
 p2 = [0,0,0,0,0,0,0,0,0,0,0,0]
@@ -541,7 +535,7 @@ p = [p1,p2,p3]
 speech = ["Hallo! Ich heiße Bob!"]
 pokemon = ["Schiggy"]
 level = 3
-coords = [(200, 25)]
+coords = [(200, 0)]
 setting2 = Setting(q,p,speech, pokemon, level,coords)
 setting1.link([setting2])
 setting2.link([setting1])
@@ -575,7 +569,7 @@ def setting(liste, coords):
                 person = liste[2].pop(0)
                 id1.add_person(person)
                 liste[2].append(person)
-            #Portale erzeugen
+            #Portale erzeugen    
             if liste[0][i][f] == 2:
                 link = liste[len(liste)-1].pop(0)
                 linked_coords = liste[5].pop(0)
@@ -584,6 +578,24 @@ def setting(liste, coords):
                 liste[5].append(linked_coords)
                 tiles.append(id1)
                 coordinates.append([x,y])
+            if liste[0][i][f] == 3:
+                front = c.create_rectangle(x+2,y+2,x+48,y+48,fill="gray92",outline="gray92")
+                roof1 = c.create_rectangle(x+8,y+1,x+42,y+24,fill="light salmon",outline = "light salmon")
+                roof2 = c.create_rectangle(x+1,y+1,x+7,y+30,fill="tan1",outline="tan1")
+                roof3 = c.create_polygon(x+1,y+1,x+1,y+6,x+6,y+1,fill="black",outline="black")
+                roof4 = c.create_polygon(x+1,y+31,x+8,y+31,x+8,y+24,fill="gray92",outline="gray92")
+                roof5 = c.create_rectangle(x+49,y+1,x+42,y+30,fill="salmon2",outline="salmon2")
+                roof6 = c.create_polygon(x+49,y+31,x+41,y+31,x+41,y+24,fill="gray92",outline="gray92")
+                roof7 = c.create_polygon(x+49,y+1,x+49,y+6,x+43,y+1,fill="black",outline="black")
+                window1 = c.create_rectangle(x+10,y+30,x+20,y+35,fill="cornflower blue",outline="cornflower blue")
+                window2 = c.create_rectangle(x+22,y+30,x+32,y+35,fill="cornflower blue",outline="cornflower blue")
+                window3 = c.create_rectangle(x+22,y+37,x+32,y+42,fill="cornflower blue",outline="cornflower blue")
+                door = c.create_rectangle(x+10,y+38,x+17,y+48,fill="sienna3",outline="sienna3")
+                door2 = c.create_rectangle(x+12,y+40,x+15,y+43,fill="cornflower blue")
+                for q in range(1,5):
+                    c.create_rectangle(x+10,y+q*5,x+40,y+q*5+1,fill="red",outline="red")
+            if liste[0][i][f] == 4:
+                id1 = Floor_house(c,x,y,current_pokemon,current_level,window)
             x += 25
         y += 25
     #player = Player(c, playdata[0], playdata[1], playdata[2], current_pokemon,window)
@@ -593,7 +605,7 @@ def setting(liste, coords):
         if (tile.return_coordinates()[0], tile.return_coordinates()[1]) == coords:
             #Spieler erstellen
             player = Player(c, tile.return_coordinates()[0], tile.return_coordinates()[1], tile, current_pokemon, window)
-            player.load_pokemon()
+            #player.load_pokemon()
             current_coords =  [tile.return_coordinates()[0], tile.return_coordinates()[1]]
             window.update()
 
@@ -602,31 +614,10 @@ def inventar():
     global current_coords
     if current_key == "e":
         c.delete("all")
-        inventar_show()
-        print(player.return_items())
         window.update()
     if current_key == "q":
-        c.delete("all")
-        setting(current_setting.return_all(),(current_coords[0], current_coords[1]))
+        setting(current_setting.return_all(),current_coords)
 #####################################################################
-def inventar_show():
-    all = player.return_items()
-    pokeball = []
-    heiltrank = []
-    items = [pokeball, heiltrank]
-    for item in all:
-        if item == "Pokeball":
-            pokeball.append("Pokeball")
-        if item == "Heiltrank":
-            heiltrank.append("Heiltrank")
-    for item in items:
-        if (len(item)) == 0:
-            items.remove(item)
-    for i in range(0, len(items)):
-        c.create_rectangle(0, i * 150, 700, i * 150+100, fill = 'white')
-        c.create_text(100, i*150+50, text = items[i][0], font = ('Lato Black', 20))
-        c.create_text(600, i*150+50, text = "*  "+str(len(items[i])), font = ('Lato Black', 20))
-    window.update()
 def arena(enemypokemon, level):
     #Pokemon aktualisieren
     player.load_pokemon()
@@ -644,11 +635,10 @@ def arena(enemypokemon, level):
     allpoke = []
     for possesion in player.return_pokemon():
         allpoke.append(possesion.return_name())
-        hp = None
     while True:
         output("Wähle dein Pokemon!")
         window.update()
-        #Menü mit lokaler Liste (allpoke) liefert Auswahl des Spielers
+        #Menü mit lokaler Liste(allpoke) liefert Auswahl des Spielers
         pokemon = menu(allpoke)
         classpoke = None
         #Pokemon wird auf Besitz überprüft
@@ -660,10 +650,8 @@ def arena(enemypokemon, level):
                 design = Pokedesign(pokemon, c, "self", window)
                 window.update()
         #Kampf wird ausgeführt, wenn Spielerpokemon gewinnt...
-        print(hp)
-        ausgang, hp = classpoke.fight(enemypokemon, level, hp)
+        if classpoke.fight(enemypokemon, level) == True:
             #wird Kampf abgebrochen
-        if ausgang == True:
             break
         #ansonsten wird Pokemon aus der Auswahl entfernt und Kampf wird fortgeführt
         else:
@@ -676,20 +664,17 @@ def arena(enemypokemon, level):
     player.write()
     #Setting wird wieder erstellt
     c.delete("all")
-    setting(current_setting.return_all(),(current_coords[0], current_coords[1]))
+    setting(current_setting.return_all(),current_coords)
 ##########################
 
 
 ################
 setting(setting1.return_all(), (0,0))
 ##################
-player.add_new_pokemon("Pikachu", 1)
-player.add_new_pokemon("Raupy",1)
-player.add_new_pokemon("Schiggy", 1)
-player.add_new_pokemon("Raichu", 1)
-player.add_item("Pokeball")
-player.add_item("Pokeball")
-player.add_item("Heiltrank")
+player.add_new_pokemon("Pikachu", 7698354987)
+player.add_new_pokemon("Raupy",5)
+player.add_new_pokemon("Schiggy", 5)
+player.add_new_pokemon("Raichu", 4)
 ##################
 #Hauptschleife
 while True:
@@ -703,7 +688,18 @@ while True:
         setting(current_setting.return_all(), coords)
         player.load_pokemon()
     player.move(current_key)
-    inventar()
     current_key = None
     window.update()
     sleep(0.05)
+
+
+
+
+
+
+
+
+
+
+
+
