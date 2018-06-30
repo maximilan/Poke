@@ -115,7 +115,14 @@ class Wildnis(Tile):
         self.canvas.create_rectangle(x,y+6,x+25,y+12,fill="green2",outline="green2")
         self.canvas.create_rectangle(x,y+12,x+25,y+18,fill="green4",outline="green4")
         self.canvas.create_rectangle(x,y+18,x+25,y+25,fill="green2",outline="green2")
-
+class Floor_house(Tile):
+    def __init__(self, canvas, x, y, pokemon, pokemon_level,module):
+        self.module = module
+        super().__init__(canvas, x, y,module)
+        self.function = "Floor"
+        self.pokemon = None
+        self.canvas.create_rectangle(x,y,x+25,y+25,fill="khaki3",outline="khaki3")
+        self.canvas.create_rectangle(x+5,y+5,x+20,y+20,fill="khaki1",outline="khaki1")
 class Hindernis(Tile):
     def __init__(self, canvas, x, y,module):
         super().__init__(canvas, x, y,module)
@@ -618,6 +625,25 @@ def setting(liste, coords):
                 liste[5].append(linked_coords)
                 tiles.append(id1)
                 coordinates.append([x,y])
+               if liste[0][i][f] == 3:
+                front = c.create_rectangle(x+2,y+2,x+48,y+48,fill="gray92",outline="gray92")
+                roof1 = c.create_rectangle(x+8,y+1,x+42,y+24,fill="light salmon",outline = "light salmon")
+                roof2 = c.create_rectangle(x+1,y+1,x+7,y+30,fill="tan1",outline="tan1")
+                roof3 = c.create_polygon(x+1,y+1,x+1,y+6,x+6,y+1,fill="black",outline="black")
+                roof4 = c.create_polygon(x+1,y+31,x+8,y+31,x+8,y+24,fill="gray92",outline="gray92")
+                roof5 = c.create_rectangle(x+49,y+1,x+42,y+30,fill="salmon2",outline="salmon2")
+                roof6 = c.create_polygon(x+49,y+31,x+41,y+31,x+41,y+24,fill="gray92",outline="gray92")
+                roof7 = c.create_polygon(x+49,y+1,x+49,y+6,x+43,y+1,fill="black",outline="black")
+                window1 = c.create_rectangle(x+10,y+30,x+20,y+35,fill="cornflower blue",outline="cornflower blue")
+                window2 = c.create_rectangle(x+22,y+30,x+32,y+35,fill="cornflower blue",outline="cornflower blue")
+                window3 = c.create_rectangle(x+22,y+37,x+32,y+42,fill="cornflower blue",outline="cornflower blue")
+                door = c.create_rectangle(x+10,y+38,x+17,y+48,fill="sienna3",outline="sienna3")
+                door2 = c.create_rectangle(x+12,y+40,x+15,y+43,fill="cornflower blue")
+                for q in range(1,5):
+                    c.create_rectangle(x+10,y+q*5,x+40,y+q*5+1,fill="red",outline="red")
+            if liste[0][i][f] == 4:
+                id1 = Floor_house(c,x,y,current_pokemon,current_level,window)
+            x += 25
             x += 25
         y += 25
     #player = Player(c, playdata[0], playdata[1], playdata[2], current_pokemon,window)
