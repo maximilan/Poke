@@ -349,8 +349,8 @@ class Pokemon():
         attack = self.attackennamen[attack]
         return self.angriff(attack, pokemon)
 
-    def fight(self, pokemon, level):
-        pokemon = Pokemon(pokemon, level, None)
+    def fight(self, pokemon, level, hp):
+        pokemon = Pokemon(pokemon, level, hp)
         kill = False
         while kill != True:
             output("Wähle eine Attacke:")
@@ -360,9 +360,9 @@ class Pokemon():
                   kill = pokemon.randattack(self)
         if self.return_hp() <= 0:
               output("Du hast verloren!")
-              return False
+              return False, pokemon.return_hp()
         else:
-            return True
+            return True, None
 
 class Choice():
     def __init__(self, optionen, canvas,module):
@@ -644,10 +644,11 @@ def arena(enemypokemon, level):
     allpoke = []
     for possesion in player.return_pokemon():
         allpoke.append(possesion.return_name())
+        hp = None
     while True:
         output("Wähle dein Pokemon!")
         window.update()
-        #Menü mit lokaler Liste(allpoke) liefert Auswahl des Spielers
+        #Menü mit lokaler Liste (allpoke) liefert Auswahl des Spielers
         pokemon = menu(allpoke)
         classpoke = None
         #Pokemon wird auf Besitz überprüft
@@ -659,8 +660,10 @@ def arena(enemypokemon, level):
                 design = Pokedesign(pokemon, c, "self", window)
                 window.update()
         #Kampf wird ausgeführt, wenn Spielerpokemon gewinnt...
-        if classpoke.fight(enemypokemon, level) == True:
+        print(hp)
+        ausgang, hp = classpoke.fight(enemypokemon, level, hp)
             #wird Kampf abgebrochen
+        if ausgang == True:
             break
         #ansonsten wird Pokemon aus der Auswahl entfernt und Kampf wird fortgeführt
         else:
@@ -680,10 +683,10 @@ def arena(enemypokemon, level):
 ################
 setting(setting1.return_all(), (0,0))
 ##################
-player.add_new_pokemon("Pikachu", 7698354987)
-player.add_new_pokemon("Raupy",5)
-player.add_new_pokemon("Schiggy", 5)
-player.add_new_pokemon("Raichu", 4)
+player.add_new_pokemon("Pikachu", 1)
+player.add_new_pokemon("Raupy",1)
+player.add_new_pokemon("Schiggy", 1)
+player.add_new_pokemon("Raichu", 1)
 player.add_item("Pokeball")
 player.add_item("Pokeball")
 player.add_item("Heiltrank")
