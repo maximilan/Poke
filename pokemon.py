@@ -1,10 +1,4 @@
-class Key():
-    def __init__(self):
-        self.current_key = None
-    def change_key(self, key):
-        self.current_key = key
-    def return_current_key(self):
-        return self.current_key
+
 ########################################################################
 kastengröße = 25
 kastengröße = 25
@@ -36,7 +30,7 @@ for i in range(len(zeilen)-1):
     tabelle.append(spalten)
 #Pokedex wrd gespeichert
 pokedex = tabelle
-        
+
 class Tile():
     def __init__(self, canvas, x, y,module):
         self.canvas = canvas
@@ -114,7 +108,7 @@ class Wildnis(Tile):
         self.function = "Wildnis"
         self.pokemon = pokemon
         self.pokemon_level = pokemon_level
-        
+
         for i in range(len(self.design)):
             self.canvas.itemconfig(self.design, fill = 'green')
         self.canvas.create_rectangle(x,y,x+25,y+6,fill="green4",outline="green4")
@@ -159,7 +153,7 @@ class Player():
         for i in range(len(x)):
             self.canvas.itemconfig(id1[x[i]-1], fill = 'black', outline = 'black')
             colors.append(x[i]-1)
-    
+
     def weiss(self,x):
         for i in range(len(x)):
             self.canvas.itemconfig(id1[x[i]-1], fill = 'white', outline = 'white')
@@ -242,7 +236,9 @@ class Player():
             if name in pokemon:
                 self.pokemon.append(Pokemon(name, level, pokemon[1]))
         self.write()
-    
+    def add_item(self, item):
+        self.items.append(item)
+        self.write()
     #Pokemon speichern
     def write(self):
          dateihandler = open("PlayerPoke", "w")
@@ -250,6 +246,13 @@ class Player():
          for pokemon in self.pokemon:
              dateihandler.write(pokemon.return_name()+";"+str(pokemon.return_level())+";"+str(pokemon.return_hp()))
              dateihandler.write("\n")
+         dateihandler.close()
+         dateihandler = open("Inventar", "w")
+         dateihandler.write("")
+         for item in self.items:
+             dateihandler.write(str(item))
+             dateihandler.write("\n")
+         dateihandler.close()
     def load_pokemon(self):
         dateihandler = open("PlayerPoke", "r")
         del self.pokemon[:]
@@ -257,11 +260,16 @@ class Player():
             id1 = line.rstrip()
             pokemon = id1.split(";")
             self.add_pokemon(pokemon[0], pokemon[1], pokemon[2])
-        '''dateihandler = open("Inventar", "r")
+        dateihandler.close()
+        dateihandler = open("Inventar", "r")
         del self.items[:]
         for line in dateihandler:
             id1 = line.rstrip()
-            self.items.append(str(id1))'''
+            self.items.append(str(id1))
+        dateihandler.close()
+    def return_items(self):
+        return self.items
+
 class Person():
     def __init__(self, canvas, x, y,module):
         self.canvas = canvas
@@ -279,7 +287,7 @@ class Person():
         output("Möchtest du kämpfen?")
         fight = menu(["Ja", "Nein"])
         if fight == "Ja":
-            
+
             arena()
             self.module.update()
         elif fight == "Nein":
@@ -340,7 +348,7 @@ class Pokemon():
         attack = randint(0, len(self.attackennamen)-1)
         attack = self.attackennamen[attack]
         return self.angriff(attack, pokemon)
-                  
+
     def fight(self, pokemon, level):
         pokemon = Pokemon(pokemon, level, None)
         kill = False
@@ -416,7 +424,7 @@ class Option():
         if coords in liste:
             self.directions.append("Right")
             self.links["Right"] = objects[liste.index(coords)]
-            
+
         coords = self.change_coords(-220, 0)
         if coords in liste:
             self.directions.append("Left")
@@ -504,6 +512,10 @@ if menu(["Ja", "Nein"]) == "Ja":
     #gespeicherte Dateien werden gelöscht
     dateihandler = open("PlayerPoke", "w")
     dateihandler.write("")
+    dateihandler.close()
+    dateihandler = open("Inventar", "w")
+    dateihandler.write("")
+    dateihandler.close()
 #################
 q1 = [1,1,1,1,1,1,1,1,1,1,1,0]
 q2 = [0,1,0,1,1,1,1,1,1,0,0,0]
@@ -563,7 +575,7 @@ def setting(liste, coords):
                 person = liste[2].pop(0)
                 id1.add_person(person)
                 liste[2].append(person)
-            #Portale erzeugen    
+            #Portale erzeugen
             if liste[0][i][f] == 2:
                 link = liste[len(liste)-1].pop(0)
                 linked_coords = liste[5].pop(0)
@@ -590,11 +602,31 @@ def inventar():
     global current_coords
     if current_key == "e":
         c.delete("all")
+        inventar_show()
+        print(player.return_items())
         window.update()
     if current_key == "q":
+        c.delete("all")
         setting(current_setting.return_all(),(current_coords[0], current_coords[1]))
 #####################################################################
-
+def inventar_show():
+    all = player.return_items()
+    pokeball = []
+    heiltrank = []
+    items = [pokeball, heiltrank]
+    for item in all:
+        if item == "Pokeball":
+            pokeball.append("Pokeball")
+        if item == "Heiltrank":
+            heiltrank.append("Heiltrank")
+    for item in items:
+        if (len(item)) == 0:
+            items.remove(item)
+    for i in range(0, len(items)):
+        c.create_rectangle(0, i * 150, 700, i * 150+100, fill = 'white')
+        c.create_text(100, i*150+50, text = items[i][0], font = ('Lato Black', 20))
+        c.create_text(600, i*150+50, text = "*  "+str(len(items[i])), font = ('Lato Black', 20))
+    window.update()
 def arena(enemypokemon, level):
     #Pokemon aktualisieren
     player.load_pokemon()
@@ -652,6 +684,9 @@ player.add_new_pokemon("Pikachu", 7698354987)
 player.add_new_pokemon("Raupy",5)
 player.add_new_pokemon("Schiggy", 5)
 player.add_new_pokemon("Raichu", 4)
+player.add_item("Pokeball")
+player.add_item("Pokeball")
+player.add_item("Heiltrank")
 ##################
 #Hauptschleife
 while True:
@@ -669,15 +704,3 @@ while True:
     current_key = None
     window.update()
     sleep(0.05)
-
-
-
-
-
-
-
-
-
-
-
-
