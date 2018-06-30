@@ -187,6 +187,8 @@ class Player():
         self.haut(trainerhaut)
         self.weiss(trainerweiss)
         self.rot(trainerrot)
+        for i in range(0, 25):
+            c.delete(id1.pop())
         self.design = id1
         self.current_tile = current_tile
         self.posibpoke = pokemon
@@ -527,7 +529,7 @@ p = [p1,p2,p3]
 speech = ["Hallo! Ich heiße Bob!"]
 pokemon = ["Schiggy"]
 level = 3
-coords = [(200, 0)]
+coords = [(200, 25)]
 setting2 = Setting(q,p,speech, pokemon, level,coords)
 setting1.link([setting2])
 setting2.link([setting1])
@@ -579,7 +581,7 @@ def setting(liste, coords):
         if (tile.return_coordinates()[0], tile.return_coordinates()[1]) == coords:
             #Spieler erstellen
             player = Player(c, tile.return_coordinates()[0], tile.return_coordinates()[1], tile, current_pokemon, window)
-            #player.load_pokemon()
+            player.load_pokemon()
             current_coords =  [tile.return_coordinates()[0], tile.return_coordinates()[1]]
             window.update()
 
@@ -590,7 +592,7 @@ def inventar():
         c.delete("all")
         window.update()
     if current_key == "q":
-        setting(current_setting.return_all(),current_coords)
+        setting(current_setting.return_all(),(current_coords[0], current_coords[1]))
 #####################################################################
 
 def arena(enemypokemon, level):
@@ -639,7 +641,7 @@ def arena(enemypokemon, level):
     player.write()
     #Setting wird wieder erstellt
     c.delete("all")
-    setting(current_setting.return_all(),current_coords)
+    setting(current_setting.return_all(),(current_coords[0], current_coords[1]))
 ##########################
 
 
@@ -663,6 +665,7 @@ while True:
         setting(current_setting.return_all(), coords)
         player.load_pokemon()
     player.move(current_key)
+    inventar()
     current_key = None
     window.update()
     sleep(0.05)
