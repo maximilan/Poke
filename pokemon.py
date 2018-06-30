@@ -566,7 +566,7 @@ p1 = [0,0,0,0,0,0,0,0,0,0,0,0]
 p2 = [0,0,0,0,0,0,0,0,0,0,0,0]
 p3 = [0,1,0,0,0,0,0,0,0,0,0,0]
 p = [p1,p2,p3]
-pokemon = ["Schiggy"]
+pokemon = ["Raichu"]
 speech = ["Hallo! Ich bin Tom"]
 level = 2
 coords = [(175, 25)]
@@ -625,7 +625,7 @@ def setting(liste, coords):
                 liste[5].append(linked_coords)
                 tiles.append(id1)
                 coordinates.append([x,y])
-               if liste[0][i][f] == 3:
+            if liste[0][i][f] == 3:
                 front = c.create_rectangle(x+2,y+2,x+48,y+48,fill="gray92",outline="gray92")
                 roof1 = c.create_rectangle(x+8,y+1,x+42,y+24,fill="light salmon",outline = "light salmon")
                 roof2 = c.create_rectangle(x+1,y+1,x+7,y+30,fill="tan1",outline="tan1")
@@ -640,10 +640,12 @@ def setting(liste, coords):
                 door = c.create_rectangle(x+10,y+38,x+17,y+48,fill="sienna3",outline="sienna3")
                 door2 = c.create_rectangle(x+12,y+40,x+15,y+43,fill="cornflower blue")
                 for q in range(1,5):
-                    c.create_rectangle(x+10,y+q*5,x+40,y+q*5+1,fill="red",outline="red")
+                        c.create_rectangle(x+10,y+q*5,x+40,y+q*5+1,fill="red",outline="red")
             if liste[0][i][f] == 4:
                 id1 = Floor_house(c,x,y,current_pokemon,current_level,window)
-            x += 25
+
+
+            
             x += 25
         y += 25
     #player = Player(c, playdata[0], playdata[1], playdata[2], current_pokemon,window)
@@ -687,6 +689,34 @@ def inventar_show():
         c.create_text(100, i*150+50, text = items[i][0], font = ('Lato Black', 20))
         c.create_text(600, i*150+50, text = "*  "+str(len(items[i])), font = ('Lato Black', 20))
     window.update()
+def pokeball():
+    graphics = list()
+    colors = list()
+    def red(x):
+        for i in range(len(x)):
+        c.itemconfig(graphics[x[i]-1], fill='red', outline = 'red')
+        colors.append(x[i]-1)
+    def white(x):
+        for i in range(len(x)):
+            c.itemconfig(graphics[x[i]-1], fill='white', outline = 'white')
+            colors.append(x[i]-1)
+    def black(x):
+        for i in range(len(x)):
+            c.itemconfig(graphics[x[i]-1], fill='black', outline = 'black')
+            colors.append(x[i]-1)
+    for i in range(0, 12):
+        for q in range(0, 12):
+            id1 = c.create_rectangle(0+q*5,i*5, 0+q*5+5,i*5+5, fill='black', outline='black')
+            graphics.append(id1)
+
+
+    rot[17,18,19,20,27,28,30,31,32,33,34,39,43,44,45,46,50,51,52,54,55,56,57,58,59,62,63,64,65,68,69,70,71,75,76,81,82]
+    weiß = [29,40,41,42,53,78,79,86,90,91,95,99,100,101,104,105,106,111,112,113,114,115,116,117,118,125,126,127,128]
+    schwarz = [5,6,7,8,15,16,21,22,26,35,38,47,49,60,61,72,73,74,77,80,83,84,85,87,88,89,92,93,94,96,98,102,103,107,110,119,123,124,129,130,137,138,139,140]
+    red(rot)
+    white(weiß)
+    black(schwarz)
+
 def arena(enemypokemon, level):
     #Pokemon aktualisieren
     player.load_pokemon()
