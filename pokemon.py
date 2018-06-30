@@ -372,25 +372,25 @@ class Pokemon():
         return self.angriff(attack, pokemon)
 
     def fight(self, pokemon, level, hp):
+        pokemon = Pokemon(pokemon, level, hp)
         while True:
-            pokemon = Pokemon(pokemon, level, hp)
-            choice = menu(["Kämpfen", "Pokemon wechseln", "Gegenstand einsetzen"])
+            choice = menu(["Kämpfen", "Pok. wechseln", "Gegenst. einsetz."])
             if choice == "Kämpfen":
                 kill = False
-                while kill != True:
-                    output("Wähle eine Attacke:")
-                    attacke = menu(self.return_attackennamen())
-                    kill = self.angriff(attacke, pokemon)
-                    if kill != True:
+                output("Wähle eine Attacke:")
+                attacke = menu(self.return_attackennamen())
+                kill = self.angriff(attacke, pokemon)
+                if kill != True:
                           kill = pokemon.randattack(self)
-                if self.return_hp() <= 0:
-                      output("Du hast verloren!")
-                      return False, pokemon.return_hp()
-                else:
-                    return True, None
-            elif choice == "Pokemon wechseln":
+                if kill == True:
+                    if self.return_hp() <= 0:
+                          output("Du hast verloren!")
+                          return False, pokemon.return_hp()
+                    else:
+                        return True, None
+            elif choice == "Pok. wechseln":
                 return "Wechseln", None
-            elif choice == "Gegenstand einsetzen":
+            elif choice == "Gegenst. einsetz.":
                 posib = list()
                 for option in player.return_itemnumber():
                     posib.append(option[0])
@@ -399,11 +399,17 @@ class Pokemon():
                     output("Du setzt ein Pokeball ein!")
                     for poke in pokedex:
                         if poke[0] == pokemon.return_name():
-                            print(poke[2] * (int(pokemon.return_hp())/int(poke[1]))*100)
-                            if randint(100, int(poke[2]) * (int(pokemon.return_hp())/int(poke[1]))*100):
+                            print(int(poke[2]))
+                            print(int(poke[2]) * round(pokemon.return_hp()/int(poke[1]), 0)*100)
+                            rand = randint(1, (int(poke[2]) * round(pokemon.return_hp()/int(poke[1]), 0)*100)+101)
+                            print(rand)
+                            if rand < 100:
                                 output(str(pokemon.return_name())+" wurde gefangen!")
+                                player.add_new_pokemon(pokemon.return_name(), pokemon.return_level())
+                                return "Gefangen", None
                             else:
                                 output(str(pokemon.return_name())+" konnte entkommen.")
+                                return "Wechseln", None
 
 class Choice():
     def __init__(self, optionen, canvas,module):
@@ -566,7 +572,7 @@ p1 = [0,0,0,0,0,0,0,0,0,0,0,0]
 p2 = [0,0,0,0,0,0,0,0,0,0,0,0]
 p3 = [0,1,0,0,0,0,0,0,0,0,0,0]
 p = [p1,p2,p3]
-pokemon = ["Raichu"]
+pokemon = ["Schiggy"]
 speech = ["Hallo! Ich bin Tom"]
 level = 2
 coords = [(175, 25)]
@@ -721,6 +727,7 @@ def pokeball1():
     white(weiß)
     black(schwarz)
 
+    window.update()
 def arena(enemypokemon, level):
     #Pokemon aktualisieren
     player.load_pokemon()
@@ -753,18 +760,19 @@ def arena(enemypokemon, level):
                 classpoke = possesion
                 #Pokemondesign wird geladen
                 design = Pokedesign(pokemon, c, "self", window)
-                design = design.return_design()
                 window.update()
         #Kampf wird ausgeführt, wenn Spielerpokemon gewinnt...
-        print(hp)
         ausgang, hp = classpoke.fight(enemypokemon, level, hp)
             #wird Kampf abgebrochen
         if ausgang == True:
             break
         #ansonsten wird Pokemon aus der Auswahl entfernt und Kampf wird fortgeführt
-        if ausgang == "Wechseln":
-            c.delete(design)
+        elif ausgang == "Wechseln":
+            design.delete()
             continue
+        elif ausgang == "Gefangen":
+            player.write()
+            break
         else:
             allpoke.remove(classpoke.return_name())
         #wenn keine Pokemon mehr zur Auswahl stehen...
@@ -784,7 +792,6 @@ setting(setting1.return_all(), (0,0))
 ##################
 player.add_new_pokemon("Pikachu", 1)
 player.add_new_pokemon("Raupy",1)
-player.add_new_pokemon("Schiggy", 1)
 player.add_new_pokemon("Raichu", 1)
 player.add_item("Pokeball")
 player.add_item("Pokeball")

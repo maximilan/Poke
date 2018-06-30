@@ -22,6 +22,10 @@ class Pokedesign():
                                 self.canvas.move(graphic, -400, 300)
         def return_design(self):
                 return self.graphic
+        def delete(self):
+                for graphic in self.graphic:
+                        self.canvas.delete(graphic)
+                self.module.update()
                 
 class Bisasam(Pokedesign):
         global colors
