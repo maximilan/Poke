@@ -685,17 +685,21 @@ def inventar_show():
         if (len(item)) == 0:
             items.remove(item)
     for i in range(0, len(items)):
+        pokeball1()
+        for q in range(len(graphics)):
+            c.move(graphics[q],300,30)
         c.create_rectangle(0, i * 150, 700, i * 150+100, fill = 'white')
         c.create_text(100, i*150+50, text = items[i][0], font = ('Lato Black', 20))
         c.create_text(600, i*150+50, text = "*  "+str(len(items[i])), font = ('Lato Black', 20))
     window.update()
-def pokeball():
+def pokeball1():
+    global graphics
     graphics = list()
     colors = list()
     def red(x):
         for i in range(len(x)):
-        c.itemconfig(graphics[x[i]-1], fill='red', outline = 'red')
-        colors.append(x[i]-1)
+            c.itemconfig(graphics[x[i]-1], fill='red', outline = 'red')
+            colors.append(x[i]-1)
     def white(x):
         for i in range(len(x)):
             c.itemconfig(graphics[x[i]-1], fill='white', outline = 'white')
@@ -706,13 +710,13 @@ def pokeball():
             colors.append(x[i]-1)
     for i in range(0, 12):
         for q in range(0, 12):
-            id1 = c.create_rectangle(0+q*5,i*5, 0+q*5+5,i*5+5, fill='black', outline='black')
+            id1 = c.create_rectangle(0+q*5,i*5, 0+q*5+5,i*5+5, fill='white', outline='white')
             graphics.append(id1)
 
 
-    rot[17,18,19,20,27,28,30,31,32,33,34,39,43,44,45,46,50,51,52,54,55,56,57,58,59,62,63,64,65,68,69,70,71,75,76,81,82]
+    rot = [17,18,19,20,27,28,30,31,32,33,34,39,43,44,45,46,50,51,52,54,55,56,57,58,59,62,63,64,65,68,69,70,71,75,76,81,82]
     weiß = [29,40,41,42,53,78,79,86,90,91,95,99,100,101,104,105,106,111,112,113,114,115,116,117,118,125,126,127,128]
-    schwarz = [5,6,7,8,15,16,21,22,26,35,38,47,49,60,61,72,73,74,77,80,83,84,85,87,88,89,92,93,94,96,98,102,103,107,110,119,123,124,129,130,137,138,139,140]
+    schwarz = [5,6,7,8,15,16,21,22,26,35,38,47,49,60,61,66,67,72,73,74,77,80,83,84,85,87,88,89,92,93,94,96,98,102,103,107,110,119,123,124,129,130,137,138,139,140]
     red(rot)
     white(weiß)
     black(schwarz)
