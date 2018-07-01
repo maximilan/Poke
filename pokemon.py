@@ -315,8 +315,8 @@ class Person():
         elif fight == "Nein":
             output("Ok. Vielleicht ein anderes mal!")
 class Setting():
-    def __init__(self, tiles, persons, speech, pokemon, level, coords):
-        self.all = [tiles, persons, speech,pokemon, level, coords]
+    def __init__(self, tiles, speech, pokemon, level, coords):
+        self.all = [tiles, speech,pokemon, level, coords]
     def return_all(self):
         everything = self.all
         return everything
@@ -564,34 +564,41 @@ if menu(["Ja", "Nein"]) == "Ja":
     dateihandler.write("")
     dateihandler.close()
 #################
-q1 = [1,1,1,1,1,1,1,1,1,1,1,0]
-q2 = [0,1,0,1,1,1,1,1,1,0,0,0]
-q3 = [0,1,1,1,0,0,0,0,2,0,0,0]
-q = [q1,q2,q3]
-p1 = [0,0,0,0,0,0,0,0,0,0,0,0]
-p2 = [0,0,0,0,0,0,0,0,0,0,0,0]
-p3 = [0,1,0,0,0,0,0,0,0,0,0,0]
-p = [p1,p2,p3]
+q1 = [0,0,0,0,0,0,0,0,0,0,0,0,0]
+q2 = [0,1,1,1,1,1,1,1,1,1,1,1,2]
+q3 = [0,1,1,1,1,1,1,1,1,0,0,0,0]
+q4 = [0,1,1,1,1,1,3,9,1,1,1,1,0]
+q5 = [0,1,1,1,1,1,9,9,1,1,4,1,0]
+q6 = [0,1,1,1,1,1,2,1,1,1,1,1,0]
+q7 = [0,0,0,0,0,0,0,0,0,0,0,0,0]
+q = [q1,q2,q3,q4,q5,q6, q7]
 pokemon = ["Schiggy"]
 speech = ["Hallo! Ich bin Tom"]
 level = 2
-coords = [(175, 25)]
-setting1 = Setting(q, p, speech, pokemon, level,coords)
-q1 = [0,1,1,1,1,1,0,2]
+coords = [(25, 0), (50, 0)]
+setting1 = Setting(q, speech, pokemon, level,coords)
+
+q1 = [2,1,1,1,1,1,1,1]
 q2 = [0,1,0,1,1,1,1,1]
 q3 = [0,1,1,1,1,1,1,1]
 q = [q1,q2,q3]
-p1 = [0,0,0,0,0,1,0,0]
-p2 = [0,0,0,0,0,0,0,0]
-p3 = [0,0,0,0,0,0,0,0]
-p = [p1,p2,p3]
 speech = ["Hallo! Ich heiße Bob!"]
 pokemon = ["Schiggy"]
 level = 3
-coords = [(200, 25)]
-setting2 = Setting(q,p,speech, pokemon, level,coords)
-setting1.link([setting2])
+coords = [(275, 25)]
+setting2 = Setting(q,speech, pokemon, level,coords)
+
+q1 = [2,5,5,5,5,5,5,5]
+q = [q1]
+pokemon = []
+speech = []
+level = None
+coords = [(175, 125)]
+setting3 = Setting(q, speech, pokemon, level, coords)
+
+setting1.link([setting2, setting3])
 setting2.link([setting1])
+setting3.link([setting1])
 ######################
 current_setting = setting1
 ######################
@@ -604,8 +611,8 @@ def setting(liste, coords):
     y = 0
     playdata = []
     #Pokemon aufnehmen
-    current_pokemon = liste[3]
-    current_level = liste[4]
+    current_pokemon = liste[2]
+    current_level = liste[3]
     for i in range(len(liste[0])):
         x = 0
         for f in range(len(liste[0][i])):
@@ -618,17 +625,20 @@ def setting(liste, coords):
             if liste[0][i][f] == 0:
                 id1 = Hindernis(c,x,y,window)
             #Personen erzeugen
-            if liste[1][i][f] == 1:
+            if liste[0][i][f] == 4:
+                id1 = Wildnis(c, x, y, current_pokemon, current_level,window)
                 person = liste[2].pop(0)
                 id1.add_person(person)
                 liste[2].append(person)
             #Portale erzeugen
             if liste[0][i][f] == 2:
+                print(liste[len(liste)-1])
                 link = liste[len(liste)-1].pop(0)
-                linked_coords = liste[5].pop(0)
+                print(link)
+                linked_coords = liste[4].pop(0)
                 id1 = Tür(c, x, y, link,tk, linked_coords)
                 liste[len(liste)-1].append(link)
-                liste[5].append(linked_coords)
+                liste[4].append(linked_coords)
                 tiles.append(id1)
                 coordinates.append([x,y])
             if liste[0][i][f] == 3:
@@ -647,7 +657,7 @@ def setting(liste, coords):
                 door2 = c.create_rectangle(x+12,y+40,x+15,y+43,fill="cornflower blue")
                 for q in range(1,5):
                         c.create_rectangle(x+10,y+q*5,x+40,y+q*5+1,fill="red",outline="red")
-            if liste[0][i][f] == 4:
+            if liste[0][i][f] == 5:
                 id1 = Floor_house(c,x,y,current_pokemon,current_level,window)
 
 
@@ -655,7 +665,6 @@ def setting(liste, coords):
             x += 25
         y += 25
     #player = Player(c, playdata[0], playdata[1], playdata[2], current_pokemon,window)
-    print(coords)
     for tile in tiles:
         tile.get_function(coordinates, tiles)
         if (tile.return_coordinates()[0], tile.return_coordinates()[1]) == coords:
@@ -788,9 +797,9 @@ def arena(enemypokemon, level):
 
 
 ################
-setting(setting1.return_all(), (0,0))
+setting(setting1.return_all(), (25,25))
 ##################
-player.add_new_pokemon("Pikachu", 1)
+player.add_new_pokemon("Pikachu", 12345678912345678)
 player.add_new_pokemon("Raupy",1)
 player.add_new_pokemon("Raichu", 1)
 player.add_item("Pokeball")
