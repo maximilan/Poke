@@ -151,45 +151,45 @@ class Player():
     def haut(self,x):
         for i in range(len(x)):
             self.canvas.itemconfig(id1[x[i]-1], fill = 'papaya whip', outline = 'papaya whip')
-            colors.append(x[i]-1)
+            colors.append(id1[x[i]-1])
     def rot(self,x):
         for i in range(len(x)):
             self.canvas.itemconfig(id1[x[i]-1], fill = 'red', outline = 'red')
-            colors.append(x[i]-1)
+            colors.append(id1[x[i]-1])
     def schwarz(self,x):
         for i in range(len(x)):
             self.canvas.itemconfig(id1[x[i]-1], fill = 'black', outline = 'black')
-            colors.append(x[i]-1)
+            colors.append(id1[x[i]-1])
 
     def weiss(self,x):
         for i in range(len(x)):
             self.canvas.itemconfig(id1[x[i]-1], fill = 'white', outline = 'white')
-            colors.append(x[i]-1)
+            colors.append(id1[x[i]-1])
     def green2(self,x):
         for i in range(len(x)):
             self.canvas.itemconfig(id1[x[i]-1], fill = 'green2', outline = 'green2')
-            colors.append(x[i]-1)
+            colors.append(id1[x[i]-1])
     def green4(self,x):
         for i in range(len(x)):
             self.canvas.itemconfig(id1[x[i]-1], fill = 'green4', outline = 'green4')
-            colors.append(x[i]-1)
+            colors.append(id1[x[i]-1])
     def __init__(self, canvas, x, y,current_tile, pokemon, window):
         global id1
         del id1[:]
-        colors = list()
+        global colors
+        del colors[:]
         self.canvas = canvas
         for q in range (0,25):
             for i in range (0,25):
                 id2 = self.canvas.create_rectangle(x+i*1,y+q*1,x+i*1+1,y+q*1+1,fill="red",outline="red")
                 id1.append(id2)
-        self.green4(trainergreen4)
-        self.green2(trainergreen2)
         self.schwarz(trainerblack)
         self.haut(trainerhaut)
         self.weiss(trainerweiss)
         self.rot(trainerrot)
-        for i in range(0, 25):
-            c.delete(id1.pop())
+        for item in id1:
+            if (item in colors) != True:
+                self.canvas.delete(item)
         self.design = id1
         self.current_tile = current_tile
         self.posibpoke = pokemon
