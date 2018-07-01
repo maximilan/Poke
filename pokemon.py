@@ -823,6 +823,7 @@ def arena(enemypokemon, level):
             player.write()
             break
         else:
+            design.delete()
             allpoke.remove(classpoke.return_name())
         #wenn keine Pokemon mehr zur Auswahl stehen...
         if len(allpoke) == 0:
