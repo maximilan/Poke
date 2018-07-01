@@ -575,7 +575,7 @@ q = [q1,q2,q3,q4,q5,q6, q7]
 pokemon = ["Schiggy"]
 speech = ["Hallo! Ich bin Tom"]
 level = 2
-coords = [(25, 0), (50, 0)]
+coords = [(25, 0), (25, 0)]
 setting1 = Setting(q, speech, pokemon, level,coords)
 
 q1 = [2,1,1,1,1,1,1,1]
@@ -589,11 +589,12 @@ coords = [(275, 25)]
 setting2 = Setting(q,speech, pokemon, level,coords)
 
 q1 = [2,5,5,5,5,5,5,5]
-q = [q1]
-pokemon = []
+q2 = [0,0,0,0,0,0,0,0]
+q = [q1,q2]
 speech = []
+pokemon = []
 level = None
-coords = [(175, 125)]
+coords = [(125, 125)]
 setting3 = Setting(q, speech, pokemon, level, coords)
 
 setting1.link([setting2, setting3])
@@ -613,6 +614,7 @@ def setting(liste, coords):
     #Pokemon aufnehmen
     current_pokemon = liste[2]
     current_level = liste[3]
+    print(len(liste[0]))
     for i in range(len(liste[0])):
         x = 0
         for f in range(len(liste[0][i])):
@@ -630,9 +632,10 @@ def setting(liste, coords):
                 person = liste[2].pop(0)
                 id1.add_person(person)
                 liste[2].append(person)
+                tiles.append(id1)
+                coordinates.append([x, y])
             #Portale erzeugen
             if liste[0][i][f] == 2:
-                print(liste[len(liste)-1])
                 link = liste[len(liste)-1].pop(0)
                 print(link)
                 linked_coords = liste[4].pop(0)
@@ -659,8 +662,8 @@ def setting(liste, coords):
                         c.create_rectangle(x+10,y+q*5,x+40,y+q*5+1,fill="red",outline="red")
             if liste[0][i][f] == 5:
                 id1 = Floor_house(c,x,y,current_pokemon,current_level,window)
-
-
+                tiles.append(id1)
+                coordinates.append([x, y])
             
             x += 25
         y += 25
@@ -669,6 +672,7 @@ def setting(liste, coords):
         tile.get_function(coordinates, tiles)
         if (tile.return_coordinates()[0], tile.return_coordinates()[1]) == coords:
             #Spieler erstellen
+            print("Halllllllllllllllllllllllooooooooooooo!")
             player = Player(c, tile.return_coordinates()[0], tile.return_coordinates()[1], tile, current_pokemon, window)
             player.load_pokemon()
             current_coords =  [tile.return_coordinates()[0], tile.return_coordinates()[1]]
