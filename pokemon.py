@@ -173,11 +173,7 @@ class Player():
         for i in range(len(x)):
             self.canvas.itemconfig(id1[x[i]-1], fill = 'green4', outline = 'green4')
             colors.append(x[i]-1)
-    def khaki1(self,x):
-        for i in range(len(x)):
-            self.canvas.itemconfig(id1[x[i]-1], fill = 'khaki1', outline = 'khaki1')
-            colors.append(x[i]-1)
-    def __init__(self, canvas, x, y,current_tile, pokemon, window,style):
+    def __init__(self, canvas, x, y,current_tile, pokemon, window):
         global id1
         del id1[:]
         colors = list()
@@ -186,12 +182,8 @@ class Player():
             for i in range (0,25):
                 id2 = self.canvas.create_rectangle(x+i*1,y+q*1,x+i*1+1,y+q*1+1,fill="red",outline="red")
                 id1.append(id2)
-        if style == "Wildnis":
-            self.green4(trainergreen4)
-            self.green2(trainergreen2)
-        if style == "House":
-            for i in range(len(id1)):
-                self.canvas.itemconfig(id1[i],fill="khaki3",outline="khaki3")
+        self.green4(trainergreen4)
+        self.green2(trainergreen2)
         self.schwarz(trainerblack)
         self.haut(trainerhaut)
         self.weiss(trainerweiss)
@@ -590,7 +582,7 @@ q1 = [2,1,1,1,1,1,1,1]
 q2 = [0,1,0,1,1,1,1,1]
 q3 = [0,1,1,1,1,1,1,1]
 q = [q1,q2,q3]
-speech = ["Hallo! Ich heiße Bob!"]
+speech = []
 pokemon = ["Schiggy"]
 level = 3
 coords = [(275, 25)]
@@ -637,9 +629,9 @@ def setting(liste, coords):
             #Personen erzeugen
             if liste[0][i][f] == 4:
                 id1 = Wildnis(c, x, y, current_pokemon, current_level,window)
-                person = liste[2].pop(0)
+                person = liste[1].pop(0)
                 id1.add_person(person)
-                liste[2].append(person)
+                liste[1].append(person)
                 tiles.append(id1)
                 coordinates.append([x, y])
             #Portale erzeugen
@@ -653,18 +645,14 @@ def setting(liste, coords):
                 tiles.append(id1)
                 coordinates.append([x,y])
             if liste[0][i][f] == 3:
-                #c.create_rectangle(x,y,x+50,y+6,fill="green4",outline="green4")
-                #c.create_rectangle(x,y+6,x+50,y+12,fill="green2",outline="green2")
-                #c.create_rectangle(x,y+12,x+50,y+18,fill="green4",outline="green4")
-                #c.create_rectangle(x,y+18,x+50,y+25,fill="green2",outline="green2")
                 front = c.create_rectangle(x+2,y+2,x+48,y+48,fill="gray92",outline="gray92")
                 roof1 = c.create_rectangle(x+8,y+1,x+42,y+24,fill="light salmon",outline = "light salmon")
                 roof2 = c.create_rectangle(x+1,y+1,x+7,y+30,fill="tan1",outline="tan1")
-                roof3 = c.create_polygon(x+1,y,x+1,y+6,x+6,y,fill="green4",outline="green4")
+                roof3 = c.create_polygon(x+1,y+1,x+1,y+6,x+6,y+1,fill="black",outline="black")
                 roof4 = c.create_polygon(x+1,y+31,x+8,y+31,x+8,y+24,fill="gray92",outline="gray92")
                 roof5 = c.create_rectangle(x+49,y+1,x+42,y+30,fill="salmon2",outline="salmon2")
                 roof6 = c.create_polygon(x+49,y+31,x+41,y+31,x+41,y+24,fill="gray92",outline="gray92")
-                roof7 = c.create_polygon(x+49,y,x+49,y+6,x+43,y,fill="green4",outline="green4")
+                roof7 = c.create_polygon(x+49,y+1,x+49,y+6,x+43,y+1,fill="black",outline="black")
                 window1 = c.create_rectangle(x+10,y+30,x+20,y+35,fill="cornflower blue",outline="cornflower blue")
                 window2 = c.create_rectangle(x+22,y+30,x+32,y+35,fill="cornflower blue",outline="cornflower blue")
                 window3 = c.create_rectangle(x+22,y+37,x+32,y+42,fill="cornflower blue",outline="cornflower blue")
@@ -685,7 +673,7 @@ def setting(liste, coords):
         if (tile.return_coordinates()[0], tile.return_coordinates()[1]) == coords:
             #Spieler erstellen
             print("Halllllllllllllllllllllllooooooooooooo!")
-            player = Player(c, tile.return_coordinates()[0], tile.return_coordinates()[1], tile, current_pokemon, window,"House")
+            player = Player(c, tile.return_coordinates()[0], tile.return_coordinates()[1], tile, current_pokemon, window)
             player.load_pokemon()
             current_coords =  [tile.return_coordinates()[0], tile.return_coordinates()[1]]
             window.update()
