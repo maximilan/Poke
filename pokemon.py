@@ -566,8 +566,8 @@ if menu(["Ja", "Nein"]) == "Ja":
 #################
 q1 = [0,0,0,0,0,0,0,0,0,0,0,0,0]
 q2 = [0,1,1,1,1,1,1,1,1,1,1,1,2]
-q3 = [0,1,1,1,1,1,1,1,1,0,0,0,0]
-q4 = [0,1,1,1,1,1,3,9,1,1,1,1,0]
+q3 = [0,1,1,1,0,1,1,1,1,0,0,0,0]
+q4 = [0,1,1,0,0,1,3,9,1,1,1,1,0]
 q5 = [0,1,1,1,1,1,9,9,1,1,4,1,0]
 q6 = [0,1,1,1,1,1,2,1,1,1,1,1,0]
 q7 = [0,0,0,0,0,0,0,0,0,0,0,0,0]
@@ -694,19 +694,25 @@ def inventar_show():
     all = player.return_items()
     pokeball = []
     heiltrank = []
-    items = [pokeball, heiltrank]
+    superball = []
+    items = [pokeball, heiltrank,superball]
     for item in all:
         if item == "Pokeball":
             pokeball.append("Pokeball")
         if item == "Heiltrank":
             heiltrank.append("Heiltrank")
+        if item == "Superball":
+            superball.append("Superball")
     for item in items:
         if (len(item)) == 0:
             items.remove(item)
     for i in range(0, len(items)):
         pokeball1()
+        superball1()
         for q in range(len(graphics)):
             c.move(graphics[q],300,30)
+        for p in range(len(supergraphics)):
+            c.move(supergraphics[p],300,400)
         c.create_rectangle(0, i * 150, 700, i * 150+100, fill = 'white')
         c.create_text(100, i*150+50, text = items[i][0], font = ('Lato Black', 20))
         c.create_text(600, i*150+50, text = "*  "+str(len(items[i])), font = ('Lato Black', 20))
@@ -741,6 +747,36 @@ def pokeball1():
     black(schwarz)
 
     window.update()
+def superball1():
+    global supergraphics
+    supergraphics = list()
+    colors = list()
+    def red(x):
+        for i in range(len(x)):
+            c.itemconfig(supergraphics[x[i]-1], fill='red', outline = 'red')
+            colors.append(x[i]-1)
+    def white(x):
+        for i in range(len(x)):
+            c.itemconfig(supergraphics[x[i]-1], fill='white', outline = 'white')
+            colors.append(x[i]-1)
+    def black(x):
+        for i in range(len(x)):
+            c.itemconfig(supergraphics[x[i]-1], fill='black', outline = 'black')
+            colors.append(x[i]-1)
+    def blue(x):
+        for i in range(len(x)):
+            c.itemconfig(supergraphics[x[i]-1], fill='blue2', outline = 'blue2')
+            colors.append(x[i]-1)
+    for i in range(0, 12):
+        for q in range(0, 12):
+            id1 = c.create_rectangle(0+q*5,i*5, 0+q*5+5,i*5+5, fill='white', outline='white')
+            supergraphics.append(id1)
+    schwarz = [5,6,7,8,15,16,21,22,26,35,38,47,49,60,61,72,73,84,85,96,98,107,110,119,123,124,129,130,137,138,139,140,66,67,74,77,80,83,87,88,89,92,93,94,102,103]
+    black(schwarz)
+    rot = [27,28,33,34,39,40,45,46,52,53,56,57,65,68]
+    red(rot)
+    blau = [17,18,19,20,29,30,31,32,41,42,43,44,50,51,54,55,58,59,62,63,64,69,70,71,75,76,81,82]
+    blue(blau)
 def arena(enemypokemon, level):
     #Pokemon aktualisieren
     player.load_pokemon()
