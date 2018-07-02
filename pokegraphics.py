@@ -1,5 +1,7 @@
 from tkinter import *
+
 from time import sleep
+
 class Pokedesign():
         def __init__(self, name, canvas, function, module):
                 self.canvas = canvas
@@ -12,6 +14,8 @@ class Pokedesign():
                         id1 = Schiggy(canvas)
                 elif name == "Raupy":
                         id1 = Raupy(canvas)
+                elif name == "Hornliu":
+                        id1 = Hornliu(canvas)
                 elif name == "Pikachu":
                         id1 = Pikachu(canvas)
                 elif name == "Raichu":
@@ -26,7 +30,7 @@ class Pokedesign():
                 for graphic in self.graphic:
                         self.canvas.delete(graphic)
                 self.module.update()
-                
+
 class Bisasam(Pokedesign):
         global colors
         colors = list()
@@ -221,6 +225,50 @@ class Raupy(Pokedesign):
             self.yellow(gelb)
             self.red(rot)
             self.lightgreen(hellgruen)
+class Hornliu(Pokedesign):
+        global colors
+        colors = list()
+        def black(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'black', outline = 'black')
+                colors.append(x[i]-1)
+        def gray(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'gray64', outline = 'gray64')
+                colors.append(x[i]-1)
+        def pink(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'maroon1', outline = 'maroon1')
+                colors.append(x[i]-1)
+        def brown(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'orange2', outline = 'orange2')
+                colors.append(x[i]-1)
+        def white(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'white', outline = 'white')
+                colors.append(x[i]-1)
+        def __init__(self,canvas):
+            self.graphic = list()
+            self.canvas = canvas
+            for i in range(0,18):
+                    for q in range(0,16):
+                            id1 = self.canvas.create_rectangle(540+q*5,110+i*5,540+q*5+5,110+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
+                            self.graphic.append(id1)
+            schwarz = [4,5,20,22,23,24,36,39,41,42,51,52,55,59,67,69,70,75,82,92,98,99,104,108,113,116,119,120,124,129,133,139,146,149,155,163,164,169,170,174,176,159,181,182,183,184,187,189,192]
+            schwarz2 = [197,203,205,207,214,218,220,222,231,232,233,238,248,253,254,264,268,269,281,282,283]
+            rosa = [114,115,130,131,132,147,148,198,201,266]
+            weiss = [103]
+            grau = [21,37,38,53,54,175,190,191,206]
+            braun = [40,56,57,58,68,71,72,73,74,83,84,85,86,87,88,89,90,91,100,101,102,105,106,107,117,118,121,122,134,135,136,123,137,138,150,151,152,153,154,165,166,167,168,185,186,199,200,202,215,216,217]
+            braun2 = [219,221,234,235,236,237,249,250,251,252,265,267]
+            self.black(schwarz)
+            self.black(schwarz2)
+            self.pink(rosa)
+            self.white(weiss)
+            self.gray(grau)
+            self.brown(braun)
+            self.brown(braun2)
 class Pikachu(Pokedesign):
         global colors
         colors = list()
