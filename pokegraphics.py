@@ -1,13 +1,13 @@
 from tkinter import *
-
 from time import sleep
-
 class Pokedesign():
         def __init__(self, name, canvas, function, module):
                 self.canvas = canvas
                 self.module = module
                 if name == "Bisasam":
                        id1 = Bisasam(canvas)
+                elif name == "Bisaknosp":
+                       id1 = Bisaknosp(canvas)
                 elif name == "Glumanda":
                         id1 = Glumanda(canvas)
                 elif name == "Schiggy":
@@ -30,7 +30,6 @@ class Pokedesign():
                 for graphic in self.graphic:
                         self.canvas.delete(graphic)
                 self.module.update()
-
 class Bisasam(Pokedesign):
         global colors
         colors = list()
@@ -68,6 +67,50 @@ class Bisasam(Pokedesign):
             dunkelgruen2 = [208,214,225,226,230,235,239,245,249,250,251,259,265,266,267,268,269,271,272,276,286,288,290,298,306,308,309,310,311,321,322,323,324,325,326,328,329,330,331,351]
             weiss = [283,284,304,350,352]
             rot = [282,303]
+            self.black(schwarz)
+            self.black(schwarz2)
+            self.lightgreen(hellgruen)
+            self.darkgreen(dunkelgruen)
+            self.darkgreen(dunkelgruen2)
+            self.red(rot)
+            self.white(weiss)
+class Bisaknosp(Pokedesign):
+        global colors
+        colors = list()
+        def lightgreen(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'lime green', outline = 'lime green')
+                colors.append(x[i]-1)
+        def black(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'black', outline = 'black')
+                colors.append(x[i]-1)
+        def darkgreen(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'forest green', outline = 'forest green')
+                colors.append(x[i]-1)
+        def red(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'firebrick1', outline = 'firebrick1')
+                colors.append(x[i]-1)
+        def white(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'white', outline = 'white')
+                colors.append(x[i]-1)
+        def __init__(self,canvas):
+            self.graphic = list()
+            self.canvas = canvas
+            for i in range(0,20):
+                    for q in range(0,22):
+                            id1 = self.canvas.create_rectangle(540+q*5,110+i*5,540+q*5+5,110+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
+                            self.graphic.append(id1)
+            schwarz = [12,13,33,34,36,54,57,59,60,61,73,74,75,79,81,84,92,94,97,100,103,104,105,107,113,115,118,119,120,124,128,129,135,138,139,143,144,145,146,147,148,149,152,157,159,162,163,164,167,171,172,173,174,320,341]
+            schwarz2 = [178,181,182,187,188,189,192,195,197,200,212,214,216,218,219,221,222,233,234,235,236,237,238,241,243,244,254,255,260,261,262,265,272,273,281,284,287,293,301,303,304,305,310,324,333,334,346,357,358,359,360,361,362,363,364,368,387,388,389,314]
+            hellgruen = [114,136,150,151,158,169,170,179,180,183,184,185,191,193,194,196,202,203,204,205,206,207,208,209,210,211,217,224,225,226,227,228,229,230,231,245,246,247,248,250,251,252,266,267,268,269,271,274,275,289,290,291,292,296,312,313]
+            dunkelgruen = [82,83,95,96,106,116,117,125,126,127,137,140,141,142,160,161,165,166,168,186,190,201,213,215,223,232,239,240,249,253,256,257,258,259,270,276,277,278,279,280,282,283,288,297,298,299,300,302,311,318,319,321,322,323,335,336,337,338,339,340]
+            dunkelgruen2 = [342,343,344,345,366]
+            rot = [35,55,56,58,76,77,78,80,98,99,101,102,121,122,123,294,315,316]
+            weiss = [295,317,365,367]
             self.black(schwarz)
             self.black(schwarz2)
             self.lightgreen(hellgruen)
@@ -215,16 +258,6 @@ class Raupy(Pokedesign):
                     for q in range(0,14):
                             id1 = self.canvas.create_rectangle(540+q*5,110+i*5,540+q*5+5,110+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
                             self.graphic.append(id1)
-            schwarz = [4,17,19,21,22,31,33,34,37,45,47,51,58,62,63,64,66,72,74,75,81,85,89,92,95,99,105,106,109,114,118,123,125,129,130,131,132,136,138,140,144,147,148,149,150,152,154,158,164,165,166,168,173,177,179,181,188,189,190,194,195,203,207,208,218,219,220]
-            weiss = [91]
-            gelb = [59,73,77,78,90,93,104,107,119,120]
-            rot = [18,32,35,36,46,48,49,50,60,61]
-            hellgruen = [88,100,101,103,115,117,139,145,146,153,159,160,161,162,167,174,175]
-            self.black(schwarz)
-            self.white(weiss)
-            self.yellow(gelb)
-            self.red(rot)
-            self.lightgreen(hellgruen)
 class Hornliu(Pokedesign):
         global colors
         colors = list()
