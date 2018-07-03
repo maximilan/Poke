@@ -557,10 +557,10 @@ current_coords = None
 output("Neues Spiel?")
 if menu(["Ja", "Nein"]) == "Ja":
     #gespeicherte Dateien werden gelöscht
-    dateihandler = open("PlayerPoke", "w")
+    dateihandler = open("PlayerPoke.txt", "w")
     dateihandler.write("")
     dateihandler.close()
-    dateihandler = open("Inventar", "w")
+    dateihandler = open("Inventar.txt", "w")
     dateihandler.write("")
     dateihandler.close()
 #################
@@ -811,7 +811,7 @@ def hyperball1():
     yellow(gelb)
     blau = [17,18,19,20,29,30,31,32,41,42,43,44,50,51,54,55,58,59,62,63,64,69,70,71,75,76,81,82]
     black(blau)
-    def arena(enemypokemon, level):
+def arena(enemypokemon, level):
     #Pokemon aktualisieren
     player.load_pokemon()
     #Alle Grafikobjekte löschen
