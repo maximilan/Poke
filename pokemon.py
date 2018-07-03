@@ -249,13 +249,13 @@ class Player():
         self.write()
     #Pokemon speichern
     def write(self):
-         dateihandler = open("PlayerPoke", "w")
+         dateihandler = open("PlayerPoke.txt", "w")
          dateihandler.write("")
          for pokemon in self.pokemon:
              dateihandler.write(pokemon.return_name()+";"+str(pokemon.return_level())+";"+str(pokemon.return_hp()))
              dateihandler.write("\n")
          dateihandler.close()
-         dateihandler = open("Inventar", "w")
+         dateihandler = open("Inventar.txt", "w")
          dateihandler.write("")
          for item in self.items:
              dateihandler.write(str(item))
@@ -273,14 +273,14 @@ class Player():
          del self.itemnumber[:]
          self.itemnumber = items
     def load_pokemon(self):
-        dateihandler = open("PlayerPoke", "r")
+        dateihandler = open("PlayerPoke.txt", "r")
         del self.pokemon[:]
         for line in dateihandler:
             id1 = line.rstrip()
             pokemon = id1.split(";")
             self.add_pokemon(pokemon[0], pokemon[1], pokemon[2])
         dateihandler.close()
-        dateihandler = open("Inventar", "r")
+        dateihandler = open("Inventar.txt", "r")
         del self.items[:]
         for line in dateihandler:
             id1 = line.rstrip()
