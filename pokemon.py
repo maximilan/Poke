@@ -781,7 +781,37 @@ def superball1():
     red(rot)
     blau = [17,18,19,20,29,30,31,32,41,42,43,44,50,51,54,55,58,59,62,63,64,69,70,71,75,76,81,82]
     blue(blau)
-def arena(enemypokemon, level):
+def hyperball1():
+    global hypergraphics
+    hypergraphics = list()
+    colors = list()
+    def yellow(x):
+        for i in range(len(x)):
+            c.itemconfig(supergraphics[x[i]-1], fill='yellow', outline = 'yellow')
+            colors.append(x[i]-1)
+    def white(x):
+        for i in range(len(x)):
+            c.itemconfig(supergraphics[x[i]-1], fill='white', outline = 'white')
+            colors.append(x[i]-1)
+    def black(x):
+        for i in range(len(x)):
+            c.itemconfig(supergraphics[x[i]-1], fill='black', outline = 'black')
+            colors.append(x[i]-1)
+    def blue(x):
+        for i in range(len(x)):
+            c.itemconfig(supergraphics[x[i]-1], fill='blue2', outline = 'blue2')
+            colors.append(x[i]-1)
+    for i in range(0, 12):
+        for q in range(0, 12):
+            id1 = c.create_rectangle(0+q*5,i*5, 0+q*5+5,i*5+5, fill='white', outline='white')
+            hypergraphics.append(id1)
+    schwarz = [5,6,7,8,15,16,21,22,26,35,38,47,49,60,61,72,73,84,85,96,98,107,110,119,123,124,129,130,137,138,139,140,66,67,74,77,80,83,87,88,89,92,93,94,102,103]
+    black(schwarz)
+    gelb = [27,28,33,34,39,40,45,46,52,53,56,57,65,68]
+    yellow(gelb)
+    blau = [17,18,19,20,29,30,31,32,41,42,43,44,50,51,54,55,58,59,62,63,64,69,70,71,75,76,81,82]
+    black(blau)
+    def arena(enemypokemon, level):
     #Pokemon aktualisieren
     player.load_pokemon()
     #Alle Grafikobjekte löschen
