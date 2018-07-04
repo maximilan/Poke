@@ -166,6 +166,56 @@ class Glumanda(Pokedesign):
             self.white(weiss)
             self.yellow(gelb)
             self.orange(orange2)
+class Glutexo(Pokedesign):
+        global colors
+        colors = list()
+        def yellow(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'yellow', outline = 'yellow')
+                colors.append(x[i]-1)
+        def black(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'black', outline = 'black')
+                colors.append(x[i]-1)
+        def gray(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'gray64', outline = 'gray64')
+                colors.append(x[i]-1)
+        def red(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'firebrick1', outline = 'firebrick1')
+                colors.append(x[i]-1)
+        def white(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'white', outline = 'white')
+                colors.append(x[i]-1)
+        def orange(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'orange', outline = 'orange')
+                colors.append(x[i]-1)
+        def __init__(self,canvas):
+            self.graphic = list()
+            self.canvas = canvas
+            for i in range(0,25):
+                    for q in range(0,22):
+                            id1 = self.canvas.create_rectangle(540+q*5,110+i*5,540+q*5+5,110+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
+                            self.graphic.append(id1)
+            schwarz = [15,36,38,58,60,75,76,79,83,96,99,101,106,117,121,123,128,137,138,142,146,149,158,163,164,168,171,179,187,191,194,201,205,208,214,217,222,226,231,236,240,243,247,248,254,255,259,262]
+            schwarz2 = [265,273,278,279,281,285,288,292,293,294,297,302,307,311,312,314,315,320,324,329,332,335,336,337,341,346,350,353,358,360,362,367,369,372,375,378,379,380,383,388,391,393,398,399,402,406,409,413,414,425,426,427,429,430,435,452,456,474,478,497,498,499]
+            rot = [37,59,80,81,82,102,104,105,124,126,127,148]
+            weiss = [227,249]
+            grau = [354,377,403,405,475,477]
+            gelb = [103,125,147,295,316,317,318,338,339,340,361]
+            orange1 = [97,98,118,119,120,139,140,141,159,160,161,162,169,170,180,181,182,183,184,185,186,192,193,202,203,204,206,207,215,216,223,224,225,228,229,230,237,238,239,244,245,246,250,251,252,253,260,261,266,267,268,269,270,271,272,274,275,276,277,282,283,284,289,290,291,296,298,299,300,301]
+            orange2 = [303,304,305,306,313,319,321,322,323,325,326,327,328,333,334,342,343,344,345,347,348,349,355,356,357,359,363,364,365,366,368,370,371,376,381,382,384,385,386,387,389,390,392,404,407,408,410,411,412,431,432,433,434,453,454,455,476]
+            self.black(schwarz)
+            self.black(schwarz2)
+            self.red(rot)
+            self.white(weiss)
+            self.gray(grau)
+            self.yellow(gelb)
+            self.orange(orange1)
+            self.orange(orange2)
 class Schiggy(Pokedesign):
         global colors
         colors = list()
