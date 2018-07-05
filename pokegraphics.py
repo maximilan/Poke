@@ -1,5 +1,6 @@
 from tkinter import *
 from time import sleep
+
 class Pokedesign():
         def __init__(self, name, canvas, function, module):
                 self.canvas = canvas
@@ -118,9 +119,13 @@ class Bisaknosp(Pokedesign):
             self.darkgreen(dunkelgruen2)
             self.red(rot)
             self.white(weiss)
-class Glumanda(Pokedesign):
+class Bisaflor(Pokedesign):
         global colors
         colors = list()
+        def lightgreen(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'lime green', outline = 'lime green')
+                colors.append(x[i]-1)
         def yellow(self,x):
             for i in range(len(x)):
                 self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'yellow', outline = 'yellow')
@@ -129,43 +134,61 @@ class Glumanda(Pokedesign):
             for i in range(len(x)):
                 self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'black', outline = 'black')
                 colors.append(x[i]-1)
-        def gray(self,x):
+        def darkgreen(self,x):
             for i in range(len(x)):
-                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'gray64', outline = 'gray64')
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'forest green', outline = 'forest green')
                 colors.append(x[i]-1)
         def red(self,x):
             for i in range(len(x)):
-                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'red', outline = 'red')
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'firebrick1', outline = 'firebrick1')
                 colors.append(x[i]-1)
         def white(self,x):
             for i in range(len(x)):
                 self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'white', outline = 'white')
                 colors.append(x[i]-1)
-        def orange(self,x):
+        def darkblue(self,x):
             for i in range(len(x)):
-                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'orange', outline = 'orange')
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'turquoise3', outline = 'turquoise3')
+                colors.append(x[i]-1)
+        def lightblue(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'turquoise1', outline = 'turquoise1')
+                colors.append(x[i]-1)
+        def gray(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'gray92', outline = 'gray92')
                 colors.append(x[i]-1)
         def __init__(self,canvas):
             self.graphic = list()
             self.canvas = canvas
-            for i in range(0,20):
-                    for q in range(0,20):
+            for i in range(0,22):
+                    for q in range(0,30):
                             id1 = self.canvas.create_rectangle(540+q*5,110+i*5,540+q*5+5,110+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
                             self.graphic.append(id1)
-            schwarz = [6,7,8,9,25,30,44,51,64,71,83,92,102,108,112,122,127,128,133,142,147,148,153,157,159,160,163,164,174,177,179,185,186,187,190,194,196,199,206,209,214,215,218,226,230,235,237,245,246,247]
-            schwarz2 = [255,256,266,267,268,274,275,288,289,290,293,294,309,314,330,331,332,333]
-            rot = [39,58,59,78,79,97,98,100,117,120,137,140]
-            gelb = [119,138,139,158,207,208,227,228,229,248,249,250,269,270]
-            weiss = [107,310,313]
-            orange = [26,27,28,29,45,46,47,48,49,50,65,66,67,68,69,70,84,85,86,87,88,89,90,91,99,103,104,105,106,109,110,111,118,123,124,125,126,129,130,131,132,143,144,145,146,149,150,151,152,165,166,167,168,169,170,171,172,173]
-            orange2 = [178,188,189,191,192,193,197,198,210,211,212,213,216,217,231,232,233,234,236,251,252,253,254,271,272,273,291,292,311,312]
-            self.orange(orange)
+            rot = [44,48,51,73,74,75,79,80,83,101,102,103,113,114,131,134,135,141,162,165,166,167,168,170,171,172,173,174,191,192,193,194,195,196,197,198,202,203,204,222,223,224,225,226,227,229,230,231,232,233,255,256,257,406,407,435,436,491]
+            gelb = [45,46,49,50,72,81,82,106,107,108,138,139,142,163,164,200,201]
+            schwarz = [14,15,16,18,19,20,21,42,43,47,52,53,71,76,77,78,84,100,104,105,109,110,111,112,115,130,132,133,136,137,140,143,144,145,159,160,161,169,175,188,190,199,205,215,217,218,219,220,221]
+            schwarz2 = [228,234,235,244,246,247,249,252,253,254,258,259,260,261,262,263,265,266,274,277,278,279,281,282,285,286,287,289,293,294,297,304,310,311,312,313,316,318,319,321,324,326,327,333]
+            schwarz3 = [344,345,346,347,348,350,351,353,355,357,362,378,382,383,385,387,391,392,408,410,414,415,416,421,422,437,441,445,451,461,462,467,469,471,474,482,490,500,502,503,512,513,519,526,530,543,546,555,556,561,574,575,583,584,585,591,606,607,608,609,610,611,612,616,620,647,648,649]
+            hellgruen = [189,248,250,280,283,295,296,322,323,325,354,356,384]
+            dunkelgruen = [251,264,284,288,290,291,292,314,315,317,320,352,386]
+            weiss = [492,520,521]
+            dunkelblau = [309,343,349,364,376,377,379,380,381,393,405,409,411,412,413,423,438,439,442,443,464,465,466,468,472,493,494,495,496,497,498,499,523,524,525,527,528,529,544,550,551,552,553,554,557,558,559,560,576,577,578,579,580,581,582,586,587,588,589,590,618]
+            hellblau = [245,275,276,305,306,307,308,334,335,336,337,338,339,340,341,342,363,365,366,367,368,369,370,371,372,373,374,375,394,395,396,397,398,399,400,401,402,403,404,424,425,426,427,428,429,430,431,432,433,434]
+            hellblau2 = [452,453,454,455,456,457,458,459,460,463,483,484,485,486,487,488,489,514,515,516,517,518,522,545,547,548,549]
+            grau = [444,473,617,619]
+            self.red(rot)
+            self.yellow(gelb)
             self.black(schwarz)
             self.black(schwarz2)
-            self.red(rot)
+            self.black(schwarz3)
+            self.lightgreen(hellgruen)
+            self.darkgreen(dunkelgruen)
             self.white(weiss)
-            self.yellow(gelb)
-            self.orange(orange2)
+            self.darkblue(dunkelblau)
+            self.lightblue(hellblau)
+            self.lightblue(hellblau2)
+            self.gray(grau)
 class Glutexo(Pokedesign):
         global colors
         colors = list()
