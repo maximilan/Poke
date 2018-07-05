@@ -9,6 +9,8 @@ class Pokedesign():
                        id1 = Bisasam(canvas)
                 elif name == "Bisaknosp":
                        id1 = Bisaknosp(canvas)
+                elif name == "Bisaflor":
+                       id1 == Bisaknosp(canvas)
                 elif name == "Glumanda":
                         id1 = Glumanda(canvas)
                 elif name == "Schiggy":
