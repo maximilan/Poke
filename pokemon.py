@@ -247,6 +247,8 @@ class Player():
     def add_item(self, item):
         self.items.append(item)
         self.write()
+    def remove_item(self, item):
+        self.items.remove(item)
     #Pokemon speichern
     def write(self):
          dateihandler = open("PlayerPoke.txt", "w")
@@ -391,18 +393,23 @@ class Pokemon():
             elif choice == "Pok. wechseln":
                 return "Wechseln", None
             elif choice == "Gegenst. einsetz.":
-                posib = list()
-                for option in player.return_itemnumber():
-                    posib.append(option[0])
+                posib = ["Pokeball", "Heiltrank"]
                 choice = menu(posib)
                 if choice == "Pokeball":
+                    if "Pokeball" not in player.return_items():
+                        output("Du besitzt keinen Pokeball mehr!")
+                        return "Wechseln", None
+                    names = []
+                    for poke in player.return_pokemon():
+                        names.append(poke.return_name())
+                    if pokemon.return_name() in names:
+                        output("Du besitzt " + pokemon.return_name() + " schon!.")
+                        return "Wechseln", None
                     output("Du setzt ein Pokeball ein!")
                     for poke in pokedex:
                         if poke[0] == pokemon.return_name():
-                            print(int(poke[2]))
-                            print(int(poke[2]) * round(pokemon.return_hp()/int(poke[1]), 0)*100)
                             rand = randint(1, (int(poke[2]) * round(pokemon.return_hp()/int(poke[1]), 0)*100)+101)
-                            print(rand)
+                            player.remove_item(choice)
                             if rand < 100:
                                 output(str(pokemon.return_name())+" wurde gefangen!")
                                 player.add_new_pokemon(pokemon.return_name(), pokemon.return_level())
@@ -750,7 +757,7 @@ def pokeball1():
     white(weiß)
     black(schwarz)
 
-    window.update()
+    
 def superball1():
     global supergraphics
     supergraphics = list()
