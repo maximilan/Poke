@@ -616,7 +616,7 @@ l = "Link"
 x = "Haus"
 k = "Kachel"
 q = [[h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h],
-     [h,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,l],
+     [h,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
      [h,f,w,w,w,w,w,w,w,w,w,f,h,h,h,h,h,h,h,h,h],
      [h,f,w,w,w,w,w,w,w,w,w,f,w,w,w,w,w,w,p,w,h],
      [h,f,w,w,w,w,w,w,x,n,f,f,w,w,w,w,w,w,w,w,h],
@@ -650,7 +650,7 @@ coords = [(200, 175)]
 personpokemon = [[None]]
 setting3 = Setting(q, speech, pokemon, level, coords, personpokemon)
 
-setting1.link([setting2, setting3])
+setting1.link([setting3])
 setting2.link([setting1])
 setting3.link([setting1])
 ######################
