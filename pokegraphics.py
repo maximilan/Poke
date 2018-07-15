@@ -6,11 +6,11 @@ class Pokedesign():
                 self.canvas = canvas
                 self.module = module
                 if name == "Bisasam":
-                       id1 = Bisasam(canvas)
+                        id1 = Bisasam(canvas)
                 elif name == "Bisaknosp":
-                       id1 = Bisaknosp(canvas)
+                        id1 = Bisaknosp(canvas)
                 elif name == "Bisaflor":
-                       id1 == Bisaflor(canvas)
+                        id1 = Bisaflor(canvas)
                 elif name == "Glumanda":
                         id1 = Glumanda(canvas)
                 elif name == "Schiggy":
@@ -23,6 +23,8 @@ class Pokedesign():
                         id1 = Pikachu(canvas)
                 elif name == "Raichu":
                         id1 = Raichu(canvas)
+                elif name == "Sandan":
+                        id1 = Sandan(canvas)
                 self.graphic = id1.return_design()
                 if function == "self":
                         for graphic in self.graphic:
@@ -485,3 +487,39 @@ class Raichu(Pokedesign):
             self.orange(orange1)
             self.lightyellow(hellgelb)
             self.lightbrown(hellbraun)
+class Sandan(Pokedesign):
+        global colors
+        colors = list()
+        def yellow(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'yellow', outline = 'yellow')
+                colors.append(x[i]-1)
+        def black(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'black', outline = 'black')
+                colors.append(x[i]-1)
+        def white(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'white', outline = 'white')
+                colors.append(x[i]-1)
+        def gray(self,x):
+            for i in range(len(x)):
+                self.canvas.itemconfig(self.graphic[x[i]-1], fill = 'gray64', outline = 'gray64')
+                colors.append(x[i]-1)
+        def __init__(self,canvas):
+            self.graphic = list()
+            self.canvas = canvas
+            for i in range(0,18):
+                    for q in range(0,20):
+                            id1 = self.canvas.create_rectangle(540+q*5,110+i*5,540+q*5+5,110+i*5+5,fill="SpringGreen4",outline="SpringGreen4")
+                            self.graphic.append(id1)
+            schwarz = [4,23,25,26,27,28,29,30,43,51,52,62,69,73,82,88,90,94,99,101,110,115,118,120,121,122,135,136,137,140,141,147,156,160,161,166,167,170,171,176,179,182,188,189,197,199,203,204,205,210,217,218,226,231,232,237,238,247,257,266,268,276,287,288,289,290,295,296,311,312,314,315,331,335,352,353,354]
+            weiss = [102,146,162,183,184,185,186,187,190,208,209,211,227,228,229,230,248,249,250,251,270,271,332,334]
+            gelb = [24,44,45,46,47,48,49,50,63,64,65,66,67,68,70,71,72,83,84,85,86,87,89,91,92,93,103,104,105,106,107,108,109,111,112,113,114,119,123,124,125,126,127,128,129,130,131,132,133,134,138,139,142,143,144,145,148,149,150,151,152,153,154,155,157,158,159]
+            gelb2 = [163,164,165,168,169,172,173,174,175,177,178,191,192,193,194,195,196,198,212,213,214,215,216,233,234,235,236,252,253,254,255,256,272,273,274,275,292,293,294,313,333]
+            grau = [206,207,267,269,291]
+            self.black(schwarz)
+            self.white(weiss)
+            self.yellow(gelb)
+            self.yellow(gelb2)
+            self.gray(grau)
