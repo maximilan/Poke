@@ -126,6 +126,14 @@ class Floor_house(Tile):
         self.pokemon = None
         self.canvas.create_rectangle(x,y,x+25,y+25,fill="khaki3",outline="khaki3")
         self.canvas.create_rectangle(x+5,y+5,x+20,y+20,fill="khaki1",outline="khaki1")
+class Weg(Tile):
+    def __init__(self, canvas, x, y, pokemon, pokemon_level,module):
+        self.module = module
+        super().__init__(canvas, x, y,module)
+        self.function = "Floor"
+        self.pokemon = None
+        self.canvas.create_rectangle(x,y,x+25,y+25,fill="ivory4",outline="ivory4")
+        self.canvas.create_rectangle(x+5,y+5,x+20,y+20,fill="ivory1",outline="ivory1")
 class Hindernis(Tile):
     def __init__(self, canvas, x, y,module):
         super().__init__(canvas, x, y,module)
@@ -600,14 +608,22 @@ if menu(["Ja", "Nein"]) == "Ja":
     dateihandler.close()
 #################
 n = None
-q1 = [0,0,0,0,0,0,0,0,0,0,0,0,0]
-q2 = [0,1,1,1,1,1,1,1,1,1,1,1,2]
-q3 = [0,1,1,1,0,1,1,1,1,0,0,0,0]
-q4 = [0,1,1,0,0,1,3,9,1,1,1,1,0]
-q5 = [0,1,1,1,1,1,9,9,1,1,4,n,0]
-q6 = [0,1,1,1,1,1,2,1,1,1,1,1,0]
-q7 = [0,0,0,0,0,0,0,0,0,0,0,0,0]
-q = [q1,q2,q3,q4,q5,q6, q7]
+f = "Weg"
+h = "Hindernis"
+w = "Wildnis"
+p = "Person"
+l = "Link"
+x = "Haus"
+k = "Kachel"
+q = [[h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h],
+     [h,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,l],
+     [h,f,w,w,w,w,w,w,w,w,w,f,h,h,h,h,h,h,h,h,h],
+     [h,f,w,w,w,w,w,w,w,w,w,f,w,w,w,w,w,w,p,w,h],
+     [h,f,w,w,w,w,w,w,x,n,f,f,w,w,w,w,w,w,w,w,h],
+     [h,f,f,f,f,f,w,w,n,n,f,w,w,w,w,w,w,w,w,w,h],
+     [h,h,h,h,h,f,h,h,l,h,f,w,w,w,w,w,w,w,w,w,h],
+     [h,h,h,h,h,f,f,f,f,f,f,h,h,h,h,h,h,h,h,h,h],
+     [h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h]]
 pokemon = ["Schiggy"]
 speech = ["Hallo! Ich bin Tom"]
 level = 2
@@ -626,13 +642,11 @@ coords = [(275, 25)]
 personpokemon = [[None]]
 setting2 = Setting(q,speech, pokemon, level,coords, personpokemon)
 
-q1 = [2,5,5,5,5,5,5,5]
-q2 = [0,0,0,0,0,0,0,0]
-q = [q1,q2]
+q = [[l,k,k,k,k,k,k,k]]
 speech = []
 pokemon = []
 level = None
-coords = [(125, 125)]
+coords = [(200, 175)]
 personpokemon = [[None]]
 setting3 = Setting(q, speech, pokemon, level, coords, personpokemon)
 
@@ -659,15 +673,19 @@ def setting(liste, coords):
         x = 0
         for f in range(len(liste[0][i])):
             #Tile erzeugen
-            if liste[0][i][f] == 1:
+            if liste[0][i][f] == "Wildnis":
                 id1 = Wildnis(c, x, y, current_pokemon, current_level,window)
                 tiles.append(id1)
                 coordinates.append([x, y])
             #Hindernis erzeugen
-            elif liste[0][i][f] == 0:
+            elif liste[0][i][f] == "Hindernis":
                 id1 = Hindernis(c,x,y,window)
+            elif liste[0][i][f] == "Weg":
+                id1 = Weg(c, x, y, current_pokemon, current_level, window)
+                tiles.append(id1)
+                coordinates.append([x, y])
             #Personen erzeugen
-            elif liste[0][i][f] == 4:
+            elif liste[0][i][f] == "Person":
                 id1 = Wildnis(c, x, y, current_pokemon, current_level,window)
                 personpokemon = liste[5].pop(0)
                 #print(personpokemon)
@@ -678,7 +696,7 @@ def setting(liste, coords):
                 tiles.append(id1)
                 coordinates.append([x, y])
             #Portale erzeugen
-            elif liste[0][i][f] == 2:
+            elif liste[0][i][f] == "Link":
                 link = liste[len(liste)-1].pop(0)
                 linked_coords = liste[4].pop(0)
                 id1 = Tuer(c, x, y, link,tk, linked_coords)
@@ -690,7 +708,7 @@ def setting(liste, coords):
                 liste[4].append(linked_coords)
                 tiles.append(id1)
                 coordinates.append([x,y])
-            elif liste[0][i][f] == 3:
+            elif liste[0][i][f] == "Haus":
                 front = c.create_rectangle(x+2,y+2,x+48,y+48,fill="gray92",outline="gray92")
                 roof1 = c.create_rectangle(x+8,y+1,x+42,y+24,fill="light salmon",outline = "light salmon")
                 roof2 = c.create_rectangle(x+1,y+1,x+7,y+30,fill="tan1",outline="tan1")
@@ -706,7 +724,7 @@ def setting(liste, coords):
                 door2 = c.create_rectangle(x+12,y+40,x+15,y+43,fill="cornflower blue")
                 for q in range(1,5):
                         c.create_rectangle(x+10,y+q*5,x+40,y+q*5+1,fill="red",outline="red")
-            elif liste[0][i][f] == 5:
+            elif liste[0][i][f] == "Kachel":
                 id1 = Floor_house(c,x,y,current_pokemon,current_level,window)
                 tiles.append(id1)
                 coordinates.append([x, y])
