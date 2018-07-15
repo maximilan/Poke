@@ -77,9 +77,12 @@ class Tile():
         return self.directions
     def return_linked_tile(self, direction):
         return self.neighbor_tiles[direction]
-    def add_person(self, speech):
-        self.person = Person(self.canvas, self.x+25, self.y,self.module)
+    def add_person(self, speech, pokemon):
+        pokemonlevel = pokemon.pop(0)
+        #print(pokemonlevel, pokemon)
+        self.person = Person(self.canvas, self.x+25, self.y,self.module, pokemonlevel, pokemon)
         self.person.set_speech(speech)
+        return self.person
     def return_persons(self):
         return self.person
     def persons(self):
@@ -295,7 +298,7 @@ class Player():
         return self.itemnumber
 
 class Person():
-    def __init__(self, canvas, x, y,module):
+    def __init__(self, canvas, x, y,module, level, pokemon):
         self.canvas = canvas
         id1 = self.canvas.create_rectangle(x, y, x+kastengröße, y+kastengröße, fill = 'purple')
         self.design = (id1)
@@ -303,6 +306,9 @@ class Person():
         self.x = x
         self.y = y
         self.module = module
+        self.level = level
+        self.pokemon = pokemon
+        #print(self.level, self.pokemon)
     def set_speech(self, speech):
         self.speech = speech
     def speak(self, player):
@@ -311,20 +317,47 @@ class Person():
         output("Möchtest du kämpfen?")
         fight = menu(["Ja", "Nein"])
         if fight == "Ja":
-
-            arena()
-            self.module.update()
+            if len(self.pokemon) > 0:
+                while len(self.pokemon) > 0:
+                    #Pokemon aktualisieren
+                    player.load_pokemon()
+                    #Alle Grafikobjekte löschen
+                    c.delete("all")
+                    #Design
+                    c.config(width=700,height=700)
+                    c.create_rectangle(0,0,700,700,fill="SpringGreen4",outline="SpringGreen4")
+                    c.create_line(0,57,700,607,fill="white")
+                    c.create_oval(290,290,460,420,fill="SpringGreen4",outline="white")
+                    c.create_polygon(610,0,700,0,700,70,fill="gray",outline="grey")
+                    output("Dein Gegner schickt ein " + self.pokemon[0] + ", Level " + str(self.level) + ".")
+                    enemypokemon = self.pokemon.pop(0)
+                    #print(enemypokemon)
+                    #print(self.pokemon)
+                    arena(enemypokemon, self.level)
+                    #print(self.pokemon)
+                output("Du hast deinen Gegner besiegt!")
+                setting_update()
+                #print(self.pokemon)
+            else:
+                output("Dein Gegner möchte nicht kämpfen. Probiere es ein anderes mal!")
         elif fight == "Nein":
             output("Ok. Vielleicht ein anderes mal!")
+    def return_enemypoke(self):
+        tupel = []
+        tupel.append(self.level)
+        for pokemon in self.pokemon:
+            tupel.append(pokemon)
+        return tupel
 class Setting():
-    def __init__(self, tiles, speech, pokemon, level, coords):
-        self.all = [tiles, speech,pokemon, level, coords]
+    def __init__(self, tiles, speech, pokemon, level, coords, playerpokemon):
+        self.all = [tiles, speech,pokemon, level, coords, playerpokemon]
     def return_all(self):
         everything = self.all
         return everything
     def link(self, link):
         self.all.append(link)
-
+    def update_personpokemon(self, new_personpokemon):
+        self.all[5] = new_personpokemon
 class Pokemon():
     def __init__(self, name, level, hp):
         self.name = name
@@ -553,6 +586,7 @@ setting3 = None
 ##########
 tiles = list()
 coordinates = list()
+persons = list()
 current_pokemon = []
 ############
 kastengröße = 25
@@ -584,7 +618,8 @@ pokemon = ["Schiggy"]
 speech = ["Hallo! Ich bin Tom"]
 level = 2
 coords = [(25, 0), (25, 0)]
-setting1 = Setting(q, speech, pokemon, level,coords)
+personpokemon = [[3,"Schiggy", "Sandan"]]
+setting1 = Setting(q, speech, pokemon, level,coords, personpokemon)
 
 q1 = [2,1,1,1,1,1,1,1]
 q2 = [0,1,0,1,1,1,1,1]
@@ -594,7 +629,8 @@ speech = []
 pokemon = ["Schiggy"]
 level = 3
 coords = [(275, 25)]
-setting2 = Setting(q,speech, pokemon, level,coords)
+personpokemon = [[None]]
+setting2 = Setting(q,speech, pokemon, level,coords, personpokemon)
 
 q1 = [2,5,5,5,5,5,5,5]
 q2 = [0,0,0,0,0,0,0,0]
@@ -603,7 +639,8 @@ speech = []
 pokemon = []
 level = None
 coords = [(125, 125)]
-setting3 = Setting(q, speech, pokemon, level, coords)
+personpokemon = [[None]]
+setting3 = Setting(q, speech, pokemon, level, coords, personpokemon)
 
 setting1.link([setting2, setting3])
 setting2.link([setting1])
@@ -617,6 +654,7 @@ def setting(liste, coords):
     global current_coords
     del tiles[:]
     del coordinates[:]
+    del persons[:]
     y = 0
     playdata = []
     #Pokemon aufnehmen
@@ -632,20 +670,22 @@ def setting(liste, coords):
                 tiles.append(id1)
                 coordinates.append([x, y])
             #Hindernis erzeugen
-            if liste[0][i][f] == 0:
+            elif liste[0][i][f] == 0:
                 id1 = Hindernis(c,x,y,window)
             #Personen erzeugen
-            if liste[0][i][f] == 4:
+            elif liste[0][i][f] == 4:
                 id1 = Wildnis(c, x, y, current_pokemon, current_level,window)
+                personpokemon = liste[5].pop(0)
+                #print(personpokemon)
                 person = liste[1].pop(0)
-                id1.add_person(person)
+                persons.append(id1.add_person(person, personpokemon))
                 liste[1].append(person)
+                liste[5].append(personpokemon)
                 tiles.append(id1)
                 coordinates.append([x, y])
             #Portale erzeugen
-            if liste[0][i][f] == 2:
+            elif liste[0][i][f] == 2:
                 link = liste[len(liste)-1].pop(0)
-                print(link)
                 linked_coords = liste[4].pop(0)
                 id1 = Tuer(c, x, y, link,tk, linked_coords)
                 c.create_rectangle(x,y,x+25,y+6,fill="green4",outline="green4")
@@ -656,7 +696,7 @@ def setting(liste, coords):
                 liste[4].append(linked_coords)
                 tiles.append(id1)
                 coordinates.append([x,y])
-            if liste[0][i][f] == 3:
+            elif liste[0][i][f] == 3:
                 front = c.create_rectangle(x+2,y+2,x+48,y+48,fill="gray92",outline="gray92")
                 roof1 = c.create_rectangle(x+8,y+1,x+42,y+24,fill="light salmon",outline = "light salmon")
                 roof2 = c.create_rectangle(x+1,y+1,x+7,y+30,fill="tan1",outline="tan1")
@@ -672,7 +712,7 @@ def setting(liste, coords):
                 door2 = c.create_rectangle(x+12,y+40,x+15,y+43,fill="cornflower blue")
                 for q in range(1,5):
                         c.create_rectangle(x+10,y+q*5,x+40,y+q*5+1,fill="red",outline="red")
-            if liste[0][i][f] == 5:
+            elif liste[0][i][f] == 5:
                 id1 = Floor_house(c,x,y,current_pokemon,current_level,window)
                 tiles.append(id1)
                 coordinates.append([x, y])
@@ -687,7 +727,6 @@ def setting(liste, coords):
             player = Player(c, tile.return_coordinates()[0], tile.return_coordinates()[1], tile, current_pokemon, window)
             player.load_pokemon()
             current_coords =  [tile.return_coordinates()[0], tile.return_coordinates()[1]]
-            window.update()
 
 #Dieser Bestandteil muss eine Funktion sein, da Klassen keine Events supporten
 def inventar():
@@ -874,7 +913,12 @@ def arena(enemypokemon, level):
     player.write()
     #Setting wird wieder erstellt
     c.delete("all")
+    setting_update()
     setting(current_setting.return_all(),(current_coords[0], current_coords[1]))
+def setting_update():
+    for person in persons:
+        tupel.append(person.return_enemypoke())
+    current_setting.update_personpokemon(tupel)
 ##########################
 
 
@@ -892,7 +936,9 @@ player.add_item("Heiltrank")
 while True:
     player.write()
     player.load_pokemon()
+    tupel = []
     if player.return_current_tile().return_function() == "Tür":
+        setting_update()
         c.delete("all")
         player.write()
         current_setting = player.return_current_tile().return_setting()
