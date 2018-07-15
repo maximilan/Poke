@@ -13,7 +13,7 @@ colors = list()
 from random import randint
 from time import sleep
 import tkinter as tk
-from tkinter import*
+from tkinter import *
 from pokegraphics import *
 #Pokedex wird eingelesen
 dateihandler = open('pokedex.csv')
@@ -78,7 +78,7 @@ class Tile():
     def return_linked_tile(self, direction):
         return self.neighbor_tiles[direction]
     def add_person(self, speech):
-        self.person = Person(self.canvas, self.x, self.y,self.module)
+        self.person = Person(self.canvas, self.x+25, self.y,self.module)
         self.person.set_speech(speech)
     def return_persons(self):
         return self.person
@@ -136,7 +136,7 @@ class Hindernis(Tile):
             self.canvas.create_oval(x-2,y+i*5,x+3,y+i*5+5,fill="green4",outline="green4")
             self.canvas.create_oval(x+27,y+i*5,x+22,y+i*5+5,fill="green4",outline="green4")
         self.canvas.create_rectangle(x,y,x+25,y+25,fill="green4",outline="green4")
-class Tür(Tile):
+class Tuer(Tile):
     def __init__(self, canvas, x, y, linked_setting,module, linked_coords):
         self.module = module
         super().__init__(canvas, x, y,module)
@@ -223,9 +223,9 @@ class Player():
                 if pokemon != None:
                     output("Ein wildes "+pokemon+" (Level "+str(self.current_tile.return_pokemon_level())+") erscheint.")
                     arena(pokemon, self.current_tile.return_pokemon_level())
-                #Mit Personen reden
-                if self.current_tile.persons() == True:
-                    self.current_tile.return_persons().speak(self)
+        #Mit Personen redenx
+        if self.current_tile.persons() == True and current_key == 't':
+                self.current_tile.return_persons().speak(self)
     def return_current_tile(self):
         return self.current_tile
     def return_posibpoke(self):
@@ -571,11 +571,12 @@ if menu(["Ja", "Nein"]) == "Ja":
     dateihandler.write("")
     dateihandler.close()
 #################
+n = None
 q1 = [0,0,0,0,0,0,0,0,0,0,0,0,0]
 q2 = [0,1,1,1,1,1,1,1,1,1,1,1,2]
 q3 = [0,1,1,1,0,1,1,1,1,0,0,0,0]
 q4 = [0,1,1,0,0,1,3,9,1,1,1,1,0]
-q5 = [0,1,1,1,1,1,9,9,1,1,4,1,0]
+q5 = [0,1,1,1,1,1,9,9,1,1,4,n,0]
 q6 = [0,1,1,1,1,1,2,1,1,1,1,1,0]
 q7 = [0,0,0,0,0,0,0,0,0,0,0,0,0]
 q = [q1,q2,q3,q4,q5,q6, q7]
@@ -646,7 +647,7 @@ def setting(liste, coords):
                 link = liste[len(liste)-1].pop(0)
                 print(link)
                 linked_coords = liste[4].pop(0)
-                id1 = Tür(c, x, y, link,tk, linked_coords)
+                id1 = Tuer(c, x, y, link,tk, linked_coords)
                 c.create_rectangle(x,y,x+25,y+6,fill="green4",outline="green4")
                 c.create_rectangle(x,y+6,x+25,y+12,fill="green2",outline="green2")
                 c.create_rectangle(x,y+12,x+25,y+18,fill="green4",outline="green4")
@@ -675,7 +676,7 @@ def setting(liste, coords):
                 id1 = Floor_house(c,x,y,current_pokemon,current_level,window)
                 tiles.append(id1)
                 coordinates.append([x, y])
-            
+
             x += 25
         y += 25
     #player = Player(c, playdata[0], playdata[1], playdata[2], current_pokemon,window)
@@ -683,7 +684,6 @@ def setting(liste, coords):
         tile.get_function(coordinates, tiles)
         if (tile.return_coordinates()[0], tile.return_coordinates()[1]) == coords:
             #Spieler erstellen
-            print("Halllllllllllllllllllllllooooooooooooo!")
             player = Player(c, tile.return_coordinates()[0], tile.return_coordinates()[1], tile, current_pokemon, window)
             player.load_pokemon()
             current_coords =  [tile.return_coordinates()[0], tile.return_coordinates()[1]]
@@ -757,7 +757,7 @@ def pokeball1():
     white(weiß)
     black(schwarz)
 
-    
+
 def superball1():
     global supergraphics
     supergraphics = list()
