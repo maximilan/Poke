@@ -308,12 +308,10 @@ class Person():
         self.module = module
         self.level = level
         self.pokemon = pokemon
-        #print(self.level, self.pokemon)
     def set_speech(self, speech):
         self.speech = speech
     def speak(self, player):
         output(self.speech)
-        #self.module = module
         output("Möchtest du kämpfen?")
         fight = menu(["Ja", "Nein"])
         if fight == "Ja":
@@ -331,13 +329,9 @@ class Person():
                     c.create_polygon(610,0,700,0,700,70,fill="gray",outline="grey")
                     output("Dein Gegner schickt ein " + self.pokemon[0] + ", Level " + str(self.level) + ".")
                     enemypokemon = self.pokemon.pop(0)
-                    #print(enemypokemon)
-                    #print(self.pokemon)
                     arena(enemypokemon, self.level)
-                    #print(self.pokemon)
                 output("Du hast deinen Gegner besiegt!")
                 setting_update()
-                #print(self.pokemon)
             else:
                 output("Dein Gegner möchte nicht kämpfen. Probiere es ein anderes mal!")
         elif fight == "Nein":
@@ -424,7 +418,7 @@ class Pokemon():
                     else:
                         return True, None
             elif choice == "Pok. wechseln":
-                return "Wechseln", None
+                return "Wechseln", pokemon.return_hp()
             elif choice == "Gegenst. einsetz.":
                 posib = ["Pokeball", "Heiltrank"]
                 choice = menu(posib)
