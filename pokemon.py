@@ -577,8 +577,7 @@ def output(inhalt):
 def menu(optionen):
     id1 = Choice(optionen, c, window)
     return id1.return_choice()
-pygame.mixer.music.load("opening.mp3")
-pygame.mixer.music.play()
+
 
 ################
 def movement(event):
