@@ -15,6 +15,8 @@ from time import sleep
 import tkinter as tk
 from tkinter import *
 from pokegraphics import *
+import pygame
+pygame.mixer.init()
 #Pokedex wird eingelesen
 dateihandler = open('pokedex.csv')
 
@@ -571,9 +573,13 @@ def output(inhalt):
         c.delete(item)
     window.update()
 ################
+
 def menu(optionen):
     id1 = Choice(optionen, c, window)
     return id1.return_choice()
+pygame.mixer.music.load("opening.mp3")
+pygame.mixer.music.play()
+
 ################
 def movement(event):
     global current_key
@@ -597,6 +603,8 @@ player = None
 current_coords = None
 ############
 #Frage nach neuem Spiel
+pygame.mixer.music.load("opening.mp3")
+pygame.mixer.music.play()
 output("Neues Spiel?")
 if menu(["Ja", "Nein"]) == "Ja":
     #gespeicherte Dateien werden gelöscht
@@ -606,6 +614,7 @@ if menu(["Ja", "Nein"]) == "Ja":
     dateihandler = open("Inventar.txt", "w")
     dateihandler.write("")
     dateihandler.close()
+pygame.mixer.music.pause()
 #################
 n = None
 f = "Weg"
