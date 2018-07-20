@@ -87,8 +87,15 @@ class Tile():
         return self.person
     def return_persons(self):
         return self.person
+    def return_healer(self):
+        return self.healer
     def persons(self):
         if self.person != None:
+            return True
+        else:
+            return False
+    def healer(self):
+        if self.healer != None:
             return True
         else:
             return False
@@ -240,6 +247,8 @@ class Player():
         #Mit Personen redenx
         if self.current_tile.persons() == True and current_key == 't':
                 self.current_tile.return_persons().speak(self)
+        if self.current_tile.healer() == True and current_key == 'h':
+                self.current_tile.speak()
     def return_current_tile(self):
         return self.current_tile
     def return_posibpoke(self):
@@ -381,6 +390,37 @@ class Person():
         for pokemon in self.pokemon:
             tupel.append(pokemon)
         return tupel
+class Heiler(Tile):
+    def __init__(self,canvas,x,y,module, player):
+        super().__init__(canvas,x,y,module)
+        self.canvas = canvas
+        self.x = x
+        self.y = y
+        self.module = module
+        self.canvas.create_rectangle(x,y,x+25,y+25,fill="black")
+        
+        self.player = player
+        self.module = module
+        self.speech = None
+        id1 = self.canvas.create_rectangle(x,y,x+25,y+25,fill="red")
+        self.design = (id1)
+    def speak(self):
+        output("Möchtest du eines deiner Pokemon heilen?")
+        heilung = menu(["Ja","Nein"])
+        if heilung == "Ja":
+            output("Welches deiner Pokemon möchtest du heilen?")
+ """           tabelle1  = []
+            pokemon1 = []
+            datei = open("PlayerPoke.txt","r")
+            inhalt = datei.read()
+            zeilen1 = p.split('\n')
+            for i in range(len(zeilen1)-1):
+                spalten1 = zeilen1[i].split(',')
+                tabelle1.append(spalten1)
+            for i in range(len(tabelle1)):
+                pokemon2 = tabelle[0][i]
+                pokemon1.append(pokemon2)
+            output(pokemon1)"""
 class Setting():
     def __init__(self, tiles, speech, pokemon, level, coords, playerpokemon):
         self.all = [tiles, speech,pokemon, level, coords, playerpokemon]
@@ -656,8 +696,9 @@ p = "Person"
 l = "Link"
 x = "Haus"
 k = "Kachel"
+he = "Heiler"
 q = [[h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h],
-     [h,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
+     [h,f,f,f,f,he,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
      [h,f,w,w,w,w,w,w,w,w,w,f,h,h,h,h,h,h,h,h,h],
      [h,f,w,w,w,w,w,w,w,w,w,f,w,w,w,w,w,w,p,n,h],
      [h,f,w,w,w,w,w,w,x,n,f,f,w,w,w,w,w,w,w,w,h],
@@ -771,7 +812,10 @@ def setting(liste, coords):
                 id1 = Floor_house(c,x,y,current_pokemon,current_level,window)
                 tiles.append(id1)
                 coordinates.append([x, y])
-
+            elif liste[0][i][f] == "Heiler":
+                id1 = Heiler(c,x,y,window,player)
+                coordinates.append([x, y])
+                tiles.append(id1)
             x += 25
         y += 25
     #player = Player(c, playdata[0], playdata[1], playdata[2], current_pokemon,window)
