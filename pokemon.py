@@ -323,7 +323,7 @@ class Player():
     def return_itemnumber(self):
         return self.itemnumber
 
-    def add_money(ammount):
+    def add_money(self, ammount):
         self.money += ammount
 
 class Person():
@@ -391,6 +391,7 @@ class Setting():
         self.all.append(link)
     def update_personpokemon(self, new_personpokemon):
         self.all[5] = new_personpokemon
+        print(self.all[5])
 class Pokemon():
     def __init__(self, name, level, hp):
         self.name = name
@@ -629,6 +630,7 @@ kastengröße = 25
 current_key = None
 player = None
 current_coords = None
+new_setting = False
 ############
 #Frage nach neuem Spiel
 pygame.mixer.music.load("opening.mp3")
@@ -640,7 +642,7 @@ if menu(["Ja", "Nein"]) == "Ja":
         dateihandler.write("")
     with open("Inventar.txt", "w") as dateihandler:
         dateihandler.write("")
-    
+
 pygame.mixer.music.pause()
 #################
 n = None
@@ -664,7 +666,7 @@ pokemon = ["Schiggy"]
 speech = ["Hallo! Ich bin Tom"]
 level = 2
 coords = [(25, 0), (25, 0)]
-personpokemon = [[3,"Schiggy", "Sandan"]]
+personpokemon = [(3,"Schiggy", "Sandan")]
 setting1 = Setting(q, speech, pokemon, level,coords, personpokemon)
 
 q1 = [2,1,1,1,1,1,1,1]
@@ -675,7 +677,7 @@ speech = []
 pokemon = ["Schiggy"]
 level = 3
 coords = [(275, 25)]
-personpokemon = [[None]]
+personpokemon = [(None)]
 setting2 = Setting(q,speech, pokemon, level,coords, personpokemon)
 
 q = [[l,k,k,k,k,k,k,k]]
@@ -683,7 +685,7 @@ speech = []
 pokemon = []
 level = None
 coords = [(200, 175)]
-personpokemon = [[None]]
+personpokemon = [(None)]
 setting3 = Setting(q, speech, pokemon, level, coords, personpokemon)
 
 setting1.link([setting3])
@@ -724,9 +726,11 @@ def setting(liste, coords):
             elif liste[0][i][f] == "Person":
                 id1 = Wildnis(c, x, y, current_pokemon, current_level,window)
                 personpokemon = liste[5].pop(0)
-                #print(personpokemon)
+                copy = []
+                for item in personpokemon:
+                    copy.append(item)
                 person = liste[1].pop(0)
-                persons.append(id1.add_person(person, personpokemon))
+                persons.append(id1.add_person(person, copy))
                 liste[1].append(person)
                 liste[5].append(personpokemon)
                 tiles.append(id1)
@@ -778,15 +782,15 @@ def setting(liste, coords):
 
 #Dieser Bestandteil muss eine Funktion sein, da Klassen keine Events supporten
 def inventar():
+    global new_setting
     global current_coords
     if current_key == "e":
         c.delete("all")
         inventar_show()
-        print(player.return_items())
         window.update()
     if current_key == "q":
         c.delete("all")
-        setting(current_setting.return_all(),(current_coords[0], current_coords[1]))
+        new_setting = True
 #####################################################################
 def inventar_show():
     all = player.return_items()
@@ -906,6 +910,7 @@ def hyperball1():
     blau = [17,18,19,20,29,30,31,32,41,42,43,44,50,51,54,55,58,59,62,63,64,69,70,71,75,76,81,82]
     black(blau)
 def arena(enemypokemon, level):
+    global new_setting
     #Pokemon aktualisieren
     player.load_pokemon()
     #Alle Grafikobjekte löschen
@@ -962,8 +967,13 @@ def arena(enemypokemon, level):
     #Setting wird wieder erstellt
     c.delete("all")
     setting_update()
-    setting(current_setting.return_all(),(current_coords[0], current_coords[1]))
+    new_setting = True
+    if ausgang == True:
+        return True
+    else:
+        return False
 def setting_update():
+    tupel = []
     for person in persons:
         tupel.append(person.return_enemypoke())
     current_setting.update_personpokemon(tupel)
@@ -982,6 +992,9 @@ player.add_item("Heiltrank")
 ##################
 #Hauptschleife
 while True:
+    if new_setting == True:
+        setting(current_setting.return_all(),(current_coords[0], current_coords[1]))
+        new_setting = False
     player.write()
     player.load_pokemon()
     tupel = []
