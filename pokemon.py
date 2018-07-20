@@ -937,6 +937,7 @@ def arena(enemypokemon, level):
                 #Pokemon wird unter Variable classpoke gespeichert
                 classpoke = possesion
                 #Pokemondesign wird geladen
+                print(pokemon)
                 design = Pokedesign(pokemon, c, "self", window)
                 window.update()
         #Kampf wird ausgeführt, wenn Spielerpokemon gewinnt...
