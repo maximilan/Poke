@@ -210,6 +210,7 @@ class Player():
         self.window = window
         self.items = []
         self.itemnumber= []
+        self.money = 0
     def beweg(self, x, y):
         for design in self.design:
             self.canvas.move(design, x, y)
@@ -287,6 +288,12 @@ class Player():
                  heiltrank.append("Heiltrank")
          del self.itemnumber[:]
          self.itemnumber = items
+
+         dateihandler = open("playerstats.txt", "w")
+         dateihandler.write("")
+         dateihandler.write(str(self.money))
+         dateihandler.write("\n")
+         dateihandler.close()
     def load_pokemon(self):
         dateihandler = open("PlayerPoke.txt", "r")
         del self.pokemon[:]
@@ -302,10 +309,22 @@ class Player():
             self.items.append(str(id1))
         dateihandler.close()
 
+        dateihandler = open("playerstats.txt", "r")
+        linecounter = 1
+        for line in dateihandler:
+            id1 = line.rstrip()
+            if linecounter == 1:
+                self.money = int(id1)
+            linecounter += 1
+        dateihandler.close()
+
     def return_items(self):
         return self.items
     def return_itemnumber(self):
         return self.itemnumber
+
+    def add_money(ammount):
+        self.money += ammount
 
 class Person():
     def __init__(self, canvas, x, y,module, level, pokemon):
@@ -326,6 +345,8 @@ class Person():
         fight = menu(["Ja", "Nein"])
         if fight == "Ja":
             if len(self.pokemon) > 0:
+                sieg = True
+                preis = (self.level * len(self.pokemon) * len(self.pokemon) * self.level)
                 while len(self.pokemon) > 0:
                     #Pokemon aktualisieren
                     player.load_pokemon()
@@ -339,8 +360,16 @@ class Person():
                     c.create_polygon(610,0,700,0,700,70,fill="gray",outline="grey")
                     output("Dein Gegner schickt ein " + self.pokemon[0] + ", Level " + str(self.level) + ".")
                     enemypokemon = self.pokemon.pop(0)
-                    arena(enemypokemon, self.level)
-                output("Du hast deinen Gegner besiegt!")
+                    if arena(enemypokemon, self.level) == False:
+                        self.pokemon.append(enemypokemon)
+                        sieg = False
+                        break
+                if sieg == True:
+                    output("Du hast deinen Gegner besiegt!")
+                    output("Du erhälst " + str(preis) + " ¥ als Belohnung!")
+                    player.add_money(preis)
+                else:
+                    output("Du wurdest besiegt. Probiere es ein anderes mal!")
                 setting_update()
             else:
                 output("Dein Gegner möchte nicht kämpfen. Probiere es ein anderes mal!")
@@ -626,7 +655,7 @@ k = "Kachel"
 q = [[h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h],
      [h,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
      [h,f,w,w,w,w,w,w,w,w,w,f,h,h,h,h,h,h,h,h,h],
-     [h,f,w,w,w,w,w,w,w,w,w,f,w,w,w,w,w,w,p,w,h],
+     [h,f,w,w,w,w,w,w,w,w,w,f,w,w,w,w,w,w,p,n,h],
      [h,f,w,w,w,w,w,w,x,n,f,f,w,w,w,w,w,w,w,w,h],
      [h,f,f,f,f,f,w,w,n,n,f,w,w,w,w,w,w,w,w,w,h],
      [h,h,h,h,h,f,h,h,l,h,f,w,w,w,w,w,w,w,w,w,h],
