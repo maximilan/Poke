@@ -1025,7 +1025,7 @@ def setting_update():
     for person in persons:
         tupel.append(person.return_enemypoke())
     current_setting.update_personpokemon(tupel)
-##########################
+#########################
 
 
 ################
