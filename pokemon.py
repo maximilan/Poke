@@ -929,8 +929,9 @@ def arena(enemypokemon, level):
     #lokal benötigte Liste, die mit allen Namen der Pokemons, die zur Auswahl stehen, gefüllt wird
     allpoke = []
     for possesion in player.return_pokemon():
-        allpoke.append(possesion.return_name())
-        hp = None
+        if possesion.return_hp() > 0:
+            allpoke.append(possesion.return_name())
+    hp = None
     while True:
         player.write()
         output("Wähle dein Pokemon!")
