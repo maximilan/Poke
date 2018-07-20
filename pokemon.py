@@ -636,12 +636,11 @@ pygame.mixer.music.play()
 output("Neues Spiel?")
 if menu(["Ja", "Nein"]) == "Ja":
     #gespeicherte Dateien werden gelöscht
-    dateihandler = open("PlayerPoke.txt", "w")
-    dateihandler.write("")
-    dateihandler.close()
-    dateihandler = open("Inventar.txt", "w")
-    dateihandler.write("")
-    dateihandler.close()
+    with open("PlayerPoke.txt", "w") as dateihandler:
+        dateihandler.write("")
+    with open("Inventar.txt", "w") as dateihandler:
+        dateihandler.write("")
+    
 pygame.mixer.music.pause()
 #################
 n = None
@@ -937,7 +936,6 @@ def arena(enemypokemon, level):
                 #Pokemon wird unter Variable classpoke gespeichert
                 classpoke = possesion
                 #Pokemondesign wird geladen
-                print(pokemon)
                 design = Pokedesign(pokemon, c, "self", window)
                 window.update()
         #Kampf wird ausgeführt, wenn Spielerpokemon gewinnt...
