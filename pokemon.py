@@ -605,7 +605,10 @@ def output(inhalt):
 ################
 
 def menu(optionen):
-    id1 = Choice(optionen, c, window)
+    while True:
+        id1 = Choice(optionen, c, window)
+        if id1.return_choice() != "":
+            break
     return id1.return_choice()
 
 
