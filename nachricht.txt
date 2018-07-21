@@ -1,1 +1,1 @@
-Seit ein paar Tagen
+Sobald das Setting nach dem Heilen neu geladen wird, sind die HP wieder die gleichen. Konnte die Ursache noch nicht finden.
