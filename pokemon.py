@@ -256,11 +256,9 @@ class Player():
                 current_coords[0] += 25
             self.window.update()
             #Pokemon suchen und bekämpfen
-            print(self.current_tile.return_function())
             function = self.current_tile.return_function()
             if function == "Wildnis" or function == "Meer" or function == "Strand":
                 pokemon = self.current_tile.check_pokemon(self.return_posibpoke())
-                print(pokemon)
                 if pokemon != None:
                     output("Ein wildes "+pokemon+" (Level "+str(self.current_tile.return_pokemon_level())+") erscheint.")
                     arena(pokemon, self.current_tile.return_pokemon_level())
