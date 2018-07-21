@@ -15,7 +15,9 @@ from time import sleep
 import tkinter as tk
 from tkinter import *
 from pokegraphics import *
+from csv import*
 import pygame
+import os
 pygame.mixer.init()
 #Pokedex wird eingelesen
 dateihandler = open('pokedex.csv')
@@ -409,18 +411,45 @@ class Heiler(Tile):
         heilung = menu(["Ja","Nein"])
         if heilung == "Ja":
             output("Welches deiner Pokemon möchtest du heilen?")
- """           tabelle1  = []
-            pokemon1 = []
             datei = open("PlayerPoke.txt","r")
-            inhalt = datei.read()
-            zeilen1 = p.split('\n')
-            for i in range(len(zeilen1)-1):
-                spalten1 = zeilen1[i].split(',')
-                tabelle1.append(spalten1)
-            for i in range(len(tabelle1)):
-                pokemon2 = tabelle[0][i]
-                pokemon1.append(pokemon2)
-            output(pokemon1)"""
+            p = datei.read()
+            tabelle = []
+            zeilen = p.split("\n")
+            for i in range(len(zeilen)):
+                spalten = zeilen[i].split(";")
+                tabelle.append(spalten)
+            pokemon = []
+            for i in range(len(tabelle)):
+                pokemon1 = tabelle[i][0]
+                pokemon.append(pokemon1)
+            choice = menu(pokemon)
+            if player.money == 0:
+                output("Du hast leider nicht genug Geld, um dein Pokemon zu heilen")
+            else:
+                player.add_money(-10)
+                max_hp = 0
+                with open("pokedex.csv") as p:
+                    f = p.read()
+                    zeilen1 = f.split("\n")
+                    tabelle1 = []
+                    for i in range(len(zeilen1)):
+                        spalten1 = zeilen1[i].split(",")
+                        tabelle1.append(spalten1)
+                    for i in range(len(tabelle1)):
+                        if choice == tabelle1[i][0]:
+                            max_hp = tabelle1[i][1]
+                for i in range(len(tabelle)):
+                    if choice == tabelle[i][0]:
+                        tabelle[i][2] = max_hp
+                print(tabelle)
+                os.remove("PlayerPoke.txt")
+                with open("PlayerPoke.txt","w") as p:
+                    for i in range(len(zeilen)-1):
+                        p.write(str(tabelle[i][0])+",")
+                        p.write(str(tabelle[i][1])+",")
+                        p.write(str(tabelle[i][2])+"\n")
+                output("Vielen Dank, dass du gekommen bist. Bis bald!")
+                    
 class Setting():
     def __init__(self, tiles, speech, pokemon, level, coords, playerpokemon):
         self.all = [tiles, speech,pokemon, level, coords, playerpokemon]
