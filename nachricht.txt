@@ -1,1 +1,1 @@
-Sobald das Setting nach dem Heilen neu geladen wird, sind die HP wieder die gleichen. Konnte die Ursache noch nicht finden.
+Liegt daran, dass die neuen Daten noch nicht gespeichert werden. Werde mich darum kümmern
