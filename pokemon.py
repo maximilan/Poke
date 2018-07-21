@@ -400,8 +400,8 @@ class Heiler(Person):
                 pass
                 for pokemon in player.return_pokemon():
                     pokemon.set_new_hp()
-                output("Deine Pokemon wurden geheilt.")
-                output("Bitte besuchen sie uns bald wieder!")
+                    output("Deine Pokemon wurden geheilt.")
+                    output("Bitte besuchen sie uns bald wieder!")
         else:
              output("Dann halt nicht!")
 
