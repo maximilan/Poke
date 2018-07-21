@@ -103,12 +103,13 @@ class Tile():
         return int(self.pokemon_level)
     def check_pokemon(self,posibpoke):
         pokemon = None
-        for i in range(len(pokedex)):
-            if pokedex[i][0] in posibpoke:
-               if randint(1, int(pokedex[i][2])) == 1:
-                   pokemon = pokedex[i][0]
-                   break
-        return pokemon
+        if (self.pokemon != None):
+            for i in range(len(pokedex)):
+                if pokedex[i][0] in posibpoke:
+                   if randint(1, int(pokedex[i][2])) == 1:
+                       pokemon = pokedex[i][0]
+                       break
+            return pokemon
     def return_coordinates(self):
         return self.coordinates
 class Wildnis(Tile):
@@ -137,7 +138,7 @@ class Weg(Tile):
     def __init__(self, canvas, x, y, pokemon, pokemon_level,module):
         self.module = module
         super().__init__(canvas, x, y,module)
-        self.function = "Floor"
+        self.function = "Weg"
         self.pokemon = None
         self.canvas.create_rectangle(x,y,x+25,y+25,fill="ivory4",outline="ivory4")
         self.canvas.create_rectangle(x+5,y+5,x+20,y+20,fill="ivory1",outline="ivory1")
@@ -165,6 +166,24 @@ class Tuer(Tile):
         return self.linked_coords
     def return_setting(self):
         return self.linked_setting
+class Meer(Tile):
+    def __init__(self, canvas, x, y,pokemon, pokemon_level, module):
+        self.module = module
+        super().__init__(canvas, x, y,module)
+        self.function = "Meer"
+        self.pokemon = pokemon
+        self.pokemon_level = pokemon_level
+        c.create_rectangle(x,y,x+25,y+25,fill="dodger blue", outline="dodger blue")
+class Strand(Tile):
+    def __init__(self, canvas, x, y,pokemon, pokemon_level, module):
+        self.module = module
+        super().__init__(canvas, x, y,module)
+        self.function = "Strand"
+        self.pokemon = pokemon
+        self.pokemon_level = pokemon_level
+        c.create_rectangle(x,y,x+25,y+25,fill="light goldenrod yellow", outline="light goldenrod yellow")
+
+
 class Player():
     def haut(self,x):
         for i in range(len(x)):
@@ -237,12 +256,15 @@ class Player():
                 current_coords[0] += 25
             self.window.update()
             #Pokemon suchen und bekämpfen
-            if self.current_tile.return_function() == "Wildnis":
+            print(self.current_tile.return_function())
+            function = self.current_tile.return_function()
+            if function == "Wildnis" or function == "Meer" or function == "Strand":
                 pokemon = self.current_tile.check_pokemon(self.return_posibpoke())
+                print(pokemon)
                 if pokemon != None:
                     output("Ein wildes "+pokemon+" (Level "+str(self.current_tile.return_pokemon_level())+") erscheint.")
                     arena(pokemon, self.current_tile.return_pokemon_level())
-        #Mit Personen redenx
+        #Mit Personen reden
         if self.current_tile.persons() == True and current_key == 't':
                 self.current_tile.return_persons().speak(player)
     def return_current_tile(self):
@@ -862,10 +884,12 @@ def setting(liste, coords):
                 coordinates.append([x, y])
                 tiles.append(id1)
             elif liste[0][i][f] == "Meer":
-                id1 = c.create_rectangle(x,y,x+25,y+25,fill="dodger blue", outline="dodger blue")
+                id1 = Meer(c, x, y, current_pokemon, current_level,window)
+                tiles.append(id1)
                 coordinates.append([x,y])
             elif liste[0][i][f] == "Strand":
-                id1 = c.create_rectangle(x,y,x+25,y+25,fill="light goldenrod yellow", outline="light goldenrod yellow")
+                id1 = Strand(c, x, y, current_pokemon, current_level,window)
+                tiles.append(id1)
                 coordinates.append([x,y])
             x += 25
         y += 25
