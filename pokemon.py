@@ -398,6 +398,7 @@ class Heiler(Person):
             if player.money < 10:
                 output("Du hast leider nicht genug Geld!")
                 pass
+            else:
                 for pokemon in player.return_pokemon():
                     pokemon.set_new_hp()
                     output("Deine Pokemon wurden geheilt.")
