@@ -395,6 +395,9 @@ class Heiler(Person):
         output("Möchtest du eines deiner Pokemon heilen?")
         heilung = menu(["Ja","Nein"])
         if heilung == "Ja":
+            if player.money < 10:
+                output("Di hast leider nicht genug Geld!")
+                break
  #           output("Welches deiner Pokemon möchtest du heilen?")
              for pokemon in player.return_pokemon():
                 pokemon.set_new_hp()
@@ -402,18 +405,7 @@ class Heiler(Person):
              output("Bitte besuchen sie uns bald wieder!")
         else:
              output("Dann halt nicht!")
- #      tabelle1  = []
-#          pokemon1 = []
-#            datei = open("PlayerPoke.txt","r")
-#            inhalt = datei.read()
-#            zeilen1 = p.split('\n')
-#            for i in range(len(zeilen1)-1):
-#                spalten1 = zeilen1[i].split(',')
-#                tabelle1.append(spalten1)
-#            for i in range(len(tabelle1)):
-#                pokemon2 = tabelle[0][i]
-#                pokemon1.append(pokemon2)
-#            output(pokemon1)'''
+
 
 class Setting():
     def __init__(self, tiles, speech, pokemon, level, coords, playerpokemon):
@@ -631,6 +623,7 @@ def output(inhalt):
     design.append(id2)
     window.update()
     current_key = None
+    sleep(0.5)
     while True:
         window.update()
         if current_key == "Return" or current_key == "z":
