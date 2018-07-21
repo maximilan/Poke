@@ -489,7 +489,7 @@ class Pokemon():
     def set_new_hp(self):
         for i in range(len(pokedex)):
             if self.name in pokedex[i]:
-                self.hp = int(pokedex[i][1]) + int(self.level-1) * 10
+                self.hp = int(pokedex[i][1]) + int(self.level)-1 * 10
     def angriff(self, attacke, pokemon):
         if attacke in self.attackennamen:
             stärke = int(self.return_attackenstärke(attacke))
@@ -730,6 +730,8 @@ x = "Haus"
 k = "Kachel"
 he = "Heiler"
 v = "Verkäufer"
+m = "Meer"
+s = "Strand"
 q = [[h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h],
      [h,f,f,f,f,he,n,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
      [h,f,w,w,f,f,f,f,w,w,w,f,h,h,h,h,h,h,h,h,h],
@@ -737,8 +739,13 @@ q = [[h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h],
      [h,f,w,w,w,w,w,w,x,n,f,f,w,w,w,w,w,w,w,w,h],
      [h,f,f,f,f,f,w,w,n,n,f,w,w,w,w,w,w,w,w,w,h],
      [h,h,h,h,h,f,h,h,l,h,f,w,w,w,w,w,w,w,w,w,h],
-     [h,h,h,h,h,f,f,f,f,f,f,h,h,h,h,h,h,h,h,h,h],
-     [h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h]]
+     [h,h,h,h,h,f,f,f,f,f,f,h,h,h,w,h,h,h,h,h,h],
+     [h,h,h,h,h,h,h,h,h,h,h,h,h,h,w,h,h,h,h,h,h],
+     [s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s],
+     [s,s,s,s,s,s,s,s,s,s,s,s,m,m,m,m,m,m,m,m,m],
+     [s,s,s,s,s,s,s,m,m,m,m,m,m,m,m,m,m,m,m,m,m],
+     [s,s,s,s,s,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m],
+     [m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m]]
 pokemon = ["Schiggy"]
 speech = ["Hallo! Ich bin Tom"]
 level = 2
@@ -854,6 +861,12 @@ def setting(liste, coords):
                 id1.add_seller()
                 coordinates.append([x, y])
                 tiles.append(id1)
+            elif liste[0][i][f] == "Meer":
+                id1 = c.create_rectangle(x,y,x+25,y+25,fill="dodger blue", outline="dodger blue")
+                coordinates.append([x,y])
+            elif liste[0][i][f] == "Strand":
+                id1 = c.create_rectangle(x,y,x+25,y+25,fill="light goldenrod yellow", outline="light goldenrod yellow")
+                coordinates.append([x,y])
             x += 25
         y += 25
     #player = Player(c, playdata[0], playdata[1], playdata[2], current_pokemon,window)
