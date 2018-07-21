@@ -489,7 +489,7 @@ class Pokemon():
     def set_new_hp(self):
         for i in range(len(pokedex)):
             if self.name in pokedex[i]:
-                self.hp = int(pokedex[i][1]) + int(self.level) * 10
+                self.hp = int(pokedex[i][1]) + int(self.level-1) * 10
     def angriff(self, attacke, pokemon):
         if attacke in self.attackennamen:
             stärke = int(self.return_attackenstärke(attacke))
