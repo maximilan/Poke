@@ -396,13 +396,12 @@ class Heiler(Person):
         heilung = menu(["Ja","Nein"])
         if heilung == "Ja":
             if player.money < 10:
-                output("Di hast leider nicht genug Geld!")
-                break
- #           output("Welches deiner Pokemon möchtest du heilen?")
-             for pokemon in player.return_pokemon():
-                pokemon.set_new_hp()
-             output("Deine Pokemon wurden geheilt.")
-             output("Bitte besuchen sie uns bald wieder!")
+                output("Du hast leider nicht genug Geld!")
+                pass
+                for pokemon in player.return_pokemon():
+                    pokemon.set_new_hp()
+                output("Deine Pokemon wurden geheilt.")
+                output("Bitte besuchen sie uns bald wieder!")
         else:
              output("Dann halt nicht!")
 
