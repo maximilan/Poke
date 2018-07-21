@@ -10,6 +10,7 @@ trainergreen2 = [451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463
 trainerrot = [210,211,212,213,214,215,234,235,236,237,238,239,240,241,259,260,261,262,263,264,265,266,285,290,412,413,485,486,489,490,509,512,513,516,534,535,536,539,540,541]
 id1 = list()
 colors = list()
+preisliste = {"Pokeball": 50, "Heiltrank":15, "Superball":150}
 from random import randint
 from time import sleep
 import tkinter as tk
@@ -87,6 +88,8 @@ class Tile():
         return self.person
     def add_healer(self):
         self.person = Heiler(c, self.x+25,self.y, self.module)
+    def add_seller(self):
+        self.person = Verkäufer(c, self.x+25, self.y, self.module)
     def return_persons(self):
         return self.person
     def persons(self):
@@ -405,6 +408,44 @@ class Heiler(Person):
                     output("Bitte besuchen sie uns bald wieder!")
         else:
              output("Dann halt nicht!")
+        current_key = None
+
+class Verkäufer(Person):
+    def __init__(self, canvas, x, y, module):
+        super().__init__(canvas, x, y,module, None, None)
+        id1 = self.canvas.create_rectangle(x, y, x+kastengröße, y+kastengröße, fill = 'blue')
+        self.design = (id1)
+    def speak(self, player):
+        buy = True
+        preis = 0
+        output("Willkommen im PokeMarkt!")
+        while True:
+            output("Sie besitzen "+str(player.money)+" ¥.")
+            output("Was möchten sie erwerben?")
+            choice = menu(["Pokeball", "Heiltrank", "Superball"])
+            output("Ihr gewählter Gegenstand kostet "+str(preisliste[choice])+" ¥.")
+            if preisliste[choice] > player.money:
+                output("Sie besitzen nicht genügend Geld!")
+                output("Wollen Sie weiter einkaufen?")
+                newchoice = menu(["Ja", "Nein"])
+                if newchoice == "Ja":
+                    continue
+                else:
+                    break
+            output("Wollen Sie diesen Gegenstand kaufen?")
+            newchoice = menu(["Ja", "Nein"])
+            if newchoice == "Ja":
+                output("Ihr Gegenstand befindet sich in Ihrem Inventar.")
+                player.add_item(choice)
+
+            else:
+                output("Dann halt nicht.")
+            output("Wollen Sie weiter einkaufen?")
+            newchoice = menu(["Ja", "Nein"])
+            if newchoice == "Ja":
+                continue
+            else:
+                break
 
 
 class Setting():
@@ -688,10 +729,11 @@ l = "Link"
 x = "Haus"
 k = "Kachel"
 he = "Heiler"
+v = "Verkäufer"
 q = [[h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h],
      [h,f,f,f,f,he,n,f,f,f,f,f,f,f,f,f,f,f,f,f,f],
      [h,f,w,w,f,f,f,f,w,w,w,f,h,h,h,h,h,h,h,h,h],
-     [h,f,w,w,w,w,w,w,w,w,w,f,w,w,w,w,w,w,p,n,h],
+     [h,f,w,w,w,v,n,w,w,w,w,f,w,w,w,w,w,w,p,n,h],
      [h,f,w,w,w,w,w,w,x,n,f,f,w,w,w,w,w,w,w,w,h],
      [h,f,f,f,f,f,w,w,n,n,f,w,w,w,w,w,w,w,w,w,h],
      [h,h,h,h,h,f,h,h,l,h,f,w,w,w,w,w,w,w,w,w,h],
@@ -807,6 +849,11 @@ def setting(liste, coords):
                 id1.add_healer()
                 coordinates.append([x, y])
                 tiles.append(id1)
+            elif liste[0][i][f] == "Verkäufer":
+                id1 = Wildnis(c, x, y, current_pokemon, current_level, window)
+                id1.add_seller()
+                coordinates.append([x, y])
+                tiles.append(id1)
             x += 25
         y += 25
     #player = Player(c, playdata[0], playdata[1], playdata[2], current_pokemon,window)
@@ -817,7 +864,6 @@ def setting(liste, coords):
             player = Player(c, tile.return_coordinates()[0], tile.return_coordinates()[1], tile, current_pokemon, window)
             player.load_pokemon()
             current_coords =  [tile.return_coordinates()[0], tile.return_coordinates()[1]]
-
 #Dieser Bestandteil muss eine Funktion sein, da Klassen keine Events supporten
 def inventar():
     global new_setting
@@ -1032,6 +1078,7 @@ player.add_item("Heiltrank")
 #Hauptschleife
 while True:
     if new_setting == True:
+        player.write()
         setting(current_setting.return_all(),(current_coords[0], current_coords[1]))
         new_setting = False
     player.write()
