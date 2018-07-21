@@ -404,8 +404,8 @@ class Heiler(Person):
             else:
                 for pokemon in player.return_pokemon():
                     pokemon.set_new_hp()
-                    output("Deine Pokemon wurden geheilt.")
-                    output("Bitte besuchen sie uns bald wieder!")
+                output("Deine Pokemon wurden geheilt.")
+                output("Bitte besuchen sie uns bald wieder!")
         else:
              output("Dann halt nicht!")
         current_key = None
