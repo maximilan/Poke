@@ -1,1 +1,1 @@
-Werde Modul shelve benutzen, um Daten über Personen über Programm hinaus zu speichern, (zum Beispiel wenn eine Person bereits besiegt wurde)
+Wenn eine Person beriets besiegt wurde, wird beim darauffolgenden Spiel bei Auswahl "Neues Spiel - Nein" der Zustand der Person über Modul shelve aufgerufen, sodass der Spieler nicht noch einmal gegen sie kämpfen kann. Werde ähnliches für Koordinaten, Setting, etc. einbauen, sodass all Daten über SPiel hinaus gespeichert werden.
