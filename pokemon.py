@@ -17,6 +17,7 @@ import tkinter as tk
 from tkinter import *
 from pokegraphics import *
 import pygame
+import shelve
 pygame.mixer.init()
 #Pokedex wird eingelesen
 dateihandler = open('pokedex.csv')
@@ -80,11 +81,8 @@ class Tile():
         return self.directions
     def return_linked_tile(self, direction):
         return self.neighbor_tiles[direction]
-    def add_fighter(self, speech, pokemon):
-        pokemonlevel = pokemon.pop(0)
-        #print(pokemonlevel, pokemon)
-        self.person = Fighter(self.canvas, self.x+25, self.y,self.module, pokemonlevel, pokemon)
-        self.person.set_speech(speech)
+    def add_fighter(self, name):
+        self.person = Fighter(self.canvas, self.x+25, self.y,self.module, name)
         return self.person
     def add_healer(self):
         self.person = Heiler(c, self.x+25,self.y, self.module)
@@ -352,21 +350,23 @@ class Player():
         self.money += ammount
 
 class Person():
-    def __init__(self, canvas, x, y,module, level, pokemon):
+    def __init__(self, canvas, x, y,module, name):
+        data = shelve.open("personendata")
         self.canvas = canvas
         id1 = self.canvas.create_rectangle(x, y, x+kastengröße, y+kastengröße, fill = 'purple')
         self.design = (id1)
-        self.speech = None
         self.x = x
         self.y = y
         self.module = module
-        self.level = level
-        self.pokemon = pokemon
-    def set_speech(self, speech):
-        self.speech = speech
+        if name != None:
+            self.speech = str(data[name][0])
+            self.level = int(data[name][1])
+            self.pokemon = data[name][2]
+            self.name = name
+        data.close()
 class Fighter(Person):
-    def __init__(self, canvas, x, y, module, level, pokemon):
-        super().__init__(canvas, x, y, module, level, pokemon)
+    def __init__(self, canvas, x, y, module, name):
+        super().__init__(canvas, x, y, module, name)
     def speak(self, player):
         output(self.speech)
         output("Möchtest du kämpfen?")
@@ -386,21 +386,27 @@ class Fighter(Person):
                     c.create_line(0,57,700,607,fill="white")
                     c.create_oval(290,290,460,420,fill="SpringGreen4",outline="white")
                     c.create_polygon(610,0,700,0,700,70,fill="gray",outline="grey")
-                    output("Dein Gegner schickt ein " + self.pokemon[0] + ", Level " + str(self.level) + ".")
+                    output(str(self.name) + " schickt ein " + self.pokemon[0] + ", Level " + str(self.level) + ".")
                     enemypokemon = self.pokemon.pop(0)
                     if arena(enemypokemon, self.level) == False:
                         self.pokemon.append(enemypokemon)
                         sieg = False
                         break
                 if sieg == True:
-                    output("Du hast deinen Gegner besiegt!")
+                    output("Du hast " + self.name + " besiegt!")
                     output("Du erhälst " + str(preis) + " ¥ als Belohnung!")
                     player.add_money(preis)
                 else:
                     output("Du wurdest besiegt. Probiere es ein anderes mal!")
-                setting_update()
+                data = shelve.open("personendata", writeback = True)
+                print(data[self.name])
+                print(self.pokemon)
+                data[self.name][2] = self.pokemon
+               # print(data[self.name])
+                print(data[self.name])
+                data.close()
             else:
-                output("Dein Gegner möchte nicht kämpfen. Probiere es ein anderes mal!")
+                output(self.name + " möchte nicht kämpfen. Probiere es ein anderes mal!")
         elif fight == "Nein":
             output("Ok. Vielleicht ein anderes mal!")
     def return_enemypoke(self):
@@ -411,7 +417,7 @@ class Fighter(Person):
         return tupel
 class Heiler(Person):
     def __init__(self,canvas,x,y,module):
-        super().__init__(canvas,x,y,module, None, None)
+        super().__init__(canvas,x,y,module, None)
         id1 = self.canvas.create_rectangle(x,y,x+25,y,fill="red")
         self.design = (id1)
     def speak(self, player):
@@ -432,7 +438,7 @@ class Heiler(Person):
 
 class Verkäufer(Person):
     def __init__(self, canvas, x, y, module):
-        super().__init__(canvas, x, y,module, None, None)
+        super().__init__(canvas, x, y,module, None)
         id1 = self.canvas.create_rectangle(x, y, x+kastengröße, y+kastengröße, fill = 'blue')
         self.design = (id1)
     def speak(self, player):
@@ -469,8 +475,8 @@ class Verkäufer(Person):
 
 
 class Setting():
-    def __init__(self, tiles, speech, pokemon, level, coords, playerpokemon):
-        self.all = [tiles, speech,pokemon, level, coords, playerpokemon]
+    def __init__(self, tiles, pokemon, level, coords, playerpokemon):
+        self.all = [tiles,pokemon, level, coords, playerpokemon]
     def return_all(self):
         everything = self.all
         return everything
@@ -712,6 +718,9 @@ def movement(event):
 c.bind_all('<Key>', movement)
 ######################
 ##########
+def new():
+    data = shelve.open("personendata")
+    data["Tom"] = [["Hallo! Ich bin Tom"], 3, ["Schiggy", "Sandan"]]
 setting1 = None
 setting2 = None
 setting3 = None
@@ -737,6 +746,7 @@ if menu(["Ja", "Nein"]) == "Ja":
         dateihandler.write("")
     with open("Inventar.txt", "w") as dateihandler:
         dateihandler.write("")
+    new()
 
 pygame.mixer.music.pause()
 #################
@@ -771,8 +781,8 @@ pokemon = ["Schiggy"]
 level = 2
 coords = [(25, 0), (25, 0)]
 #personpokemon = [(3,"Schiggy", "Sandan")]
-name = "Tom"
-setting1 = Setting(q, speech, pokemon, level,coords, personpokemon)
+name = ["Tom"]
+setting1 = Setting(q, pokemon, level,coords, name)
 
 q1 = [2,1,1,1,1,1,1,1]
 q2 = [0,1,0,1,1,1,1,1]
@@ -783,7 +793,7 @@ pokemon = ["Schiggy"]
 level = 3
 coords = [(275, 25)]
 personpokemon = [(None)]
-setting2 = Setting(q,speech, pokemon, level,coords, personpokemon)
+setting2 = Setting(q, pokemon, level,coords, None)
 
 q = [[l,k,k,k,k,k,k,k]]
 speech = []
@@ -791,7 +801,7 @@ pokemon = []
 level = None
 coords = [(200, 175)]
 personpokemon = [(None)]
-setting3 = Setting(q, speech, pokemon, level, coords, personpokemon)
+setting3 = Setting(q, pokemon, level, coords, None)
 
 setting1.link([setting3])
 setting2.link([setting1])
@@ -809,8 +819,8 @@ def setting(liste, coords):
     y = 0
     playdata = []
     #Pokemon aufnehmen
-    current_pokemon = liste[2]
-    current_level = liste[3]
+    current_pokemon = liste[1]
+    current_level = liste[2]
     for i in range(len(liste[0])):
         x = 0
         for f in range(len(liste[0][i])):
@@ -829,27 +839,25 @@ def setting(liste, coords):
             #Personen erzeugen
             elif liste[0][i][f] == "Person":
                 id1 = Wildnis(c, x, y, current_pokemon, current_level,window)
-                personpokemon = liste[5].pop(0)
-                copy = []
-                for item in personpokemon:
-                    copy.append(item)
-                person = liste[1].pop(0)
-                persons.append(id1.add_fighter(person, copy))
-                liste[1].append(person)
-                liste[5].append(personpokemon)
+                person = liste[4].pop()
+                print(person)
+                id1.add_fighter(person)
+                liste[4].append(person)
                 tiles.append(id1)
                 coordinates.append([x, y])
             #Portale erzeugen
             elif liste[0][i][f] == "Link":
+                print(liste[len(liste)-1])
                 link = liste[len(liste)-1].pop(0)
-                linked_coords = liste[4].pop(0)
+                linked_coords = liste[3].pop(0)
                 id1 = Tuer(c, x, y, link,tk, linked_coords)
                 c.create_rectangle(x,y,x+25,y+6,fill="green4",outline="green4")
                 c.create_rectangle(x,y+6,x+25,y+12,fill="green2",outline="green2")
                 c.create_rectangle(x,y+12,x+25,y+18,fill="green4",outline="green4")
                 c.create_rectangle(x,y+18,x+25,y+25,fill="green2",outline="green2")
                 liste[len(liste)-1].append(link)
-                liste[4].append(linked_coords)
+                print(liste[len(liste)-1])
+                liste[3].append(linked_coords)
                 tiles.append(id1)
                 coordinates.append([x,y])
             elif liste[0][i][f] == "Haus":
@@ -1094,10 +1102,11 @@ def arena(enemypokemon, level):
     else:
         return False
 def setting_update():
-    tupel = []
+ '''   tupel = []
     for person in persons:
         tupel.append(person.return_enemypoke())
-    current_setting.update_personpokemon(tupel)
+    current_setting.update_personpokemon(tupel)'''
+ None
 #########################
 
 
