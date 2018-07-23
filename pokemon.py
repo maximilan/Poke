@@ -313,7 +313,7 @@ class Player():
          self.itemnumber = items
 
          data = shelve.open("personendata", writeback = True)
-         data[money] = self.money
+         data["money"] = self.money
     def load_pokemon(self):
         dateihandler = open("PlayerPoke.txt", "r")
         del self.pokemon[:]
@@ -329,7 +329,7 @@ class Player():
             self.items.append(str(id1))
         dateihandler.close()
         data = shelve.open("personendata", writeback = True)
-        self.money = data[money]
+        self.money = data["money"]
         data.close()
 
     def return_items(self):
@@ -714,8 +714,10 @@ newgame = False
 def new():
     global newgame
     newgame = True
-    data = shelve.open("personendata")
+    data = shelve.open("personendata", writeback = True)
     data["Tom"] = [["Hallo! Ich bin Tom"], 3, ["Schiggy", "Sandan"]]
+    data["money"] = 0
+    data.close()
 setting1 = None
 setting2 = None
 setting3 = None
@@ -735,13 +737,26 @@ new_setting = False
 pygame.mixer.music.load("opening.mp3")
 pygame.mixer.music.play()
 output("Neues Spiel?")
-if menu(["Ja", "Nein"]) == "Ja":
-    #gespeicherte Dateien werden gelöscht
-    with open("PlayerPoke.txt", "w") as dateihandler:
-        dateihandler.write("")
-    with open("Inventar.txt", "w") as dateihandler:
-        dateihandler.write("")
-    new()
+while True:
+    if menu(["Ja", "Nein"]) == "Ja":
+        #gespeicherte Dateien werden gelöscht
+        with open("PlayerPoke.txt", "w") as dateihandler:
+            dateihandler.write("")
+        with open("Inventar.txt", "w") as dateihandler:
+            dateihandler.write("")
+        new()
+        break
+    else:
+        data = shelve.open("personendata")
+        try:
+            x = data[money]
+            break
+        except:
+            output("Kein zu ladendes Spiel verfügbar")
+            continue
+
+
+
 
 pygame.mixer.music.pause()
 #################
@@ -1109,13 +1124,13 @@ def setting_update():
 setting(setting1.return_all(), (25,25))
 ##################
 player.load_pokemon()
-if 
-player.add_new_pokemon("Pikachu", 12345678912345678)
-player.add_new_pokemon("Raupy",1)
-player.add_new_pokemon("Raichu", 1)
-player.add_item("Pokeball")
-player.add_item("Pokeball")
-player.add_item("Heiltrank")
+if newgame == True:
+    player.add_new_pokemon("Pikachu", 12345678912345678)
+    player.add_new_pokemon("Raupy",1)
+    player.add_new_pokemon("Raichu", 1)
+    player.add_item("Pokeball")
+    player.add_item("Pokeball")
+    player.add_item("Heiltrank")
 ##################
 #Hauptschleife
 while True:
