@@ -312,11 +312,8 @@ class Player():
          del self.itemnumber[:]
          self.itemnumber = items
 
-         dateihandler = open("playerstats.txt", "w")
-         dateihandler.write("")
-         dateihandler.write(str(self.money))
-         dateihandler.write("\n")
-         dateihandler.close()
+         data = shelve.open("personendata", writeback = True)
+         data[money] = self.money
     def load_pokemon(self):
         dateihandler = open("PlayerPoke.txt", "r")
         del self.pokemon[:]
@@ -331,15 +328,9 @@ class Player():
             id1 = line.rstrip()
             self.items.append(str(id1))
         dateihandler.close()
-
-        dateihandler = open("playerstats.txt", "r")
-        linecounter = 1
-        for line in dateihandler:
-            id1 = line.rstrip()
-            if linecounter == 1:
-                self.money = int(id1)
-            linecounter += 1
-        dateihandler.close()
+        data = shelve.open("personendata", writeback = True)
+        self.money = data[money]
+        data.close()
 
     def return_items(self):
         return self.items
@@ -348,6 +339,7 @@ class Player():
 
     def add_money(self, ammount):
         self.money += ammount
+        self.write()
 
 class Person():
     def __init__(self, canvas, x, y,module, name):
@@ -718,7 +710,10 @@ def movement(event):
 c.bind_all('<Key>', movement)
 ######################
 ##########
+newgame = False
 def new():
+    global newgame
+    newgame = True
     data = shelve.open("personendata")
     data["Tom"] = [["Hallo! Ich bin Tom"], 3, ["Schiggy", "Sandan"]]
 setting1 = None
@@ -1113,6 +1108,8 @@ def setting_update():
 ################
 setting(setting1.return_all(), (25,25))
 ##################
+player.load_pokemon()
+if 
 player.add_new_pokemon("Pikachu", 12345678912345678)
 player.add_new_pokemon("Raupy",1)
 player.add_new_pokemon("Raichu", 1)
