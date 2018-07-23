@@ -1,1 +1,1 @@
-Problem gelöst.
+Werde Modul shelve benutzen, um Daten über Personen über Programm hinaus zu speichern, (zum Beispiel wenn eine Person bereits besiegt wurde)

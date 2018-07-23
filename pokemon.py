@@ -767,10 +767,11 @@ q = [[h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h],
      [s,s,s,s,s,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m],
      [m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m,m]]
 pokemon = ["Schiggy"]
-speech = ["Hallo! Ich bin Tom"]
+#speech = ["Hallo! Ich bin Tom"]
 level = 2
 coords = [(25, 0), (25, 0)]
-personpokemon = [(3,"Schiggy", "Sandan")]
+#personpokemon = [(3,"Schiggy", "Sandan")]
+name = "Tom"
 setting1 = Setting(q, speech, pokemon, level,coords, personpokemon)
 
 q1 = [2,1,1,1,1,1,1,1]
