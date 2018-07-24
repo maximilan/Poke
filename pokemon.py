@@ -281,8 +281,9 @@ class Player():
             if name in pokemon:
                 self.pokemon.append(Pokemon(name, level, pokemon[1]))
         self.write()
-    def add_item(self, item):
-        self.items.append(item)
+    def add_item(self, item,zahl):
+        for i in range(0,zahl):
+            self.items.append(item)
         self.write()
     def remove_item(self, item):
         self.items.remove(item)
@@ -1128,9 +1129,8 @@ if newgame == True:
     player.add_new_pokemon("Pikachu", 12345678912345678)
     player.add_new_pokemon("Raupy",1)
     player.add_new_pokemon("Raichu", 1)
-    player.add_item("Pokeball")
-    player.add_item("Pokeball")
-    player.add_item("Heiltrank")
+    player.add_item("Pokeball",2)
+    player.add_item("Heiltrank",1)
 ##################
 #Hauptschleife
 while True:
