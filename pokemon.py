@@ -340,9 +340,7 @@ class Player():
         return self.itemnumber
 
     def add_money(self, ammount):
-        print(ammount)
         self.money += ammount
-        print(self.money)
         self.write()
 
 class Person():
@@ -395,11 +393,7 @@ class Fighter(Person):
                 else:
                     output("Du wurdest besiegt. Probiere es ein anderes mal!")
                 data = shelve.open("personendata", writeback = True)
-                print(data[self.name])
-                print(self.pokemon)
                 data[self.name][2] = self.pokemon
-               # print(data[self.name])
-                print(data[self.name])
                 data.close()
             else:
                 output(self.name + " möchte nicht kämpfen. Probiere es ein anderes mal!")
@@ -426,6 +420,7 @@ class Heiler(Person):
             else:
                 for pokemon in player.return_pokemon():
                     pokemon.set_new_hp()
+                player.add_money(-10)
                 output("Deine Pokemon wurden geheilt.")
                 output("Bitte besuchen sie uns bald wieder!")
         else:
@@ -1114,18 +1109,11 @@ def arena(enemypokemon, level):
     player.write()
     #Setting wird wieder erstellt
     c.delete("all")
-    setting_update()
     new_setting = True
     if ausgang == True:
         return True
     else:
         return False
-def setting_update():
- '''   tupel = []
-    for person in persons:
-        tupel.append(person.return_enemypoke())
-    current_setting.update_personpokemon(tupel)'''
- None
 
 #########################
 
