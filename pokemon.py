@@ -281,7 +281,7 @@ class Player():
             if name in pokemon:
                 self.pokemon.append(Pokemon(name, level, pokemon[1]))
         self.write()
-    def add_item(self, item,zahl):
+    def add_item(self, item,zahl = 1):
         for i in range(0,zahl):
             self.items.append(item)
         self.write()
@@ -339,7 +339,9 @@ class Player():
         return self.itemnumber
 
     def add_money(self, ammount):
+        print(ammount)
         self.money += ammount
+        print(self.money)
         self.write()
 
 class Person():
@@ -435,8 +437,6 @@ class Verkäufer(Person):
         id1 = self.canvas.create_rectangle(x, y, x+kastengröße, y+kastengröße, fill = 'blue')
         self.design = (id1)
     def speak(self, player):
-        buy = True
-        preis = 0
         output("Willkommen im PokeMarkt!")
         while True:
             output("Sie besitzen "+str(player.money)+" ¥.")
@@ -456,6 +456,7 @@ class Verkäufer(Person):
             if newchoice == "Ja":
                 output("Ihr Gegenstand befindet sich in Ihrem Inventar.")
                 player.add_item(choice)
+                player.add_money(-(preisliste[choice]))
 
             else:
                 output("Dann halt nicht.")
@@ -755,6 +756,7 @@ while True:
         except:
             output("Kein zu ladendes Spiel verfügbar")
             continue
+        data.close()
 
 
 
@@ -851,14 +853,12 @@ def setting(liste, coords):
             elif liste[0][i][f] == "Person":
                 id1 = Wildnis(c, x, y, current_pokemon, current_level,window)
                 person = liste[4].pop()
-                print(person)
                 id1.add_fighter(person)
                 liste[4].append(person)
                 tiles.append(id1)
                 coordinates.append([x, y])
             #Portale erzeugen
             elif liste[0][i][f] == "Link":
-                print(liste[len(liste)-1])
                 link = liste[len(liste)-1].pop(0)
                 linked_coords = liste[3].pop(0)
                 id1 = Tuer(c, x, y, link,tk, linked_coords)
@@ -867,7 +867,6 @@ def setting(liste, coords):
                 c.create_rectangle(x,y+12,x+25,y+18,fill="green4",outline="green4")
                 c.create_rectangle(x,y+18,x+25,y+25,fill="green2",outline="green2")
                 liste[len(liste)-1].append(link)
-                print(liste[len(liste)-1])
                 liste[3].append(linked_coords)
                 tiles.append(id1)
                 coordinates.append([x,y])
