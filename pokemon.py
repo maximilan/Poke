@@ -18,6 +18,7 @@ from tkinter import *
 from pokegraphics import *
 import pygame
 import shelve
+import sys
 pygame.mixer.init()
 #Pokedex wird eingelesen
 dateihandler = open('pokedex.csv')
@@ -671,7 +672,13 @@ import tkinter as tk
 from time import sleep
 ###########################
 ############
+def close_window():
+    global game
+    game = False
+    window.destroy()
+    print("End")
 window = tk.Tk()
+window.protocol("WM_DELETE_WINDOW", close_window)
 c = Canvas(width = 700, height = 700, background = 'black')
 c.pack()
 #################
@@ -707,6 +714,7 @@ def menu(optionen):
 ################
 def movement(event):
     global current_key
+    global game
     key = event.keysym
     current_key = key
 c.bind_all('<Key>', movement)
@@ -734,6 +742,7 @@ current_key = None
 player = None
 current_coords = None
 new_setting = False
+game = True
 ############
 #Frage nach neuem Spiel
 pygame.mixer.music.load("opening.mp3")
@@ -1117,6 +1126,7 @@ def setting_update():
         tupel.append(person.return_enemypoke())
     current_setting.update_personpokemon(tupel)'''
  None
+
 #########################
 
 
@@ -1132,7 +1142,7 @@ if newgame == True:
     player.add_item("Heiltrank",1)
 ##################
 #Hauptschleife
-while True:
+while game == True:
     if new_setting == True:
         player.write()
         setting(current_setting.return_all(),(current_coords[0], current_coords[1]))
@@ -1152,4 +1162,5 @@ while True:
     inventar()
     current_key = None
     window.update()
+
     sleep(0.05)
