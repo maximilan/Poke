@@ -751,7 +751,7 @@ while True:
     else:
         data = shelve.open("personendata")
         try:
-            x = data[money]
+            x = data["money"]
             break
         except:
             output("Kein zu ladendes Spiel verfügbar")
