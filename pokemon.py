@@ -719,7 +719,7 @@ newgame = False
 def new():
     global newgame
     newgame = True
-    data = shelve.open("personendata", writeback = True)
+    data = shelve.open("personendata", flag = 'c', writeback = True)
     data["Tom"] = [["Hallo! Ich bin Tom"], 3, ["Schiggy", "Sandan"]]
     data["money"] = 0
     data.close()
