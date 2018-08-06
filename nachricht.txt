@@ -1,1 +1,2 @@
-Wenn eine Person beriets besiegt wurde, wird beim darauffolgenden Spiel bei Auswahl "Neues Spiel - Nein" der Zustand der Person über Modul shelve aufgerufen, sodass der Spieler nicht noch einmal gegen sie kämpfen kann. Werde ähnliches für Koordinaten, Setting, etc. einbauen, sodass all Daten über SPiel hinaus gespeichert werden.
+Vielleicht können wir aus Personendata.db eine CSV-Datei machen? Das Format macht auf meinem Computer nur Probleme
+(kann die Datei nicht ansehen) und gibt Fehler bei Ausführung
