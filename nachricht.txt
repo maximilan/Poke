@@ -1,2 +1,5 @@
 Vielleicht können wir aus Personendata.db eine CSV-Datei machen? Das Format macht auf meinem Computer nur Probleme
 (kann die Datei nicht ansehen) und gibt Fehler bei Ausführung
+
+Post-Scriptum:
+Hast du die Datei verschlüsselt und wenn ja wie ist das Passwort?
