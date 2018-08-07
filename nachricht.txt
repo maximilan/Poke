@@ -1,5 +1,3 @@
-Vielleicht können wir aus Personendata.db eine CSV-Datei machen? Das Format macht auf meinem Computer nur Probleme
-(kann die Datei nicht ansehen) und gibt Fehler bei Ausführung
-
-Post-Scriptum:
-Hast du die Datei verschlüsselt und wenn ja wie ist das Passwort?
+Hab die Datei nicht verschlüsselt. Ansehen kann man sie nicht, weil nur Binärcode gespeichert wird. Eigentlich speichert das Modul
+Shelve komplexe Objekte wie Klassen, Listen etc., weshalb es schwierig wird, das in CSV umzuwandeln (hiermit können wir ja nur 
+String und Int speichern). Welche Probleme macht das denn? Vielleicht können wir doch noch eine andere Lösung finden?
