@@ -1,3 +1,2 @@
-Hab die Datei nicht verschlüsselt. Ansehen kann man sie nicht, weil nur Binärcode gespeichert wird. Eigentlich speichert das Modul
-Shelve komplexe Objekte wie Klassen, Listen etc., weshalb es schwierig wird, das in CSV umzuwandeln (hiermit können wir ja nur 
-String und Int speichern). Welche Probleme macht das denn? Vielleicht können wir doch noch eine andere Lösung finden?
+Ich weiss nicht wie es beid dir aussieht, aber bei mir startet das SPiel nicht. Hab auch schon eininge Änderungen rückgängig gemacht und probiert, die Datei mit sqlite3 zu öffnen, aber das liegt wahrscheinlich einfach an meinem Betriebssystem. Viellicht wäre eine mögliche Alternative JSON.
+
