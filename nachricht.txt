@@ -1,1 +1,2 @@
-Komisch, bei mir klappt alles. Vielleicht sollten wir doch Alternativen zu Shelve suchen, wenn das ist, was Probleme bereitet. Ich habe die aktuellste Version noch einmal hochgeladen; mit er kannst du es ja nochmal versuchen. Wenn das immer noch nicht klappt, muss es wohl doch am Betriebssystem liegen.
+Ich hab sqlite ausprobiert da kommen aber ähnliche Fehlermeldungen raus. Vielleicht können wir mal JSON ausprobieren?
+Ich werde eine Beispieldatei hochladen.
