@@ -1,0 +1,8 @@
+var setting = {
+    "setting1":{
+    "name" : "Tom",
+    "speech" : "Hallo! Ich bin Tom",
+    "pokemonlevel" : "3",
+    "pokemon" : ["Schiggy", "Sandan"]
+  }
+}
