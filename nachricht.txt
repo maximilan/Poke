@@ -1,2 +1,1 @@
-Ich weiss nicht wie es beid dir aussieht, aber bei mir startet das SPiel nicht. Hab auch schon eininge Änderungen rückgängig gemacht und probiert, die Datei mit sqlite3 zu öffnen, aber das liegt wahrscheinlich einfach an meinem Betriebssystem. Viellicht wäre eine mögliche Alternative JSON.
-
+Komisch, bei mir klappt alles. Vielleicht sollten wir doch Alternativen zu Shelve suchen, wenn das ist, was Probleme bereitet. Ich habe die aktuellste Version noch einmal hochgeladen; mit er kannst du es ja nochmal versuchen. Wenn das immer noch nicht klappt, muss es wohl doch am Betriebssystem liegen.

@@ -16,6 +16,7 @@ class Pokedesign():
                 elif name == "Schiggy":
                         id1 = Schiggy(canvas)
                 elif name == "Raupy":
+                        print("Hello World!")
                         id1 = Raupy(canvas)
                 elif name == "Hornliu":
                         id1 = Hornliu(canvas)
@@ -27,7 +28,8 @@ class Pokedesign():
                         id1 = Sandan(canvas)
                 self.graphic = id1.return_design()
                 if function == "self":
-                        self.canvas.move(id1.image,0, 300)
+                        for graphic in self.graphic:
+                                self.canvas.move(graphic, -400, 300)
         def return_design(self):
                 return self.graphic
         def delete(self):
