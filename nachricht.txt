@@ -1,2 +1,5 @@
 Ich hab sqlite ausprobiert da kommen aber ähnliche Fehlermeldungen raus. Vielleicht können wir mal JSON ausprobieren?
 Ich werde eine Beispieldatei hochladen.
+
+PS 
+Soll ich uns für den BWINF anmelden?
